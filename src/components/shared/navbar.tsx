@@ -5,9 +5,11 @@ import Link from 'next/link'
 import { Search, ShoppingCart, Menu } from 'lucide-react'
 import { useCartStore } from '@/store/use-cart-store'
 import { motion } from 'framer-motion'
+import { CartDrawer } from '../cart/cart-drawer'
 
 export function Navbar() {
     const itemCount = useCartStore((state) => state.getItemCount())
+    const [isCartOpen, setIsCartOpen] = React.useState(false)
 
     return (
         <header className="sticky top-0 z-40 w-full bg-background/80 backdrop-blur-md border-b border-border/40">
@@ -49,7 +51,10 @@ export function Navbar() {
                             <Link href="/categories" className="hover:text-foreground transition-colors">Categories</Link>
                         </div>
 
-                        <Link href="/cart" className="relative p-2 text-foreground hover:opacity-80 transition-opacity">
+                        <button
+                            onClick={() => setIsCartOpen(true)}
+                            className="relative p-2 text-foreground hover:opacity-80 transition-opacity"
+                        >
                             <ShoppingCart className="h-6 w-6" />
                             {itemCount > 0 && (
                                 <motion.span
@@ -62,10 +67,13 @@ export function Navbar() {
                                     {itemCount > 99 ? '99+' : itemCount}
                                 </motion.span>
                             )}
-                        </Link>
+                        </button>
                     </div>
                 </div>
             </div>
+
+            {/* Slide-out Cart Drawer */}
+            <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
         </header>
     )
 }
