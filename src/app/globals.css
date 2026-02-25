@@ -49,118 +49,52 @@
 }
 
 :root {
-  /* Design System Requirements: TopNature Apothecary/Editorial */
-  --background: #F9F6F0;
-  /* Warm Sand/Oatmeal */
-  --foreground: #1A2421;
-  /* Deep Forest Green / Charcoal */
+  /* Minimalist Luxury Design System */
+  --background: #FFFFFF;
+  --surface: #FAFAFA; /* Alabaster for sections */
+  --foreground: #121212; /* Carbon Black */
+  
+  --primary: #000000; /* Pitch Black for primary actions */
+  --primary-foreground: #FFFFFF;
+  
+  --secondary: #2C422E; /* Deep Moss Green for organic high-conversion */
+  --secondary-foreground: #FFFFFF;
 
-  --card: transparent;
-  /* No cards */
-  --card-foreground: #1A2421;
+  --muted: #F5F5F5;
+  --muted-foreground: #737373;
 
-  --popover: #F9F6F0;
-  --popover-foreground: #1A2421;
-
-  /* Accents/Buttons: Rich Terracotta */
-  --primary: #C65D47;
-  --primary-foreground: #ffffff;
-
-  /* Secondary Accent: Sage Green */
-  --secondary: #8A9A86;
-  --secondary-foreground: #0f172a;
-
-  --muted: #f1f5f9;
-  /* Slate 100 */
-  --muted-foreground: #64748b;
-  /* Slate 500 */
-
-  --accent: #f1f5f9;
-  /* Slate 100 */
-  --accent-foreground: #0f172a;
-
-  --destructive: #ef4444;
-  /* Red 500 */
-  --destructive-foreground: #ffffff;
-
-  --success: #10b981;
-  /* Emerald 500 */
-  --success-foreground: #ffffff;
-
-  --border: #e4e4e7;
-  /* Subtle structural borders */
-  --input: #e4e4e7;
-  --ring: #000000;
-  /* Black focus rings */
-
-  --radius: 0rem;
-  /* Eradicate rounded corners. Avant-garde strict geometry */
-}
-
-.dark {
-  /* Using standard dark values since none were strictly required yet, 
-     but mapped for future-proofing and consistency */
-  --background: #0f172a;
-  --foreground: #f8fafc;
-  --card: #1e293b;
-  --card-foreground: #f8fafc;
-  --popover: #1e293b;
-  --popover-foreground: #f8fafc;
-
-  --primary: #3b82f6;
-  --primary-foreground: #ffffff;
-
-  --secondary: #334155;
-  --secondary-foreground: #f8fafc;
-
-  --muted: #334155;
-  --muted-foreground: #94a3b8;
-
-  --accent: #334155;
-  --accent-foreground: #f8fafc;
-
-  --destructive: #f87171;
-  --destructive-foreground: #ffffff;
-
-  --success: #34d399;
-  --success-foreground: #0f172a;
-
-  --border: #475569;
-  --input: #475569;
-  --ring: #3b82f6;
+  --border: #E5E5E5;
+  --radius: 2rem; /* Extreme pill-shape / rounded corners */
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-
   body {
-    @apply bg-background text-foreground font-sans antialiased selection:bg-primary selection:text-primary-foreground;
+    @apply bg-background text-foreground font-sans antialiased selection:bg-black selection:text-white;
   }
 
-  /* Advanced Editorial Typography Overrides */
-  h1,
-  h2,
-  h3,
-  h4,
-  .editorial-heading {
-    font-family: var(--font-playfair), ui-serif, Georgia, serif;
-    font-weight: 500;
-    letter-spacing: -0.02em;
+  h1, h2, h3, h4, .editorial-heading {
+    /* Pivot to Inter Bold exclusively per instructions */
+    @apply font-bold tracking-tight;
+    font-family: var(--font-sans);
   }
 
-  h1 {
-    @apply text-6xl md:text-8xl lg:text-[8vw] leading-[0.9];
-  }
+  h1 { @apply text-5xl md:text-7xl lg:text-8xl; }
+  h2 { @apply text-3xl md:text-5xl; }
 
-  h2 {
-    @apply text-4xl md:text-6xl leading-[1.1];
-  }
-
-  /* Kill default shadows globally */
+  /* Universal Shadow/Border Kill */
   * {
+    @apply border-transparent;
     box-shadow: none !important;
+  }
+}
+
+@layer utilities {
+  .pill-button {
+    @apply rounded-full px-8 py-4 font-semibold transition-all duration-300 active:scale-95;
+  }
+
+  .luxury-image {
+    @apply rounded-[2rem] overflow-hidden transition-transform duration-500 hover:scale-105;
   }
 }
 

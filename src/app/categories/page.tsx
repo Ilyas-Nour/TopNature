@@ -24,15 +24,21 @@ export default async function CategoriesPage() {
                     <p className="text-xl text-muted-foreground max-w-2xl font-medium tracking-tight">Find exactly what you are looking for by browsing our specialized collections.</p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 gap-y-20">
                     {categories.map((category) => (
-                        <Link key={category.id} href={`/category/${category.slug}`} className="group relative aspect-square bg-secondary/10 flex flex-col items-center justify-center text-center p-8 overflow-hidden transition-all duration-700">
-                            <div className="absolute inset-0 bg-primary opacity-0 group-hover:opacity-5 transition-opacity duration-700" />
-                            <div className="relative z-10 transition-transform duration-700 group-hover:scale-105">
-                                <h2 className="editorial-heading text-3xl mb-2 text-foreground">{category.name}</h2>
-                                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-medium">{category._count.products} products available</p>
+                        <div key={category.id} className="group flex flex-col items-center">
+                            <Link href={`/category/${category.slug}`} className="block relative w-full aspect-[4/5] rounded-2xl overflow-hidden mb-6 bg-[#FAFAFA] transition-transform duration-500 hover:scale-105">
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <LayoutGrid className="w-12 h-12 text-muted-foreground/20" strokeWidth={1} />
+                                </div>
+                            </Link>
+                            <div className="text-center">
+                                <h2 className="text-xl font-bold tracking-tight mb-2">{category.name}</h2>
+                                <p className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground">
+                                    {category._count.products} Collections
+                                </p>
                             </div>
-                        </Link>
+                        </div>
                     ))}
                 </div>
             </div>

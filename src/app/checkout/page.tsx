@@ -6,11 +6,10 @@ import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Truck, CreditCard, Wallet, AlertCircle } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Truck, Wallet, ShoppingBag } from 'lucide-react'
 import { useCartStore } from '@/store/use-cart-store'
 
-// 1. Zod Schema Validation
 const checkoutSchema = z.object({
     fullName: z.string().min(2, { message: 'Full name must be at least 2 characters long' }),
     email: z.string().email({ message: 'Please enter a valid email address' }),
@@ -29,7 +28,6 @@ export default function CheckoutPage() {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [orderSuccess, setOrderSuccess] = useState(false)
 
-    // 2. React Hook Form Setup
     const {
         register,
         handleSubmit,
@@ -47,59 +45,39 @@ export default function CheckoutPage() {
 
     const onSubmit = async (data: CheckoutFormValues) => {
         setIsSubmitting(true)
-
         try {
-            // Remap Zustand objects to the API's required Zod interface
             const formattedCartItems = items.map(item => ({
                 id: item.id,
                 quantity: item.quantity
             }))
 
-            // Submit JSON payload to the new Next.js API Route
             const response = await fetch('/api/checkout', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    ...data,
-                    cartItems: formattedCartItems
-                }),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...data, cartItems: formattedCartItems }),
             })
 
             const responseData = await response.json()
-
-            if (!response.ok) {
-                // In production, handle specific API errors visibly (e.g. stock missing)
-                throw new Error(responseData.error || 'Failed to place order')
-            }
-
-            console.log('--- ORDER SUCCESS ---')
-            console.log('Backend Order ID:', responseData.orderId)
-            console.log('---------------------')
+            if (!response.ok) throw new Error(responseData.error || 'Failed to place order')
 
             setOrderSuccess(true)
             clearCart()
-
         } catch (error) {
             console.error('Checkout Submission Error:', error)
-            alert(error instanceof Error ? error.message : "Something went wrong. Please try again.")
+            alert(error instanceof Error ? error.message : "Something went wrong.")
         } finally {
             setIsSubmitting(false)
         }
     }
 
-    // Handle empty cart state immediately with AnimatePresence
     if (items.length === 0 && !orderSuccess) {
         return (
-            <div className="min-h-[70vh] flex flex-col items-center justify-center p-6 text-center bg-slate-50">
-                <div className="w-16 h-16 rounded-full bg-slate-200 flex items-center justify-center mb-6 text-slate-500">
-                    <Truck className="w-8 h-8" />
-                </div>
-                <h2 className="text-2xl font-bold text-slate-900 mb-2">Your cart is empty</h2>
-                <p className="text-slate-600 mb-8">Add components to your cart to proceed to checkout.</p>
-                <Link href="/shop" className="px-8 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition">
-                    Return to Shop
+            <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center bg-white pt-32">
+                <ShoppingBag className="w-12 h-12 text-muted-foreground mb-6" strokeWidth={1} />
+                <h2 className="text-3xl font-bold mb-4 tracking-tight">Your bag is empty</h2>
+                <p className="text-muted-foreground mb-12 max-w-sm">Items you add to your bag will appear here. Start exploring our botanical collections.</p>
+                <Link href="/shop" className="px-12 py-4 bg-black text-white rounded-full font-bold uppercase tracking-widest text-[12px] hover:bg-gray-800 transition-colors">
+                    Back to Shop
                 </Link>
             </div>
         )
@@ -108,244 +86,178 @@ export default function CheckoutPage() {
     if (orderSuccess) {
         return (
             <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="min-h-[70vh] flex flex-col items-center justify-center p-6 text-center bg-slate-50"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="min-h-screen flex flex-col items-center justify-center p-6 text-center bg-white pt-32"
             >
-                <div className="w-20 h-20 rounded-full bg-emerald-100 flex items-center justify-center mb-6 text-emerald-600">
-                    <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </svg>
+                <div className="w-20 h-20 rounded-full bg-[#FAFAFA] flex items-center justify-center mb-8 border border-gray-100">
+                    <CheckIcon className="w-8 h-8 text-black" />
                 </div>
-                <h2 className="text-3xl font-bold text-slate-900 mb-2">Order Confirmed!</h2>
-                <p className="text-slate-600 max-w-md mb-8">
-                    Thank you for your purchase. We've received your order and will begin processing it right away.
+                <h2 className="text-4xl font-bold mb-4 tracking-tight">Confirmed.</h2>
+                <p className="text-muted-foreground max-w-md mb-12">
+                    Your order is being prepared with care in our Moroccan laboratory. We've sent details to your email.
                 </p>
-                <Link href="/" className="px-8 py-3 bg-slate-900 text-white rounded-full font-medium hover:bg-slate-800 transition">
-                    Back to Home
+                <Link href="/" className="px-12 py-4 bg-black text-white rounded-full font-bold uppercase tracking-widest text-[12px] hover:bg-gray-800 transition-colors">
+                    Return Home
                 </Link>
             </motion.div>
         )
     }
 
     return (
-        <div className="min-h-screen bg-slate-50 pt-16 pb-24">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                <h1 className="text-3xl font-bold text-slate-900 mb-10">Checkout</h1>
+        <div className="min-h-screen bg-white text-foreground pt-32 pb-24">
+            <div className="w-full px-6 md:px-12 lg:px-20 mx-auto">
+                <h1 className="text-4xl md:text-5xl font-bold mb-16 tracking-tight">Checkout</h1>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
 
-                    {/* LEFT COLUMN: Shipping & Payment Form */}
-                    <div className="lg:col-span-7 space-y-8">
-                        <form id="checkout-form" onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+                    {/* LEFT COLUMN: Shipping & Payment */}
+                    <div className="lg:col-span-7">
+                        <form id="checkout-form" onSubmit={handleSubmit(onSubmit)} className="space-y-16">
 
-                            {/* Shipping Details Section */}
-                            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm">
-                                <h2 className="text-xl font-semibold flex items-center gap-2 mb-6">
-                                    <Truck className="w-5 h-5 text-blue-600" />
-                                    Shipping Information
-                                </h2>
-
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                    {/* Full Name */}
+                            {/* Shipping Information Section */}
+                            <section>
+                                <h2 className="text-[12px] uppercase tracking-[0.3em] font-bold text-muted-foreground mb-8">Shipping Information</h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-12 bg-[#FAFAFA] rounded-[2rem]">
                                     <div className="space-y-2">
-                                        <label className="text-sm font-medium text-slate-700">Full Name</label>
+                                        <label className="text-[10px] uppercase tracking-widest font-bold">Full Name</label>
                                         <input
                                             {...register('fullName')}
-                                            className={`w-full px-4 py-3 rounded-xl border ${errors.fullName ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:border-blue-500 focus:ring-blue-500'} bg-slate-50 focus:bg-white transition-all outline-none focus:ring-2 focus:ring-opacity-20`}
+                                            className="w-full bg-transparent border-b border-gray-200 py-3 focus:border-black outline-none transition-colors"
                                             placeholder="Jane Doe"
                                         />
-                                        {errors.fullName && (
-                                            <p className="text-xs text-red-500 flex items-center gap-1 mt-1">
-                                                <AlertCircle className="w-3 h-3" /> {errors.fullName.message}
-                                            </p>
-                                        )}
+                                        {errors.fullName && <p className="text-[10px] text-red-500 uppercase tracking-widest font-bold mt-1">{errors.fullName.message}</p>}
                                     </div>
-
-                                    {/* Phone Number */}
                                     <div className="space-y-2">
-                                        <label className="text-sm font-medium text-slate-700">Phone Number</label>
+                                        <label className="text-[10px] uppercase tracking-widest font-bold">Phone</label>
                                         <input
                                             {...register('phone')}
-                                            className={`w-full px-4 py-3 rounded-xl border ${errors.phone ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:border-blue-500 focus:ring-blue-500'} bg-slate-50 focus:bg-white transition-all outline-none focus:ring-2 focus:ring-opacity-20`}
+                                            className="w-full bg-transparent border-b border-gray-200 py-3 focus:border-black outline-none transition-colors"
                                             placeholder="+212 600 000 000"
                                         />
-                                        {errors.phone && (
-                                            <p className="text-xs text-red-500 flex items-center gap-1 mt-1">
-                                                <AlertCircle className="w-3 h-3" /> {errors.phone.message}
-                                            </p>
-                                        )}
+                                        {errors.phone && <p className="text-[10px] text-red-500 uppercase tracking-widest font-bold mt-1">{errors.phone.message}</p>}
                                     </div>
-
-                                    {/* Email (Full Width) */}
-                                    <div className="space-y-2 sm:col-span-2">
-                                        <label className="text-sm font-medium text-slate-700">Email Address</label>
+                                    <div className="md:col-span-2 space-y-2">
+                                        <label className="text-[10px] uppercase tracking-widest font-bold">Email</label>
                                         <input
                                             {...register('email')}
                                             type="email"
-                                            className={`w-full px-4 py-3 rounded-xl border ${errors.email ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:border-blue-500 focus:ring-blue-500'} bg-slate-50 focus:bg-white transition-all outline-none focus:ring-2 focus:ring-opacity-20`}
+                                            className="w-full bg-transparent border-b border-gray-200 py-3 focus:border-black outline-none transition-colors"
                                             placeholder="jane@example.com"
                                         />
-                                        {errors.email && (
-                                            <p className="text-xs text-red-500 flex items-center gap-1 mt-1">
-                                                <AlertCircle className="w-3 h-3" /> {errors.email.message}
-                                            </p>
-                                        )}
+                                        {errors.email && <p className="text-[10px] text-red-500 uppercase tracking-widest font-bold mt-1">{errors.email.message}</p>}
                                     </div>
-
-                                    {/* Address (Full Width) */}
-                                    <div className="space-y-2 sm:col-span-2">
-                                        <label className="text-sm font-medium text-slate-700">Street Address</label>
+                                    <div className="md:col-span-2 space-y-2">
+                                        <label className="text-[10px] uppercase tracking-widest font-bold">Street Address</label>
                                         <input
                                             {...register('address')}
-                                            className={`w-full px-4 py-3 rounded-xl border ${errors.address ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:border-blue-500 focus:ring-blue-500'} bg-slate-50 focus:bg-white transition-all outline-none focus:ring-2 focus:ring-opacity-20`}
-                                            placeholder="123 Mohammed V Blvd, Apt 4"
+                                            className="w-full bg-transparent border-b border-gray-200 py-3 focus:border-black outline-none transition-colors"
+                                            placeholder="Street, Apartment, Postcode"
                                         />
-                                        {errors.address && (
-                                            <p className="text-xs text-red-500 flex items-center gap-1 mt-1">
-                                                <AlertCircle className="w-3 h-3" /> {errors.address.message}
-                                            </p>
-                                        )}
+                                        {errors.address && <p className="text-[10px] text-red-500 uppercase tracking-widest font-bold mt-1">{errors.address.message}</p>}
                                     </div>
-
-                                    {/* City */}
-                                    <div className="space-y-2 sm:col-span-2">
-                                        <label className="text-sm font-medium text-slate-700">City</label>
+                                    <div className="md:col-span-2 space-y-2">
+                                        <label className="text-[10px] uppercase tracking-widest font-bold">City</label>
                                         <input
                                             {...register('city')}
-                                            className={`w-full px-4 py-3 rounded-xl border ${errors.city ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:border-blue-500 focus:ring-blue-500'} bg-slate-50 focus:bg-white transition-all outline-none focus:ring-2 focus:ring-opacity-20`}
+                                            className="w-full bg-transparent border-b border-gray-200 py-3 focus:border-black outline-none transition-colors"
                                             placeholder="Casablanca"
                                         />
-                                        {errors.city && (
-                                            <p className="text-xs text-red-500 flex items-center gap-1 mt-1">
-                                                <AlertCircle className="w-3 h-3" /> {errors.city.message}
-                                            </p>
-                                        )}
+                                        {errors.city && <p className="text-[10px] text-red-500 uppercase tracking-widest font-bold mt-1">{errors.city.message}</p>}
                                     </div>
                                 </div>
-                            </div>
+                            </section>
 
                             {/* Payment Method Section */}
-                            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm">
-                                <h2 className="text-xl font-semibold flex items-center gap-2 mb-6">
-                                    <Wallet className="w-5 h-5 text-blue-600" />
-                                    Payment Method
-                                </h2>
-
-                                <div className="space-y-4">
-                                    {/* Option 1: Cash on Delivery */}
-                                    <div
-                                        onClick={() => setValue('paymentMethod', 'CASH_ON_DELIVERY')}
-                                        className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all flex items-center gap-4 ${selectedPaymentMethod === 'CASH_ON_DELIVERY' ? 'border-blue-600 bg-blue-50/50' : 'border-slate-200 hover:border-slate-300'}`}
-                                    >
-                                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedPaymentMethod === 'CASH_ON_DELIVERY' ? 'border-blue-600' : 'border-slate-300'}`}>
-                                            {selectedPaymentMethod === 'CASH_ON_DELIVERY' && <div className="w-2.5 h-2.5 bg-blue-600 rounded-full" />}
+                            <section>
+                                <h2 className="text-[12px] uppercase tracking-[0.3em] font-bold text-muted-foreground mb-8">Payment Method</h2>
+                                <div className="space-y-4 p-8 bg-[#FAFAFA] rounded-[2rem]">
+                                    {[
+                                        { id: 'CASH_ON_DELIVERY', label: 'Cash on Delivery', desc: 'Secure local delivery' },
+                                        { id: 'CMI', label: 'Credit Card (CMI)', desc: 'Moroccan Local Processing' },
+                                        { id: 'STRIPE', label: 'International Card', desc: 'Secure via Stripe' }
+                                    ].map((method) => (
+                                        <div
+                                            key={method.id}
+                                            onClick={() => setValue('paymentMethod', method.id as any)}
+                                            className={`group p-6 rounded-[1.5rem] cursor-pointer transition-all flex items-center gap-6 ${selectedPaymentMethod === method.id ? 'bg-black text-white' : 'bg-white hover:bg-gray-50 border border-transparent hover:border-gray-200'}`}
+                                        >
+                                            <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${selectedPaymentMethod === method.id ? 'border-white' : 'border-black'}`}>
+                                                {selectedPaymentMethod === method.id && <div className="w-2 h-2 bg-white rounded-full" />}
+                                            </div>
+                                            <div className="flex-1">
+                                                <p className="font-bold text-sm tracking-tight">{method.label}</p>
+                                                <p className={`text-[11px] uppercase tracking-widest font-bold mt-0.5 ${selectedPaymentMethod === method.id ? 'text-white/60' : 'text-muted-foreground'}`}>{method.desc}</p>
+                                            </div>
                                         </div>
-                                        <div className="flex-1">
-                                            <p className="font-semibold text-slate-900">Cash on Delivery</p>
-                                            <p className="text-sm text-slate-500">Pay securely when the package arrives</p>
-                                        </div>
-                                    </div>
-
-                                    {/* Option 2: CMI */}
-                                    <div
-                                        onClick={() => setValue('paymentMethod', 'CMI')}
-                                        className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all flex items-center gap-4 ${selectedPaymentMethod === 'CMI' ? 'border-blue-600 bg-blue-50/50' : 'border-slate-200 hover:border-slate-300'}`}
-                                    >
-                                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedPaymentMethod === 'CMI' ? 'border-blue-600' : 'border-slate-300'}`}>
-                                            {selectedPaymentMethod === 'CMI' && <div className="w-2.5 h-2.5 bg-blue-600 rounded-full" />}
-                                        </div>
-                                        <div className="flex-1">
-                                            <p className="font-semibold text-slate-900">Credit Card (CMI - Morocco)</p>
-                                            <p className="text-sm text-slate-500">Local Moroccan card processing</p>
-                                        </div>
-                                        <CreditCard className="w-6 h-6 text-slate-400" />
-                                    </div>
-
-                                    {/* Option 3: Stripe */}
-                                    <div
-                                        onClick={() => setValue('paymentMethod', 'STRIPE')}
-                                        className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all flex items-center gap-4 ${selectedPaymentMethod === 'STRIPE' ? 'border-blue-600 bg-blue-50/50' : 'border-slate-200 hover:border-slate-300'}`}
-                                    >
-                                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedPaymentMethod === 'STRIPE' ? 'border-blue-600' : 'border-slate-300'}`}>
-                                            {selectedPaymentMethod === 'STRIPE' && <div className="w-2.5 h-2.5 bg-blue-600 rounded-full" />}
-                                        </div>
-                                        <div className="flex-1">
-                                            <p className="font-semibold text-slate-900">Credit Card (Stripe - International)</p>
-                                            <p className="text-sm text-slate-500">Fast and secure international payments</p>
-                                        </div>
-                                        <CreditCard className="w-6 h-6 text-slate-400" />
-                                    </div>
+                                    ))}
                                 </div>
-                            </div>
+                            </section>
                         </form>
                     </div>
 
-                    {/* RIGHT COLUMN: Order Summary (Sticky) */}
-                    <div className="lg:col-span-5">
-                        <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm sticky top-24">
-                            <h2 className="text-xl font-semibold mb-6">Order Summary</h2>
-
-                            <div className="space-y-4 max-h-[40vh] overflow-y-auto pr-2 mb-6">
+                    {/* RIGHT COLUMN: Order Summary */}
+                    <div className="lg:col-span-5 lg:sticky lg:top-32 space-y-12">
+                        <div>
+                            <h2 className="text-[12px] uppercase tracking-[0.3em] font-bold text-muted-foreground mb-8">Your bag</h2>
+                            <div className="space-y-8">
                                 {items.map((item) => (
-                                    <div key={item.id} className="flex items-center gap-4">
-                                        <div className="relative w-16 h-16 rounded-lg bg-slate-100 border border-slate-200 overflow-hidden shrink-0">
+                                    <div key={item.id} className="flex items-center gap-6">
+                                        <div className="relative w-20 h-24 rounded-2xl overflow-hidden bg-[#FAFAFA] shrink-0 border border-gray-100">
                                             <Image
                                                 src={item.imageUrl}
                                                 alt={item.name}
                                                 fill
                                                 className="object-cover"
-                                                sizes="64px"
                                             />
                                         </div>
                                         <div className="flex-1">
-                                            <h3 className="text-sm font-semibold text-slate-900 line-clamp-1">{item.name}</h3>
-                                            <p className="text-sm text-slate-500">Qty: {item.quantity}</p>
+                                            <h3 className="text-sm font-bold tracking-tight">{item.name}</h3>
+                                            <p className="text-[11px] text-muted-foreground uppercase tracking-widest font-bold mt-1">Quantity: {item.quantity}</p>
                                         </div>
-                                        <p className="font-bold text-slate-900 shrink-0">
+                                        <p className="font-bold text-sm tracking-tight">
                                             MAD {(item.price * item.quantity).toFixed(2)}
                                         </p>
                                     </div>
                                 ))}
                             </div>
-
-                            <div className="border-t border-slate-200 pt-6 space-y-4">
-                                <div className="flex justify-between text-slate-600">
-                                    <span>Subtotal</span>
-                                    <span>MAD {getTotal().toFixed(2)}</span>
-                                </div>
-                                <div className="flex justify-between text-slate-600">
-                                    <span>Shipping</span>
-                                    <span className="text-emerald-600 font-medium">Free</span>
-                                </div>
-                                <div className="flex justify-between text-xl font-bold text-slate-900 pt-2 border-t border-slate-100">
-                                    <span>Total</span>
-                                    <span>MAD {getTotal().toFixed(2)}</span>
-                                </div>
-                            </div>
-
-                            {/* Submit Button targeting the external form ID */}
-                            <button
-                                type="submit"
-                                form="checkout-form"
-                                disabled={isSubmitting}
-                                className="w-full mt-8 bg-[#10B981] hover:bg-[#059669] text-white py-4 rounded-xl font-bold text-lg shadow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-                            >
-                                {isSubmitting ? (
-                                    <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-solid border-white border-r-transparent align-[-0.125em]"></span>
-                                ) : (
-                                    'Place Order'
-                                )}
-                            </button>
-
-                            <p className="text-xs text-slate-500 text-center mt-4">
-                                Your personal data will be used to process your order and support your experience throughout this website.
-                            </p>
                         </div>
+
+                        <div className="space-y-4 pt-8 border-t border-gray-100">
+                            <div className="flex justify-between text-sm">
+                                <span className="text-muted-foreground font-medium uppercase tracking-widest text-[10px] font-bold">Subtotal</span>
+                                <span className="font-bold tracking-tight">MAD {getTotal().toFixed(2)}</span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                                <span className="text-muted-foreground font-medium uppercase tracking-widest text-[10px] font-bold">Shipping</span>
+                                <span className="font-bold tracking-tight text-black">Complimentary</span>
+                            </div>
+                            <div className="flex justify-between text-xl font-bold pt-4 border-t border-gray-100 mt-4 tracking-tighter">
+                                <span>Total</span>
+                                <span>MAD {getTotal().toFixed(2)}</span>
+                            </div>
+                        </div>
+
+                        <button
+                            type="submit"
+                            form="checkout-form"
+                            disabled={isSubmitting}
+                            className="w-full bg-black text-white font-bold uppercase tracking-[.2em] text-[12px] py-6 rounded-full hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {isSubmitting ? 'Processing...' : 'Place Order'}
+                        </button>
                     </div>
 
                 </div>
             </div>
         </div>
+    )
+}
+
+function CheckIcon({ className }: { className?: string }) {
+    return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+        </svg>
     )
 }

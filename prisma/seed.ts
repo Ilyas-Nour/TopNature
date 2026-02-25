@@ -44,7 +44,7 @@ async function main() {
             price: 650.00,
             comparePrice: 850.00,
             stock: 45,
-            imageUrls: ['https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=1000&auto=format&fit=crop'],
+            imageUrls: ['https://images.unsplash.com/photo-1612817288484-6f916006741a?q=80&w=1000&auto=format&fit=crop'],
             categoryId: categorySerums.id,
         },
         {
@@ -54,7 +54,7 @@ async function main() {
             price: 480.00,
             comparePrice: null,
             stock: 120,
-            imageUrls: ['https://images.unsplash.com/photo-1608248593802-8401a6136e4f?q=80&w=1000&auto=format&fit=crop'],
+            imageUrls: ['https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=1000&auto=format&fit=crop'],
             categoryId: categoryOils.id,
         },
         {
@@ -64,7 +64,7 @@ async function main() {
             price: 320.00,
             comparePrice: 400.00,
             stock: 80,
-            imageUrls: ['https://images.unsplash.com/photo-1596755389378-c31d21fd1273?q=80&w=1000&auto=format&fit=crop'],
+            imageUrls: ['https://images.unsplash.com/photo-1570194065650-d99fb4b8ccb0?q=80&w=1000&auto=format&fit=crop'],
             categoryId: categorySkincare.id,
         },
         {
@@ -84,7 +84,7 @@ async function main() {
             price: 720.00,
             comparePrice: 890.00,
             stock: 35,
-            imageUrls: ['https://images.unsplash.com/photo-1601049541289-9b1b7bf22d4b?q=80&w=1000&auto=format&fit=crop'],
+            imageUrls: ['https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=1000&auto=format&fit=crop'],
             categoryId: categorySerums.id,
         },
         {

@@ -21,47 +21,51 @@ export default function AdminLoginPage() {
     }
 
     return (
-        <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4">
-            <div className="w-full max-w-md bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
-                <div className="flex justify-center mb-8">
-                    <div className="h-12 w-12 rounded-xl bg-blue-600 flex items-center justify-center text-white">
-                        <Lock className="h-6 w-6" />
-                    </div>
+        <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-center p-6 lg:p-12 font-inter">
+            <div className="w-full max-w-md space-y-12">
+                <div className="text-center space-y-4">
+                    <span className="text-4xl font-serif text-black font-bold tracking-tight">TopNature</span>
+                    <h1 className="text-xs uppercase tracking-[0.4em] font-bold text-muted-foreground mt-8">Administrative Gateway</h1>
                 </div>
 
-                <h1 className="text-2xl font-bold text-slate-900 text-center mb-2">Admin Portal</h1>
-                <p className="text-slate-500 text-center mb-8">Enter your credentials to access the dashboard</p>
+                <div className="bg-white rounded-[2.5rem] p-12 shadow-sm border border-gray-100">
+                    <form action={handleLogin} className="space-y-10">
+                        <div className="space-y-6">
+                            <div className="space-y-3">
+                                <label className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground ml-1">Secure Email</label>
+                                <input
+                                    name="email"
+                                    type="email"
+                                    required
+                                    placeholder="admin@animy.com"
+                                    className="w-full px-8 py-5 rounded-full bg-[#FAFAFA] border-transparent focus:bg-white focus:border-black outline-none transition-all text-sm font-medium"
+                                />
+                            </div>
 
-                <form action={handleLogin} className="space-y-5">
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
-                        <input
-                            name="email"
-                            type="email"
-                            required
-                            placeholder="admin@animy.com"
-                            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-600 focus:ring-blue-600 outline-none transition-all"
-                        />
-                    </div>
+                            <div className="space-y-3">
+                                <label className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground ml-1">Access Token</label>
+                                <input
+                                    name="password"
+                                    type="password"
+                                    required
+                                    placeholder="••••••••"
+                                    className="w-full px-8 py-5 rounded-full bg-[#FAFAFA] border-transparent focus:bg-white focus:border-black outline-none transition-all text-sm font-medium"
+                                />
+                            </div>
+                        </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-2">Password</label>
-                        <input
-                            name="password"
-                            type="password"
-                            required
-                            placeholder="••••••••"
-                            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-600 focus:ring-blue-600 outline-none transition-all"
-                        />
-                    </div>
+                        <button
+                            type="submit"
+                            className="w-full py-6 px-10 bg-black hover:bg-gray-800 text-white text-[11px] font-bold uppercase tracking-widest rounded-full transition-all active:scale-[0.98] shadow-lg shadow-black/10"
+                        >
+                            Establish Connection
+                        </button>
+                    </form>
+                </div>
 
-                    <button
-                        type="submit"
-                        className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all shadow-sm"
-                    >
-                        Sign In
-                    </button>
-                </form>
+                <p className="text-center text-[10px] uppercase tracking-widest font-bold text-muted-foreground/60">
+                    Encrypted Session • TopNature Systems v2.0
+                </p>
             </div>
         </div>
     )

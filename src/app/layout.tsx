@@ -5,6 +5,7 @@ import { LenisProvider } from "@/providers/lenis-provider";
 import { FloatingWhatsAppButton } from "@/components/ui/floating-whatsapp";
 import { Navbar } from "@/components/shared/navbar";
 import { MobileTabBar } from "@/components/shared/mobile-tab-bar";
+import { Footer } from "@/components/shared/footer";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -38,6 +39,7 @@ export default function RootLayout({
         <LenisProvider>
           <main className="pb-20 md:pb-0 min-h-screen">
             {children}
+            <Footer />
           </main>
           <FloatingWhatsAppButton />
         </LenisProvider>

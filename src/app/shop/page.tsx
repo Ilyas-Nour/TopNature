@@ -22,17 +22,16 @@ export default async function ShopPage() {
                 </div>
 
                 {products.length > 0 ? (
-                    <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 2xl:columns-5 gap-8 space-y-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-8 gap-y-20">
                         {products.map((product) => (
-                            <div key={product.id} className="break-inside-avoid shadow-none">
-                                <ProductCard
-                                    id={product.id}
-                                    name={product.name}
-                                    price={product.price}
-                                    imageUrl={product.imageUrls[0]}
-                                    categoryName={product.category.name}
-                                />
-                            </div>
+                            <ProductCard
+                                key={product.id}
+                                id={product.id}
+                                name={product.name}
+                                price={product.price}
+                                imageUrl={product.imageUrls[0]}
+                                categoryName={product.category.name}
+                            />
                         ))}
                     </div>
                 ) : (

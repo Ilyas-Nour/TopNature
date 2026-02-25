@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { LayoutDashboard, ShoppingCart, PackageOpen, Settings, LogOut } from 'lucide-react'
 import { auth, signOut } from '@/auth'
+import { AdminNav } from '@/components/admin/admin-nav'
 
 export const metadata = {
     title: 'Admin Dashboard | EcomStore',
@@ -21,59 +22,41 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
     }
 
     return (
-        <div className="flex min-h-screen bg-slate-50">
+        <div className="flex min-h-screen bg-[#FAFAFA]">
             {/* Sidebar Navigation */}
-            <aside className="w-64 bg-slate-900 text-slate-300 flex-shrink-0 hidden md:flex flex-col">
-                <div className="h-16 flex items-center px-6 border-b border-slate-800">
-                    <Link href="/admin" className="flex items-center gap-2 text-white">
-                        <div className="h-8 w-8 rounded-md bg-blue-600 flex items-center justify-center">
-                            <span className="font-bold text-lg leading-none">A</span>
-                        </div>
-                        <span className="text-xl font-bold tracking-tight">AdminPanel</span>
+            <aside className="w-64 bg-white border-r border-gray-100 hidden md:flex flex-col sticky top-0 h-screen">
+                <div className="h-24 flex items-center px-8 border-b border-gray-50">
+                    <Link href="/admin" className="flex items-center">
+                        <span className="text-xl font-serif text-black font-bold tracking-tight">
+                            TopNature
+                        </span>
                     </Link>
                 </div>
 
-                <nav className="flex-1 px-4 py-6 space-y-1">
-                    <Link href="/admin" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white bg-slate-800 font-medium transition-colors">
-                        <LayoutDashboard className="h-5 w-5" />
-                        Dashboard
-                    </Link>
-                    <Link href="/admin/orders" className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:text-white hover:bg-slate-800 transition-colors">
-                        <ShoppingCart className="h-5 w-5" />
-                        Orders
-                    </Link>
-                    <Link href="/admin/products" className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:text-white hover:bg-slate-800 transition-colors">
-                        <PackageOpen className="h-5 w-5" />
-                        Products
-                    </Link>
-                    <Link href="/admin/settings" className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:text-white hover:bg-slate-800 transition-colors">
-                        <Settings className="h-5 w-5" />
-                        Settings
-                    </Link>
-                </nav>
+                <AdminNav />
 
-                <div className="p-4 border-t border-slate-800">
+                <div className="p-4 border-t border-gray-50">
                     <form action={async () => {
                         "use server"
                         await signOut({ redirectTo: '/admin/login' })
                     }}>
-                        <button type="submit" className="flex w-full items-center gap-3 px-3 py-2.5 rounded-lg hover:text-white hover:bg-slate-800 transition-colors text-slate-400">
-                            <LogOut className="h-5 w-5" />
-                            Sign Out
+                        <button type="submit" className="flex w-full items-center gap-3 px-4 py-3 rounded-2xl text-muted-foreground hover:text-black hover:bg-red-50 transition-all text-[11px] uppercase tracking-widest font-bold">
+                            <LogOut className="h-4 w-4" strokeWidth={2} />
+                            Log Out
                         </button>
                     </form>
                 </div>
             </aside>
 
             {/* Main Content Area */}
-            <main className="flex-1 overflow-x-hidden overflow-y-auto">
-                {/* Mobile Header (Visible only on small screens) */}
-                <div className="md:hidden h-16 bg-slate-900 text-white flex items-center justify-between px-4 border-b border-slate-800">
-                    <Link href="/admin" className="font-bold text-lg">AdminPanel</Link>
+            <main className="flex-1">
+                {/* Mobile Header */}
+                <div className="md:hidden h-20 bg-white flex items-center justify-between px-6 border-b border-gray-100">
+                    <Link href="/admin" className="font-serif font-bold text-lg">TopNature</Link>
                     <button className="p-2"><LayoutDashboard className="h-6 w-6" /></button>
                 </div>
 
-                <div className="p-6 md:p-10 max-w-7xl mx-auto">
+                <div className="p-8 md:p-12 lg:p-16 max-w-7xl mx-auto">
                     {children}
                 </div>
             </main>

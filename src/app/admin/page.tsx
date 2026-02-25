@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import Link from 'next/link'
 import { DollarSign, ShoppingCart, Clock } from 'lucide-react'
 
 // Opt out of static rendering so this dashboard reflects live DB state constantly
@@ -43,101 +44,99 @@ export default async function AdminDashboardPage() {
     }
 
     return (
-        <div className="space-y-8">
-            <div>
-                <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Dashboard Overview</h1>
-                <p className="text-slate-500 mt-1">Welcome back. Here is what's happening today.</p>
+        <div className="space-y-16 animate-in fade-in duration-700">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div>
+                    <h1 className="text-5xl font-serif font-bold tracking-tight text-black">Dashboard</h1>
+                    <p className="text-muted-foreground mt-4 font-medium uppercase tracking-[0.2em] text-[11px]">System Overview & Recent Activity</p>
+                </div>
+                <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest">
+                    <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
+                        <span>Server Live</span>
+                    </div>
+                </div>
             </div>
 
             {/* Top Level Summary Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-                {/* Total Revenue Card */}
-                <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p className="text-sm font-medium text-slate-500">Total Revenue</p>
-                        <p className="text-3xl font-bold text-slate-900 mt-2">MAD {totalRevenue.toFixed(2)}</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {[
+                    { label: 'Total Revenue', value: `MAD ${totalRevenue.toFixed(2)}`, icon: DollarSign, color: 'bg-black text-white' },
+                    { label: 'Total Orders', value: totalOrders, icon: ShoppingCart, color: 'bg-white border border-gray-100' },
+                    { label: 'Pending Orders', value: pendingOrders, icon: Clock, color: 'bg-white border border-gray-100' }
+                ].map((stat, i) => (
+                    <div key={i} className={`p-10 rounded-[2.5rem] flex flex-col justify-between h-48 transition-transform hover:scale-[1.02] duration-500 ${stat.color}`}>
+                        <div className="flex justify-between items-start">
+                            <span className={`text-[10px] uppercase tracking-[0.3em] font-bold ${stat.color.includes('black') ? 'text-white/60' : 'text-muted-foreground'}`}>
+                                {stat.label}
+                            </span>
+                            <stat.icon className="w-5 h-5" strokeWidth={1.5} />
+                        </div>
+                        <p className="text-4xl font-bold tracking-tighter">{stat.value}</p>
                     </div>
-                    <div className="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
-                        <DollarSign className="w-6 h-6" />
-                    </div>
-                </div>
-
-                {/* Total Orders Card */}
-                <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p className="text-sm font-medium text-slate-500">Total Orders</p>
-                        <p className="text-3xl font-bold text-slate-900 mt-2">{totalOrders}</p>
-                    </div>
-                    <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
-                        <ShoppingCart className="w-6 h-6" />
-                    </div>
-                </div>
-
-                {/* Pending Orders Card */}
-                <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p className="text-sm font-medium text-slate-500">Pending Orders</p>
-                        <p className="text-3xl font-bold text-slate-900 mt-2">{pendingOrders}</p>
-                    </div>
-                    <div className="w-12 h-12 rounded-full bg-yellow-50 flex items-center justify-center text-yellow-600">
-                        <Clock className="w-6 h-6" />
-                    </div>
-                </div>
-
+                ))}
             </div>
 
             {/* Recent Orders Table */}
-            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-                <div className="px-6 py-5 border-b border-slate-200">
-                    <h2 className="text-lg font-semibold text-slate-900">Recent Orders</h2>
+            <div className="space-y-8">
+                <div className="flex items-center justify-between">
+                    <h2 className="text-2xl font-bold tracking-tight text-black">Recent Orders</h2>
+                    <Link href="/admin/orders" className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground hover:text-black transition-colors">
+                        View All Activity
+                    </Link>
                 </div>
 
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
-                        <thead>
-                            <tr className="bg-slate-50/50">
-                                <th className="px-6 py-4 text-xs font-semibold tracking-wider text-slate-500 uppercase border-b border-slate-200">Order ID</th>
-                                <th className="px-6 py-4 text-xs font-semibold tracking-wider text-slate-500 uppercase border-b border-slate-200">Date</th>
-                                <th className="px-6 py-4 text-xs font-semibold tracking-wider text-slate-500 uppercase border-b border-slate-200">Customer Email</th>
-                                <th className="px-6 py-4 text-xs font-semibold tracking-wider text-slate-500 uppercase border-b border-slate-200">Payment</th>
-                                <th className="px-6 py-4 text-xs font-semibold tracking-wider text-slate-500 uppercase border-b border-slate-200">Status</th>
-                                <th className="px-6 py-4 text-xs font-semibold tracking-wider text-slate-500 uppercase border-b border-slate-200 text-right">Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-200">
-                            {recentOrders.length > 0 ? (
-                                recentOrders.map((order) => (
-                                    <tr key={order.id} className="hover:bg-slate-50 transition-colors">
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">
-                                            #{order.id.slice(-8).toUpperCase()}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                                            {new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short' }).format(order.createdAt)}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                                            {order.customerEmail || 'Guest'}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                                            {order.paymentMethod.replace('_', ' ')}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            {getStatusBadge(order.status)}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-slate-900 text-right">
-                                            MAD {order.totalAmount.toFixed(2)}
+                <div className="bg-white rounded-[2rem] overflow-hidden border border-gray-50 shadow-sm">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse">
+                            <thead>
+                                <tr className="bg-[#FAFAFA]/50 border-b border-gray-50">
+                                    <th className="px-8 py-6 text-[10px] font-bold tracking-[0.2em] text-muted-foreground uppercase">Order ID</th>
+                                    <th className="px-8 py-6 text-[10px] font-bold tracking-[0.2em] text-muted-foreground uppercase">Customer</th>
+                                    <th className="px-8 py-6 text-[10px] font-bold tracking-[0.2em] text-muted-foreground uppercase">Method</th>
+                                    <th className="px-8 py-6 text-[10px] font-bold tracking-[0.2em] text-muted-foreground uppercase">Status</th>
+                                    <th className="px-8 py-6 text-[10px] font-bold tracking-[0.2em] text-muted-foreground uppercase text-right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-50">
+                                {recentOrders.length > 0 ? (
+                                    recentOrders.map((order) => (
+                                        <tr key={order.id} className="group hover:bg-[#FAFAFA] transition-all duration-300">
+                                            <td className="px-8 py-6 whitespace-nowrap text-sm font-bold tracking-tight text-black flex items-center gap-3">
+                                                <div className="w-2 h-2 rounded-full bg-black group-hover:scale-125 transition-transform" />
+                                                #{order.id.slice(-6).toUpperCase()}
+                                            </td>
+                                            <td className="px-8 py-6 whitespace-nowrap">
+                                                <div className="flex flex-col">
+                                                    <span className="text-sm font-bold text-black">{order.customerEmail || 'Guest'}</span>
+                                                    <span className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1">
+                                                        {new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' }).format(order.createdAt)}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td className="px-8 py-6 whitespace-nowrap text-[11px] font-bold uppercase tracking-widest text-muted-foreground">
+                                                {order.paymentMethod.replace(/_/g, ' ')}
+                                            </td>
+                                            <td className="px-8 py-6 whitespace-nowrap">
+                                                <div className="transform scale-90 origin-left">
+                                                    {getStatusBadge(order.status)}
+                                                </div>
+                                            </td>
+                                            <td className="px-8 py-6 whitespace-nowrap text-sm font-bold text-black text-right tracking-tight">
+                                                MAD {order.totalAmount.toFixed(2)}
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan={5} className="px-8 py-20 text-center">
+                                            <p className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground">No active orders found</p>
                                         </td>
                                     </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan={6} className="px-6 py-8 text-center text-sm text-slate-500">
-                                        No orders have been placed yet.
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

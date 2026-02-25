@@ -37,7 +37,7 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
                 onClick={handleAddToCart}
-                className="flex h-16 w-full items-center justify-center rounded-none bg-primary text-primary-foreground font-medium tracking-widest uppercase hover:bg-foreground transition-all duration-300"
+                className="pill-button w-full bg-primary text-primary-foreground text-sm uppercase tracking-widest"
             >
                 Add to Cart
             </motion.button>
