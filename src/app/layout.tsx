@@ -3,6 +3,7 @@ import { Inter, Tajawal } from "next/font/google";
 import "./globals.css";
 import { LenisProvider } from "@/providers/lenis-provider";
 import { FloatingWhatsAppButton } from "@/components/ui/floating-whatsapp";
+import { Navbar } from "@/components/shared/navbar";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${tajawal.variable} antialiased`}
       >
+        <Navbar />
         <LenisProvider>
           {children}
           <FloatingWhatsAppButton />

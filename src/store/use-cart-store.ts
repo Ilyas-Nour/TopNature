@@ -24,13 +24,13 @@ export const useCartStore = create<CartState>()(
         (set, get) => ({
             items: [],
 
-            addItem: (newItem) => {
+            addItem: (newItem: CartItem) => {
                 const items = get().items
-                const existingItem = items.find((item) => item.id === newItem.id)
+                const existingItem = items.find((item: CartItem) => item.id === newItem.id)
 
                 if (existingItem) {
                     set({
-                        items: items.map((item) =>
+                        items: items.map((item: CartItem) =>
                             item.id === newItem.id
                                 ? { ...item, quantity: item.quantity + newItem.quantity }
                                 : item
@@ -41,18 +41,18 @@ export const useCartStore = create<CartState>()(
                 }
             },
 
-            removeItem: (id) => {
-                set({ items: get().items.filter((item) => item.id !== id) })
+            removeItem: (id: string) => {
+                set({ items: get().items.filter((item: CartItem) => item.id !== id) })
             },
 
-            updateQuantity: (id, quantity) => {
+            updateQuantity: (id: string, quantity: number) => {
                 if (quantity < 1) {
                     get().removeItem(id)
                     return
                 }
 
                 set({
-                    items: get().items.map((item) =>
+                    items: get().items.map((item: CartItem) =>
                         item.id === id ? { ...item, quantity } : item
                     ),
                 })
@@ -62,13 +62,13 @@ export const useCartStore = create<CartState>()(
 
             getTotal: () => {
                 return get().items.reduce(
-                    (total, item) => total + item.price * item.quantity,
+                    (total: number, item: CartItem) => total + item.price * item.quantity,
                     0
                 )
             },
 
             getItemCount: () => {
-                return get().items.reduce((count, item) => count + item.quantity, 0)
+                return get().items.reduce((count: number, item: CartItem) => count + item.quantity, 0)
             },
         }),
         {
