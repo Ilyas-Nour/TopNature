@@ -34,7 +34,7 @@ export default async function Home() {
         </div>
 
         {/* Text Overlapping Imagery */}
-        <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 mt-auto mb-24 md:mb-32 flex flex-col items-center text-center">
+        <div className="relative z-10 w-full px-6 md:px-12 lg:px-20 mt-auto mb-24 md:mb-32 flex flex-col items-center text-center">
           <h1 className="editorial-heading text-[#F9F6F0] text-[15vw] md:text-[8vw] leading-none mb-4 mix-blend-overlay opacity-90">
             TopNature
           </h1>
@@ -55,7 +55,7 @@ export default async function Home() {
 
       {/* Featured Products Section - Asymmetrical Layout */}
       <section className="w-full py-24 md:py-32">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-6 md:px-12 lg:px-20">
           <div className="flex items-end justify-between mb-16 md:mb-24">
             <h2 className="editorial-heading text-5xl md:text-7xl">
               Curated <br className="hidden md:block" />
@@ -74,7 +74,7 @@ export default async function Home() {
                 const marginTopClass = index % 3 === 1 ? 'md:mt-24' : index % 3 === 2 ? 'md:mt-12' : '';
 
                 return (
-                  <div key={product.id} className={`min - w - [85vw] sm: min - w - [60vw] md: min - w - 0 snap - center shrink - 0 mb - 8 md: mb - 16 break-inside - avoid ${marginTopClass} `}>
+                  <div key={product.id} className={`min-w-[85vw] sm:min-w-[60vw] md:min-w-0 snap-center shrink-0 mb-8 md:mb-16 break-inside-avoid ${marginTopClass}`}>
                     <ProductCard
                       id={product.id}
                       name={product.name}

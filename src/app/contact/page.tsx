@@ -43,17 +43,17 @@ export default function ContactPage() {
     }
 
     return (
-        <div className="min-h-screen bg-slate-50 pt-32 pb-24">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                <div className="text-center mb-16">
-                    <h1 className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight mb-4">Contact Us</h1>
-                    <p className="text-lg text-slate-500 max-w-2xl mx-auto">Have a question or need assistance? Our team is here to help.</p>
+        <div className="min-h-screen bg-background pt-32 pb-24">
+            <div className="w-full px-6 md:px-12 lg:px-20">
+                <div className="mb-24">
+                    <h1 className="editorial-heading text-5xl md:text-8xl mb-6">Connect</h1>
+                    <p className="text-xl text-muted-foreground max-w-2xl font-medium tracking-tight">Our team is available for botanical consultations and order inquiries.</p>
                 </div>
 
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 items-start">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-20 items-start">
                     {/* Left Column: Form */}
-                    <div className="bg-white rounded-3xl p-8 lg:p-10 border border-slate-200 shadow-sm">
-                        <h2 className="text-2xl font-bold text-slate-900 mb-6">Send a Message</h2>
+                    <div>
+                        <h2 className="editorial-heading text-3xl mb-8 text-foreground font-medium">Inquiry</h2>
 
                         {success && (
                             <div className="mb-8 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 flex items-start gap-3">
@@ -111,68 +111,46 @@ export default function ContactPage() {
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="w-full sm:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                                className="inline-flex h-14 items-center justify-center bg-primary text-primary-foreground px-10 text-sm tracking-widest uppercase hover:bg-black transition-colors duration-500 disabled:opacity-70 disabled:cursor-not-allowed"
                             >
                                 {isSubmitting ? (
                                     <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-solid border-white border-r-transparent align-[-0.125em]"></span>
                                 ) : (
-                                    'Send Message'
+                                    'Submit Inquiry'
                                 )}
                             </button>
                         </form>
                     </div>
 
                     {/* Right Column: Info & Map */}
-                    <div className="space-y-8">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex items-start gap-4">
-                                <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center shrink-0">
-                                    <MapPin className="w-5 h-5" />
-                                </div>
-                                <div>
-                                    <h3 className="font-bold text-slate-900 mb-1">Our Location</h3>
-                                    <p className="text-slate-500 text-sm">123 Boulevard Mohammed V,<br /> Casablanca 20000,<br /> Morocco</p>
-                                </div>
+                    <div className="space-y-16">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
+                            <div className="flex flex-col gap-4">
+                                <h3 className="editorial-heading text-xl text-foreground font-medium uppercase tracking-widest">Office</h3>
+                                <p className="text-muted-foreground text-sm leading-relaxed font-light">123 Boulevard Mohammed V,<br /> Casablanca 20000,<br /> Morocco</p>
                             </div>
 
-                            <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex items-start gap-4">
-                                <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center shrink-0">
-                                    <Phone className="w-5 h-5" />
-                                </div>
-                                <div>
-                                    <h3 className="font-bold text-slate-900 mb-1">Call Us</h3>
-                                    <p className="text-slate-500 text-sm">+212 522 00 00 00<br />+212 600 00 00 00</p>
-                                </div>
+                            <div className="flex flex-col gap-4">
+                                <h3 className="editorial-heading text-xl text-foreground font-medium uppercase tracking-widest">Phone</h3>
+                                <p className="text-muted-foreground text-sm leading-relaxed font-light">+212 522 00 00 00<br />+212 600 00 00 00</p>
                             </div>
 
-                            <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex items-start gap-4">
-                                <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center shrink-0">
-                                    <Mail className="w-5 h-5" />
-                                </div>
-                                <div>
-                                    <h3 className="font-bold text-slate-900 mb-1">Email Us</h3>
-                                    <p className="text-slate-500 text-sm">support@ecomstore.ma<br />contact@ecomstore.ma</p>
-                                </div>
+                            <div className="flex flex-col gap-4">
+                                <h3 className="editorial-heading text-xl text-foreground font-medium uppercase tracking-widest">Digital</h3>
+                                <p className="text-muted-foreground text-sm leading-relaxed font-light">support@topnature.ma<br />concierge@topnature.ma</p>
                             </div>
 
-                            <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex items-start gap-4">
-                                <div className="w-12 h-12 bg-orange-50 text-orange-600 rounded-full flex items-center justify-center shrink-0">
-                                    <Clock className="w-5 h-5" />
-                                </div>
-                                <div>
-                                    <h3 className="font-bold text-slate-900 mb-1">Working Hours</h3>
-                                    <p className="text-slate-500 text-sm">Mon - Fri: 9AM - 6PM<br />Weekend: Closed</p>
-                                </div>
+                            <div className="flex flex-col gap-4">
+                                <h3 className="editorial-heading text-xl text-foreground font-medium uppercase tracking-widest">Hours</h3>
+                                <p className="text-muted-foreground text-sm leading-relaxed font-light">Mon - Fri: 9AM - 6PM<br />Weekend: Closed</p>
                             </div>
                         </div>
 
                         {/* Map Placeholder */}
-                        <div className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm h-80 relative">
-                            {/* This is a placeholder for an actual Google Maps iframe */}
-                            <div className="absolute inset-0 bg-slate-200 flex flex-col items-center justify-center text-slate-500 p-8 text-center">
-                                <MapPin className="w-12 h-12 mb-4 text-slate-400" />
-                                <p className="font-medium text-lg text-slate-600">Google Maps Integration</p>
-                                <p className="text-sm mt-2 max-w-xs">An interactive map would be embedded here showing the Casablanca headquarters.</p>
+                        <div className="aspect-video bg-secondary/5 relative overflow-hidden grayscale opacity-50">
+                            <div className="absolute inset-0 flex flex-col items-center justify-center text-secondary p-8 text-center">
+                                <MapPin className="w-12 h-12 mb-4" strokeWidth={0.5} />
+                                <p className="editorial-heading text-xl tracking-widest uppercase">Casablanca Laboratory</p>
                             </div>
                         </div>
                     </div>

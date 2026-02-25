@@ -15,14 +15,14 @@ export default async function ShopPage() {
 
     return (
         <div className="min-h-screen bg-background pt-24 pb-safe">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+            <div className="w-full px-6 md:px-12 lg:px-20">
                 <div className="mb-16">
                     <h1 className="editorial-heading tracking-tighter">Everything We Got</h1>
                     <p className="text-xl text-muted-foreground mt-6 max-w-2xl font-medium tracking-tight">Explore our full collection of premium products carefully curated for you.</p>
                 </div>
 
                 {products.length > 0 ? (
-                    <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
+                    <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 2xl:columns-5 gap-8 space-y-8">
                         {products.map((product) => (
                             <div key={product.id} className="break-inside-avoid shadow-none">
                                 <ProductCard

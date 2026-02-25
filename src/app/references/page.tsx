@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 
 export const metadata = {
     title: 'Our References | EcomStore',
@@ -7,27 +8,27 @@ export const metadata = {
 
 export default function ReferencesPage() {
     return (
-        <div className="min-h-screen bg-slate-50 pt-32 pb-24">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                <div className="text-center mb-16">
-                    <h1 className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight mb-4">Our References</h1>
-                    <p className="text-lg text-slate-500 max-w-2xl mx-auto">We are proud to have partnered with some of the most innovative brands across the globe.</p>
+        <div className="min-h-screen bg-background pt-32 pb-24">
+            <div className="w-full px-6 md:px-12 lg:px-20">
+                <div className="mb-24">
+                    <h1 className="editorial-heading text-5xl md:text-8xl mb-6">Partners</h1>
+                    <p className="text-xl text-muted-foreground max-w-2xl font-medium tracking-tight">We are proud to collaborate with some of the most innovative ecological brands globally.</p>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                        <div key={i} className="bg-white aspect-video rounded-2xl border border-slate-200 shadow-sm flex items-center justify-center p-8 grayscale hover:grayscale-0 transition-all duration-300 hover:shadow-md hover:border-blue-200 cursor-pointer">
-                            <span className="text-xl font-black tracking-widest text-slate-300">BRAND {i}</span>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-12 border-t border-border pt-12">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => (
+                        <div key={i} className="aspect-square flex items-center justify-center p-4 grayscale opacity-40 hover:opacity-100 hover:grayscale-0 transition-all duration-700 cursor-default">
+                            <span className="editorial-heading text-sm tracking-[0.3em] text-foreground">LOGO {i}</span>
                         </div>
                     ))}
                 </div>
 
-                <div className="mt-24 bg-blue-600 rounded-3xl p-10 md:p-16 text-center shadow-lg">
-                    <h2 className="text-3xl font-bold text-white mb-4">Ready to work with us?</h2>
-                    <p className="text-blue-100 text-lg mb-8 max-w-xl mx-auto">Join thousands of satisfied customers and premium partners who trust our platform.</p>
-                    <a href="/contact" className="inline-block px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-slate-50 transition-colors shadow-sm">
+                <div className="mt-32 py-24 border-t border-border">
+                    <h2 className="editorial-heading text-4xl md:text-6xl mb-8">Begin the Collaboration</h2>
+                    <p className="text-muted-foreground text-xl mb-12 max-w-xl font-light">Join our collective of premium botanical partners and sustainable advocates.</p>
+                    <Link href="/contact" className="inline-flex h-14 items-center justify-center bg-primary text-primary-foreground px-10 text-sm tracking-widest uppercase hover:bg-black transition-colors duration-500">
                         Get in Touch
-                    </a>
+                    </Link>
                 </div>
             </div>
         </div>
