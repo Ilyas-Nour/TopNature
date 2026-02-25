@@ -48,18 +48,45 @@ export default function CheckoutPage() {
     const onSubmit = async (data: CheckoutFormValues) => {
         setIsSubmitting(true)
 
-        // Simulate API delay
-        await new Promise((resolve) => setTimeout(resolve, 1500))
+        try {
+            // Remap Zustand objects to the API's required Zod interface
+            const formattedCartItems = items.map(item => ({
+                id: item.id,
+                quantity: item.quantity
+            }))
 
-        console.log('--- NEW ORDER SUBMITTED ---')
-        console.log('Customer Details:', data)
-        console.log('Order Items:', items)
-        console.log('Total Amount: MAD', getTotal())
-        console.log('---------------------------')
+            // Submit JSON payload to the new Next.js API Route
+            const response = await fetch('/api/checkout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...data,
+                    cartItems: formattedCartItems
+                }),
+            })
 
-        setIsSubmitting(false)
-        setOrderSuccess(true)
-        clearCart()
+            const responseData = await response.json()
+
+            if (!response.ok) {
+                // In production, handle specific API errors visibly (e.g. stock missing)
+                throw new Error(responseData.error || 'Failed to place order')
+            }
+
+            console.log('--- ORDER SUCCESS ---')
+            console.log('Backend Order ID:', responseData.orderId)
+            console.log('---------------------')
+
+            setOrderSuccess(true)
+            clearCart()
+
+        } catch (error) {
+            console.error('Checkout Submission Error:', error)
+            alert(error instanceof Error ? error.message : "Something went wrong. Please try again.")
+        } finally {
+            setIsSubmitting(false)
+        }
     }
 
     // Handle empty cart state immediately with AnimatePresence
