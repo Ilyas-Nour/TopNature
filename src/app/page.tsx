@@ -1,40 +1,22 @@
 import { ProductCard } from "@/components/ui/product-card";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { prisma } from "@/lib/prisma";
 
-// Placeholder data for the Featured Products grid
-const FEATURED_PRODUCTS = [
-  {
-    id: "prod_1",
-    name: "Minimalist Leather Backpack",
-    price: 899.00,
-    imageUrl: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=1000&auto=format&fit=crop",
-    categoryName: "Accessories"
-  },
-  {
-    id: "prod_2",
-    name: "Wireless Noise-Canceling Earbuds",
-    price: 1299.00,
-    imageUrl: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=1000&auto=format&fit=crop",
-    categoryName: "Electronics"
-  },
-  {
-    id: "prod_3",
-    name: "Premium Cotton T-Shirt",
-    price: 249.00,
-    imageUrl: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1000&auto=format&fit=crop",
-    categoryName: "Apparel"
-  },
-  {
-    id: "prod_4",
-    name: "Classic Stainless Steel Watch",
-    price: 1599.00,
-    imageUrl: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=1000&auto=format&fit=crop",
-    categoryName: "Accessories"
-  }
-];
+export const dynamic = 'force-dynamic'
 
-export default function Home() {
+export default async function Home() {
+  // Fetch up to 8 featured products from PostgreSQL
+  const featuredProducts = await prisma.product.findMany({
+    take: 8,
+    include: {
+      category: true,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    }
+  });
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -73,16 +55,22 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 gap-y-12">
-            {FEATURED_PRODUCTS.map((product) => (
-              <ProductCard
-                key={product.id}
-                id={product.id}
-                name={product.name}
-                price={product.price}
-                imageUrl={product.imageUrl}
-                categoryName={product.categoryName}
-              />
-            ))}
+            {featuredProducts.length > 0 ? (
+              featuredProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  price={product.price}
+                  imageUrl={product.imageUrls[0] || "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000"}
+                  categoryName={product.category.name}
+                />
+              ))
+            ) : (
+              <p className="col-span-full text-center text-muted-foreground py-10">
+                No featured products found. Please run the database seed.
+              </p>
+            )}
           </div>
 
           <div className="mt-12 text-center sm:hidden">
