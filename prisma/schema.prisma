@@ -67,6 +67,13 @@ model Order {
   status        OrderStatus   @default(PENDING)
   paymentMethod PaymentMethod
 
+  // Customer & Shipping Details
+  customerName    String?
+  customerEmail   String?
+  customerPhone   String?
+  shippingAddress String?
+  shippingCity    String?
+
   userId String?
   user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
 

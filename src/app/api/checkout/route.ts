@@ -68,6 +68,11 @@ export async function POST(request: Request) {
                     totalAmount: calculatedTotal,
                     paymentMethod: validatedData.paymentMethod,
                     status: 'PENDING',
+                    customerName: validatedData.fullName,
+                    customerEmail: validatedData.email,
+                    customerPhone: validatedData.phone,
+                    shippingAddress: validatedData.address,
+                    shippingCity: validatedData.city,
                     // Note: Add userId connection logic here if you add full NextAuth later
                 }
             })
