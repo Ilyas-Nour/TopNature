@@ -6,7 +6,7 @@
 
 @theme inline {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-tajawal: var(--font-tajawal), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -49,23 +49,25 @@
 }
 
 :root {
-  /* Design System Requirements: Edge Editorial */
-  --background: #ffffff;
-  /* Pure White background for raw editorial feel */
-  --foreground: #09090b;
-  /* Near black */
-  --card: #ffffff;
-  /* Transparent/Flat cards */
-  --card-foreground: #09090b;
-  --popover: #ffffff;
-  --popover-foreground: #09090b;
+  /* Design System Requirements: TopNature Apothecary/Editorial */
+  --background: #F9F6F0;
+  /* Warm Sand/Oatmeal */
+  --foreground: #1A2421;
+  /* Deep Forest Green / Charcoal */
 
-  --primary: #000000;
-  /* Strict Monochrome Primary */
+  --card: transparent;
+  /* No cards */
+  --card-foreground: #1A2421;
+
+  --popover: #F9F6F0;
+  --popover-foreground: #1A2421;
+
+  /* Accents/Buttons: Rich Terracotta */
+  --primary: #C65D47;
   --primary-foreground: #ffffff;
 
-  --secondary: #e2e8f0;
-  /* Slate 200 */
+  /* Secondary Accent: Sage Green */
+  --secondary: #8A9A86;
   --secondary-foreground: #0f172a;
 
   --muted: #f1f5f9;
@@ -143,16 +145,17 @@
   h3,
   h4,
   .editorial-heading {
-    @apply tracking-tighter;
-    font-weight: 700;
+    font-family: var(--font-playfair), ui-serif, Georgia, serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
   }
 
   h1 {
-    @apply text-6xl md:text-8xl lg:text-9xl leading-[0.85] uppercase;
+    @apply text-6xl md:text-8xl lg:text-[8vw] leading-[0.9];
   }
 
   h2 {
-    @apply text-4xl md:text-6xl leading-none uppercase;
+    @apply text-4xl md:text-6xl leading-[1.1];
   }
 
   /* Kill default shadows globally */
@@ -163,7 +166,7 @@
 
 @layer utilities {
   .glass-panel {
-    @apply bg-background/60 backdrop-blur-2xl border border-white/20;
+    @apply bg-background/40 backdrop-blur-2xl border border-white/20;
   }
 
   .hide-scrollbar::-webkit-scrollbar {

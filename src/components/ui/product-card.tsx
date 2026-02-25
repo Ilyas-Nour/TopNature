@@ -23,39 +23,45 @@ export function ProductCard({ id, name, price, imageUrl, categoryName }: Product
     }
 
     return (
-        <div className="group relative flex flex-col h-full overflow-hidden">
-            <Link href={`/product/${id}`} className="block flex-1">
-                <div className="relative aspect-[3/4] w-full overflow-hidden bg-secondary mb-3">
-                    <Image
-                        src={imageUrl}
-                        alt={name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                </div>
+        <div className="group relative flex flex-col w-full h-full overflow-hidden block">
+            <Link href={`/product/${id}`} className="block relative w-full aspect-[3/4] overflow-hidden bg-secondary/10">
+                <Image
+                    src={imageUrl}
+                    alt={name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
 
-                <div className="space-y-1 mt-4">
-                    <h3 className="text-xl md:text-2xl font-bold tracking-tight text-foreground line-clamp-2 uppercase">{name}</h3>
-                    <div className="flex items-end justify-between mt-2">
-                        {categoryName && (
-                            <p className="text-sm text-muted-foreground font-medium uppercase tracking-widest">{categoryName}</p>
-                        )}
-                        <p className="text-lg md:text-xl font-medium text-foreground">MAD {price.toFixed(2)}</p>
-                    </div>
+                {/* Subtle gradient overlay to ensure text legibility */}
+                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-80" />
+
+                {/* Floating Title & Price over the image corners */}
+                <div className="absolute bottom-6 left-6 right-6 flex flex-col space-y-1">
+                    {categoryName && (
+                        <span className="text-xs text-[#F9F6F0]/80 font-medium uppercase tracking-[0.2em] mb-1">
+                            {categoryName}
+                        </span>
+                    )}
+                    <h3 className="editorial-heading text-2xl md:text-3xl text-[#F9F6F0] leading-none mb-2">
+                        {name}
+                    </h3>
+                    <p className="text-lg text-[#F9F6F0] font-light tracking-wide">
+                        MAD {price.toFixed(2)}
+                    </p>
                 </div>
             </Link>
 
-            {/* Glassmorphism Floating Action Button */}
-            <div className="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            {/* Float Action Button */}
+            <div className="absolute top-4 right-4 z-10 transition-transform duration-500 translate-y-0 opacity-100 md:opacity-0 md:-translate-y-2 group-hover:opacity-100 group-hover:translate-y-0">
                 <motion.button
                     whileTap={{ scale: 0.95 }}
                     whileHover={{ scale: 1.05 }}
                     onClick={handleAddToCart}
-                    className="flex h-12 w-12 items-center justify-center rounded-none glass-panel text-foreground hover:bg-foreground hover:text-background transition-colors"
+                    className="flex h-12 w-12 items-center justify-center bg-primary text-primary-foreground hover:bg-black transition-colors"
                     aria-label={`Add ${name} to cart`}
                 >
-                    <Plus className="h-6 w-6" strokeWidth={1.5} />
+                    <Plus className="h-6 w-6" strokeWidth={1} />
                 </motion.button>
             </div>
         </div>

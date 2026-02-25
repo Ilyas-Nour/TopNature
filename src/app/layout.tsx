@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Tajawal } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { LenisProvider } from "@/providers/lenis-provider";
 import { FloatingWhatsAppButton } from "@/components/ui/floating-whatsapp";
@@ -11,10 +11,11 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const tajawal = Tajawal({
-  variable: "--font-tajawal",
-  subsets: ["arabic"],
-  weight: ["400", "500", "700"],
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -30,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${inter.variable} ${tajawal.variable} antialiased`}
+        className={`${inter.variable} ${playfair.variable} antialiased`}
       >
         <Navbar />
         <BottomNav />

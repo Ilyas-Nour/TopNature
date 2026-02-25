@@ -34,12 +34,11 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
     return (
         <div className="flex flex-col gap-3">
             <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
                 onClick={handleAddToCart}
-                className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-[#10B981] px-8 text-base font-bold text-white shadow-sm hover:bg-[#059669] transition-colors"
+                className="flex h-16 w-full items-center justify-center rounded-none bg-primary text-primary-foreground font-medium tracking-widest uppercase hover:bg-foreground transition-all duration-300"
             >
-                <ShoppingCart className="h-5 w-5" />
                 Add to Cart
             </motion.button>
 
@@ -49,10 +48,10 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="flex items-center gap-2 text-sm font-medium text-[#10B981]"
+                        className="flex items-center gap-2 text-sm font-medium text-primary tracking-wide uppercase mt-4"
                     >
                         <Check className="h-4 w-4" />
-                        Added to your cart successfully!
+                        Added to your bag
                     </motion.div>
                 )}
             </AnimatePresence>

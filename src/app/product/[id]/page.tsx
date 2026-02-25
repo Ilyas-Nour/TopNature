@@ -29,54 +29,53 @@ export default async function ProductPage({ params }: ProductPageProps) {
     const primaryImage = product.imageUrls[0] || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000'
 
     return (
-        <div className="min-h-screen bg-slate-50 pt-20 pb-24">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+        <div className="min-h-screen bg-background text-foreground">
+            {/* 50/50 Split Layout container */}
+            <div className="lg:grid lg:grid-cols-2 lg:min-h-screen relative">
 
-                    {/* Left Column: Image Gallery */}
-                    <div className="flex flex-col gap-4">
-                        <div className="aspect-square w-full relative overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-sm">
-                            <Image
-                                src={primaryImage}
-                                alt={product.name}
-                                fill
-                                priority
-                                className="object-cover"
-                                sizes="(max-width: 1024px) 100vw, 50vw"
-                            />
-                        </div>
-                    </div>
+                {/* Left Column: Sticky Full-Bleed Image Gallery */}
+                <div className="relative h-[65vh] lg:h-screen lg:sticky lg:top-0 w-full overflow-hidden bg-secondary/20">
+                    <Image
+                        src={primaryImage}
+                        alt={product.name}
+                        fill
+                        priority
+                        className="object-cover"
+                        sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                </div>
 
-                    {/* Right Column: Product Details */}
-                    <div className="flex flex-col mt-4 lg:mt-10">
-                        <p className="text-sm font-medium text-slate-500 uppercase tracking-widest mb-3">
+                {/* Right Column: Scrolling Product Details */}
+                <div className="flex flex-col justify-center px-6 py-16 lg:px-24 lg:py-32">
+                    <div className="max-w-xl mx-auto lg:mx-0 w-full">
+                        <p className="text-sm font-medium text-foreground/60 uppercase tracking-[0.2em] mb-4">
                             {product.category.name}
                         </p>
-                        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-slate-900 mb-6 font-sans">
+                        <h1 className="editorial-heading text-5xl sm:text-6xl lg:text-7xl mb-8">
                             {product.name}
                         </h1>
 
-                        <div className="flex items-end gap-3 mb-8">
-                            <span className="text-3xl font-bold text-slate-900">
+                        <div className="flex items-end gap-4 mb-12">
+                            <span className="text-3xl font-light tracking-wide text-foreground">
                                 MAD {product.price.toFixed(2)}
                             </span>
                             {product.comparePrice && (
-                                <span className="text-lg text-slate-500 line-through mb-1">
+                                <span className="text-xl text-foreground/50 line-through mb-1">
                                     MAD {product.comparePrice.toFixed(2)}
                                 </span>
                             )}
                         </div>
 
-                        <div className="prose prose-slate max-w-none mb-10 text-slate-600 leading-relaxed text-lg">
+                        <div className="prose prose-slate max-w-none mb-16 text-foreground/70 leading-relaxed text-lg font-light">
                             <p>{product.description}</p>
                         </div>
 
                         {/* Actions */}
-                        <div className="pt-8 border-t border-slate-200 space-y-6">
-                            <div className="flex items-center gap-2 text-sm font-medium">
-                                <div className={`h-2.5 w-2.5 rounded-full ${product.stock > 0 ? 'bg-emerald-500' : 'bg-red-500'}`}></div>
-                                <span className={product.stock > 0 ? 'text-emerald-700' : 'text-red-700'}>
-                                    {product.stock > 0 ? `${product.stock} in stock - Ready to ship` : 'Out of stock'}
+                        <div className="space-y-6">
+                            <div className="flex items-center gap-3 text-sm font-medium tracking-wide">
+                                <div className={`h-2 w-2 ${product.stock > 0 ? 'bg-primary' : 'bg-red-500'}`}></div>
+                                <span className="uppercase text-xs tracking-widest text-foreground/80">
+                                    {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
                                 </span>
                             </div>
 
@@ -91,23 +90,19 @@ export default async function ProductPage({ params }: ProductPageProps) {
                         </div>
 
                         {/* Guarantees Box */}
-                        <div className="mt-10 rounded-xl bg-white p-6 border border-slate-200 shadow-sm space-y-4">
-                            <div className="flex items-center gap-3 text-slate-700 font-medium">
-                                <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-                                </svg>
+                        <div className="mt-16 pt-8 border-t border-border space-y-5">
+                            <div className="flex items-center gap-4 text-foreground/80 text-sm tracking-wide uppercase">
+                                <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
                                 Free Delivery inside Morocco
                             </div>
-                            <div className="flex items-center gap-3 text-slate-700 font-medium">
-                                <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                </svg>
+                            <div className="flex items-center gap-4 text-foreground/80 text-sm tracking-wide uppercase">
+                                <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
                                 Secure Cash on Delivery
                             </div>
                         </div>
                     </div>
-
                 </div>
+
             </div>
         </div>
     )
