@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import { AddToCartButton } from './add-to-cart-button'
+import { Leaf, Rabbit, Recycle } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
@@ -91,13 +92,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
                         {/* Guarantees Box */}
                         <div className="mt-16 pt-8 border-t border-border space-y-5">
-                            <div className="flex items-center gap-4 text-foreground/80 text-sm tracking-wide uppercase">
-                                <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
-                                Free Delivery inside Morocco
+                            <div className="flex items-center gap-4 text-foreground/70 text-sm tracking-widest uppercase font-medium">
+                                <Leaf className="w-5 h-5 text-secondary" strokeWidth={1.5} />
+                                100% Organic & Wildcrafted
                             </div>
-                            <div className="flex items-center gap-4 text-foreground/80 text-sm tracking-wide uppercase">
-                                <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
-                                Secure Cash on Delivery
+                            <div className="flex items-center gap-4 text-foreground/70 text-sm tracking-widest uppercase font-medium">
+                                <Rabbit className="w-5 h-5 text-secondary" strokeWidth={1.5} />
+                                Cruelty-Free & Vegan
+                            </div>
+                            <div className="flex items-center gap-4 text-foreground/70 text-sm tracking-widest uppercase font-medium">
+                                <Recycle className="w-5 h-5 text-secondary" strokeWidth={1.5} />
+                                Sustainable Glass Packaging
                             </div>
                         </div>
                     </div>

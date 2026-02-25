@@ -6,30 +6,30 @@ async function main() {
     console.log('Start seeding...')
 
     // 1. Create or Update Categories
-    const categoryAccessories = await prisma.category.upsert({
-        where: { slug: 'accessories' },
+    const categorySerums = await prisma.category.upsert({
+        where: { slug: 'botanical-serums' },
         update: {},
         create: {
-            name: 'Accessories',
-            slug: 'accessories',
+            name: 'Botanical Serums',
+            slug: 'botanical-serums',
         },
     })
 
-    const categoryApparel = await prisma.category.upsert({
-        where: { slug: 'apparel' },
+    const categoryOils = await prisma.category.upsert({
+        where: { slug: 'essential-oils' },
         update: {},
         create: {
-            name: 'Apparel',
-            slug: 'apparel',
+            name: 'Essential Oils',
+            slug: 'essential-oils',
         },
     })
 
-    const categoryElectronics = await prisma.category.upsert({
-        where: { slug: 'electronics' },
+    const categorySkincare = await prisma.category.upsert({
+        where: { slug: 'organic-skincare' },
         update: {},
         create: {
-            name: 'Electronics',
-            slug: 'electronics',
+            name: 'Organic Skincare',
+            slug: 'organic-skincare',
         },
     })
 
@@ -38,64 +38,64 @@ async function main() {
     // 2. Create or Update Products
     const products = [
         {
-            name: 'Minimalist Leather Backpack',
-            slug: 'minimalist-leather-backpack',
-            description: 'A sleek, durable leather backpack perfect for daily commutes or weekend getaways.',
-            price: 899.00,
-            comparePrice: 1099.00,
-            stock: 50,
-            imageUrls: ['https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=1000&auto=format&fit=crop'],
-            categoryId: categoryAccessories.id,
+            name: 'Radiance Botanical Serum',
+            slug: 'radiance-botanical-serum',
+            description: 'A potent blend of organic botanicals designed to restore your skin\'s natural luminosity and youth. Formulated with rare plant extracts, this serum sinks instantly into the deeper layers of the epidermis.',
+            price: 650.00,
+            comparePrice: 850.00,
+            stock: 45,
+            imageUrls: ['https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=1000&auto=format&fit=crop'],
+            categoryId: categorySerums.id,
         },
         {
-            name: 'Wireless Noise-Canceling Earbuds',
-            slug: 'wireless-noise-canceling-earbuds',
-            description: 'Premium sound quality with active noise cancellation for immersive audio.',
-            price: 1299.00,
-            comparePrice: 1599.00,
+            name: 'Wildcrafted Rosehip Oil',
+            slug: 'wildcrafted-rosehip-oil',
+            description: 'Cold-pressed from wild rose bushes, this rich amber oil delivers intense hydration and cellular repair. Naturally packed with Vitamin A and Omega fatty acids.',
+            price: 480.00,
+            comparePrice: null,
             stock: 120,
-            imageUrls: ['https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=1000&auto=format&fit=crop'],
-            categoryId: categoryElectronics.id,
+            imageUrls: ['https://images.unsplash.com/photo-1608248593802-8401a6136e4f?q=80&w=1000&auto=format&fit=crop'],
+            categoryId: categoryOils.id,
         },
         {
-            name: 'Premium Cotton T-Shirt',
-            slug: 'premium-cotton-t-shirt',
-            description: 'Ultra-soft, heavyweight cotton t-shirt designed for maximum comfort and durability.',
-            price: 249.00,
+            name: 'Purifying Clay Mask',
+            slug: 'purifying-clay-mask',
+            description: 'Mineral-rich bentonite clay combined with soothing herbs to deeply cleanse without drying. Acts as a magnetic pull for impurities and environmental toxins.',
+            price: 320.00,
+            comparePrice: 400.00,
+            stock: 80,
+            imageUrls: ['https://images.unsplash.com/photo-1596755389378-c31d21fd1273?q=80&w=1000&auto=format&fit=crop'],
+            categoryId: categorySkincare.id,
+        },
+        {
+            name: 'Hydrating Aloe Mist',
+            slug: 'hydrating-aloe-mist',
+            description: 'A refreshing, ultra-fine mist of pure aloe water and chamomile to calm and set the skin. Perfect as a midday refresh or a post-cleansing toner.',
+            price: 250.00,
             comparePrice: null,
             stock: 200,
-            imageUrls: ['https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1000&auto=format&fit=crop'],
-            categoryId: categoryApparel.id,
+            imageUrls: ['https://images.unsplash.com/photo-1615397323281-9b16ea9fb1ff?q=80&w=1000&auto=format&fit=crop'],
+            categoryId: categorySkincare.id,
         },
         {
-            name: 'Classic Stainless Steel Watch',
-            slug: 'classic-stainless-steel-watch',
-            description: 'An elegant timepiece featuring mechanical precision and a scratch-resistant sapphire face.',
-            price: 1599.00,
-            comparePrice: 1999.00,
+            name: 'Vitamin C Brightening Drops',
+            slug: 'vitamin-c-brightening-drops',
+            description: 'Stabilized Vitamin C infused with Kakadu plum extract to actively target hyperpigmentation and dullness, revealing an unbelievably vibrant complexion.',
+            price: 720.00,
+            comparePrice: 890.00,
             stock: 35,
-            imageUrls: ['https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=1000&auto=format&fit=crop'],
-            categoryId: categoryAccessories.id,
+            imageUrls: ['https://images.unsplash.com/photo-1601049541289-9b1b7bf22d4b?q=80&w=1000&auto=format&fit=crop'],
+            categoryId: categorySerums.id,
         },
         {
-            name: 'Smart Home Hub Speaker',
-            slug: 'smart-home-hub-speaker',
-            description: 'Voice-controlled smart speaker with rich sound and robust home automation controls.',
-            price: 849.00,
-            comparePrice: 999.00,
-            stock: 75,
-            imageUrls: ['https://images.unsplash.com/photo-1589492477829-5e65395b66cc?q=80&w=1000&auto=format&fit=crop'],
-            categoryId: categoryElectronics.id,
-        },
-        {
-            name: 'Ergonomic Desk Chair',
-            slug: 'ergonomic-desk-chair',
-            description: 'Fully adjustable ergonomic chair designed to support posture over long working hours.',
-            price: 2199.00,
-            comparePrice: 2499.00,
-            stock: 15,
-            imageUrls: ['https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?q=80&w=1000&auto=format&fit=crop'],
-            categoryId: categoryAccessories.id, // For demo purposes grouping to accessories
+            name: 'Night Repair Elixir',
+            slug: 'night-repair-elixir',
+            description: 'A dense, nutrient-rich oil that works alongside your circadian rhythm to heal the moisture barrier overnight. Wake up to plump, completely restored skin.',
+            price: 890.00,
+            comparePrice: 1100.00,
+            stock: 25,
+            imageUrls: ['https://images.unsplash.com/photo-1629198688000-71f23e745b6e?q=80&w=1000&auto=format&fit=crop'],
+            categoryId: categoryOils.id,
         }
     ]
 

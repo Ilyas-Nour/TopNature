@@ -4,7 +4,7 @@ import "./globals.css";
 import { LenisProvider } from "@/providers/lenis-provider";
 import { FloatingWhatsAppButton } from "@/components/ui/floating-whatsapp";
 import { Navbar } from "@/components/shared/navbar";
-import { BottomNav } from "@/components/shared/bottom-nav";
+import { MobileTabBar } from "@/components/shared/mobile-tab-bar";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -34,11 +34,11 @@ export default function RootLayout({
         className={`${inter.variable} ${playfair.variable} antialiased`}
       >
         <Navbar />
-        <BottomNav />
+        <MobileTabBar />
         <LenisProvider>
-          <div className="pb-16 md:pb-0 min-h-screen">
+          <main className="pb-20 md:pb-0 min-h-screen">
             {children}
-          </div>
+          </main>
           <FloatingWhatsAppButton />
         </LenisProvider>
       </body>

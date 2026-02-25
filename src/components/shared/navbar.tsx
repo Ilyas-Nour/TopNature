@@ -13,7 +13,7 @@ export function Navbar() {
 
     return (
         <>
-            <header className="hidden md:block sticky top-0 z-40 w-full bg-background/80 backdrop-blur-md border-b border-border/40">
+            <header className="hidden md:flex sticky top-0 z-40 w-full bg-background/80 backdrop-blur-md border-b border-border/40">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 items-center justify-between">
 
