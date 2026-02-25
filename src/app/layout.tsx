@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Tajawal } from "next/font/google";
 import "./globals.css";
 import { LenisProvider } from "@/providers/lenis-provider";
+import { FloatingWhatsAppButton } from "@/components/ui/floating-whatsapp";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -31,6 +32,7 @@ export default function RootLayout({
       >
         <LenisProvider>
           {children}
+          <FloatingWhatsAppButton />
         </LenisProvider>
       </body>
     </html>
