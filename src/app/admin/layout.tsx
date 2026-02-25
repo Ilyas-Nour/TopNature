@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { LayoutDashboard, ShoppingCart, PackageOpen, Settings, LogOut } from 'lucide-react'
+import { auth, signOut } from '@/auth'
 
 export const metadata = {
     title: 'Admin Dashboard | EcomStore',
@@ -11,7 +12,14 @@ interface AdminLayoutProps {
     children: React.ReactNode
 }
 
-export default function AdminLayout({ children }: AdminLayoutProps) {
+export default async function AdminLayout({ children }: AdminLayoutProps) {
+    const session = await auth()
+
+    // If the user isn't logged in, output the bare layout explicitly for the Login page
+    if (!session) {
+        return <>{children}</>
+    }
+
     return (
         <div className="flex min-h-screen bg-slate-50">
             {/* Sidebar Navigation */}
@@ -45,10 +53,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 </nav>
 
                 <div className="p-4 border-t border-slate-800">
-                    <button className="flex w-full items-center gap-3 px-3 py-2.5 rounded-lg hover:text-white hover:bg-slate-800 transition-colors text-slate-400">
-                        <LogOut className="h-5 w-5" />
-                        Sign Out
-                    </button>
+                    <form action={async () => {
+                        "use server"
+                        await signOut({ redirectTo: '/admin/login' })
+                    }}>
+                        <button type="submit" className="flex w-full items-center gap-3 px-3 py-2.5 rounded-lg hover:text-white hover:bg-slate-800 transition-colors text-slate-400">
+                            <LogOut className="h-5 w-5" />
+                            Sign Out
+                        </button>
+                    </form>
                 </div>
             </aside>
 
