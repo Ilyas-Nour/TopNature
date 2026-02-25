@@ -28,7 +28,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     }, [isOpen])
 
     return (
-        <AnimatePresence mode="wait">
+        <AnimatePresence>
             {isOpen && (
                 <motion.div
                     key="cart-backdrop"
@@ -48,7 +48,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                     animate={{ x: 0 }}
                     exit={{ x: '100%' }}
                     transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                    className="fixed inset-y-0 right-0 z-50 flex h-full w-full max-w-md flex-col bg-background shadow-2xl overflow-hidden"
+                    className="fixed inset-y-0 right-0 z-50 flex h-screen w-full max-w-md flex-col bg-background shadow-2xl overflow-hidden"
                 >
                     {/* Header */}
                     <div className="flex items-center justify-between border-b px-6 py-4 bg-background">
