@@ -6,6 +6,7 @@ import { FloatingWhatsAppButton } from "@/components/ui/floating-whatsapp";
 import { Navbar } from "@/components/shared/navbar";
 import { MobileTabBar } from "@/components/shared/mobile-tab-bar";
 import { Footer } from "@/components/shared/footer";
+import { ScrollToTop } from "@/components/shared/scroll-to-top";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -38,6 +39,7 @@ export default function RootLayout({
         <Navbar />
         <MobileTabBar />
         <LenisProvider>
+          <ScrollToTop />
           <main className="pb-20 md:pb-0 min-h-screen">
             {children}
             <Footer />
