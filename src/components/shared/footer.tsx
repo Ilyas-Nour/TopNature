@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Instagram, Facebook, Twitter, Mail, MapPin, Phone } from 'lucide-react'
+import { AnimatedNavLink } from '../ui/animated-nav-link'
 
 export function Footer() {
     return (
@@ -30,9 +31,11 @@ export function Footer() {
                         <ul className="space-y-4">
                             {['All Products', 'New Arrivals', 'Best Sellers', 'Skin Rituals'].map((link) => (
                                 <li key={link}>
-                                    <Link href="/shop" className="text-muted-foreground hover:text-black transition-colors text-sm font-medium">
-                                        {link}
-                                    </Link>
+                                    <AnimatedNavLink
+                                        href="/shop"
+                                        title={link}
+                                        className="text-muted-foreground hover:text-black transition-colors text-sm font-medium"
+                                    />
                                 </li>
                             ))}
                         </ul>
@@ -43,9 +46,11 @@ export function Footer() {
                         <ul className="space-y-4">
                             {['The Philosophy', 'Botanical Glossary', 'Laboratory', 'Journal'].map((link) => (
                                 <li key={link}>
-                                    <Link href="/about" className="text-muted-foreground hover:text-black transition-colors text-sm font-medium">
-                                        {link}
-                                    </Link>
+                                    <AnimatedNavLink
+                                        href="/about"
+                                        title={link}
+                                        className="text-muted-foreground hover:text-black transition-colors text-sm font-medium"
+                                    />
                                 </li>
                             ))}
                         </ul>
@@ -56,9 +61,11 @@ export function Footer() {
                         <ul className="space-y-4">
                             {['Our Story', 'Contact Us', 'Shipping & Returns', 'Privacy Policy'].map((link) => (
                                 <li key={link}>
-                                    <Link href={link === 'Contact Us' ? '/contact' : '/about'} className="text-muted-foreground hover:text-black transition-colors text-sm font-medium">
-                                        {link}
-                                    </Link>
+                                    <AnimatedNavLink
+                                        href={link === 'Contact Us' ? '/contact' : '/about'}
+                                        title={link}
+                                        className="text-muted-foreground hover:text-black transition-colors text-sm font-medium"
+                                    />
                                 </li>
                             ))}
                         </ul>

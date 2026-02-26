@@ -6,6 +6,7 @@ import { Search, ShoppingCart, Menu } from 'lucide-react'
 import { useCartStore } from '@/store/use-cart-store'
 import { motion } from 'framer-motion'
 import { CartDrawer } from '../cart/cart-drawer'
+import { AnimatedNavLink } from '../ui/animated-nav-link'
 
 export function Navbar() {
     const itemCount = useCartStore((state) => state.getItemCount())
@@ -48,9 +49,11 @@ export function Navbar() {
 
                         {/* Right Section: Navigation & Cart */}
                         <div className="flex items-center gap-4">
-                            <div className="hidden md:flex items-center gap-6 text-sm font-medium text-muted-foreground mr-4">
-                                <Link href="/shop" className="hover:text-foreground transition-colors">Shop</Link>
-                                <Link href="/categories" className="hover:text-foreground transition-colors">Categories</Link>
+                            <div className="hidden md:flex items-center gap-8 text-[11px] uppercase tracking-widest font-bold text-muted-foreground mr-4">
+                                <AnimatedNavLink href="/shop" title="Shop" />
+                                <AnimatedNavLink href="/categories" title="Categories" />
+                                <AnimatedNavLink href="/blog" title="Blog" />
+                                <AnimatedNavLink href="/philosophy" title="Our Story" />
                             </div>
 
                             <button
