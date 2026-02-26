@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { Instagram, Facebook, Twitter, Link as LinkedInIcon, Mail, MapPin, Phone } from 'lucide-react'
+import { Instagram, Facebook, MessageCircle, Mail, MapPin, Phone } from 'lucide-react'
 import { AnimatedNavLink } from '../ui/animated-nav-link'
 import { SocialButton } from '../ui/social-button'
 
@@ -27,14 +27,14 @@ export function Footer() {
                                 color="#E4405F"
                             />
                             <SocialButton
-                                icon={Twitter}
+                                icon={Facebook}
                                 href="#"
-                                color="#1DA1F2"
+                                color="#1877F2"
                             />
                             <SocialButton
-                                icon={LinkedInIcon}
+                                icon={MessageCircle}
                                 href="#"
-                                color="#0077B5"
+                                color="#25D366"
                             />
                         </div>
                     </div>
