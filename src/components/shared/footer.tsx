@@ -1,3 +1,6 @@
+'use client'
+
+import React from 'react'
 import Link from 'next/link'
 import { Instagram, Facebook, Twitter, Link as LinkedInIcon, Mail, MapPin, Phone } from 'lucide-react'
 import { AnimatedNavLink } from '../ui/animated-nav-link'
