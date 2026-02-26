@@ -1,10 +1,10 @@
 'use client'
 
-import React, { useState, use } from 'react'
+import React, { useState, use, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { prisma } from '@/lib/prisma'
 import { AddToCartButton } from './add-to-cart-button'
+import useEmblaCarousel from 'embla-carousel-react'
 import {
     CheckCircle2,
     Zap,
@@ -15,19 +15,37 @@ import {
     Leaf,
     RotateCcw,
     ChevronRight,
-    Search
+    Search,
+    ChevronLeft
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-
-// Define the component using a client-side wrapper to handle async params and data fetching
-// Note: In a production App Router app, we'd ideally fetch data in a server component 
-// and pass to a client shell. Since we're rebuilding the whole flow:
 
 export default function ProductPage({ params: paramsPromise }: { params: Promise<{ id: string }> }) {
     const params = use(paramsPromise)
     const [product, setProduct] = useState<any>(null)
     const [loading, setLoading] = useState(true)
     const [activeTab, setActiveTab] = useState('science')
+    const [selectedIndex, setSelectedIndex] = useState(0)
+
+    // Gallery States
+    const [emblaMainRef, emblaMainApi] = useEmblaCarousel({ loop: true, duration: 25 })
+
+    const onThumbClick = useCallback((index: number) => {
+        if (!emblaMainApi) return
+        emblaMainApi.scrollTo(index)
+    }, [emblaMainApi])
+
+    const onSelect = useCallback(() => {
+        if (!emblaMainApi) return
+        setSelectedIndex(emblaMainApi.selectedScrollSnap())
+    }, [emblaMainApi])
+
+    useEffect(() => {
+        if (!emblaMainApi) return
+        onSelect()
+        emblaMainApi.on('select', onSelect)
+        emblaMainApi.on('reInit', onSelect)
+    }, [emblaMainApi, onSelect])
 
     React.useEffect(() => {
         const fetchProduct = async () => {
@@ -55,7 +73,9 @@ export default function ProductPage({ params: paramsPromise }: { params: Promise
 
     if (!product) notFound()
 
-    const primaryImage = product.imageUrls[0] || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000'
+    const imageUrls = product.imageUrls && product.imageUrls.length > 0
+        ? product.imageUrls
+        : ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000']
 
     const TABS = [
         { id: 'science', label: 'Science & Benefits', icon: Brain, content: product.benefits },
@@ -69,30 +89,81 @@ export default function ProductPage({ params: paramsPromise }: { params: Promise
             <div className="max-w-[1800px] mx-auto px-6 md:px-12 lg:px-20 pb-24">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-start">
 
-                    {/* Left: Immersive Gallery */}
-                    <div className="lg:sticky lg:top-32 space-y-8">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="aspect-[4/5] relative rounded-[2.5rem] overflow-hidden bg-[#FAFAFA] border border-gray-100 shadow-2xl shadow-black/5"
-                        >
-                            <Image
-                                src={primaryImage}
-                                alt={product.name}
-                                fill
-                                priority
-                                className="object-cover"
-                                sizes="(max-width: 1024px) 100vw, 50vw"
-                            />
-                        </motion.div>
+                    {/* Left: Interative Immersive Gallery */}
+                    <div className="lg:sticky lg:top-32 flex flex-col-reverse lg:flex-row gap-6">
 
-                        {/* Secondary Support Grid */}
-                        <div className="grid grid-cols-2 gap-6">
-                            {(product.imageUrls || []).slice(1, 3).map((url: string, i: number) => (
-                                <div key={i} className="aspect-square relative rounded-[1.5rem] overflow-hidden bg-[#FAFAFA] border border-gray-50">
-                                    <Image src={url} alt="Gallery" fill className="object-cover" />
-                                </div>
+                        {/* Sidebar Thumbnails (Visible on Large Screens) */}
+                        <div className="hidden lg:flex flex-col gap-4 w-20 shrink-0">
+                            {imageUrls.map((url: string, i: number) => (
+                                <button
+                                    key={i}
+                                    onClick={() => onThumbClick(i)}
+                                    className={`relative aspect-square rounded-xl overflow-hidden border-2 transition-all ${selectedIndex === i ? 'border-black ring-2 ring-black/5' : 'border-transparent opacity-60 hover:opacity-100'}`}
+                                >
+                                    <Image src={url} alt={`Thumbnail ${i + 1}`} fill className="object-cover" />
+                                </button>
                             ))}
+                        </div>
+
+                        {/* Main Slider */}
+                        <div className="flex-1 space-y-8">
+                            <div className="relative overflow-hidden group" ref={emblaMainRef}>
+                                <div className="flex">
+                                    {imageUrls.map((url: string, i: number) => (
+                                        <div key={i} className="flex-[0_0_100%] min-w-0 relative aspect-[4/5] rounded-[2.5rem] overflow-hidden bg-[#FAFAFA] border border-gray-100 shadow-2xl shadow-black/5">
+                                            <Image
+                                                src={url}
+                                                alt={`${product.name} - View ${i + 1}`}
+                                                fill
+                                                priority={i === 0}
+                                                className="object-cover"
+                                                sizes="(max-width: 1024px) 100vw, 50vw"
+                                            />
+                                            {/* Zoom/Search Indicator Overlay */}
+                                            <div className="absolute top-8 right-8 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <Search className="w-5 h-5 text-white" />
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Navigation Arrows (Floating) */}
+                                <button
+                                    onClick={() => emblaMainApi?.scrollPrev()}
+                                    className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 border border-gray-100 flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all hover:bg-black hover:text-white active:scale-90"
+                                >
+                                    <ChevronLeft className="w-5 h-5" />
+                                </button>
+                                <button
+                                    onClick={() => emblaMainApi?.scrollNext()}
+                                    className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 border border-gray-100 flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all hover:bg-black hover:text-white active:scale-90"
+                                >
+                                    <ChevronRight className="w-5 h-5" />
+                                </button>
+
+                                {/* Dot Indicators (Mobile/Tablets) */}
+                                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-2">
+                                    {imageUrls.map((_: any, i: number) => (
+                                        <div
+                                            key={i}
+                                            className={`h-1 rounded-full transition-all ${selectedIndex === i ? 'w-8 bg-white' : 'w-2 bg-white/30'}`}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Mobile Thumbnails Scrollbar */}
+                            <div className="flex lg:hidden gap-4 overflow-x-auto no-scrollbar pb-2">
+                                {imageUrls.map((url: string, i: number) => (
+                                    <button
+                                        key={i}
+                                        onClick={() => onThumbClick(i)}
+                                        className={`relative aspect-square w-20 shrink-0 rounded-2xl overflow-hidden border-2 transition-all ${selectedIndex === i ? 'border-black' : 'border-transparent opacity-50'}`}
+                                    >
+                                        <Image src={url} alt={`Thumb Mobile ${i}`} fill className="object-cover" />
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     </div>
 
@@ -143,7 +214,7 @@ export default function ProductPage({ params: paramsPromise }: { params: Promise
                                     id: product.id,
                                     name: product.name,
                                     price: product.price,
-                                    imageUrl: primaryImage,
+                                    imageUrl: imageUrls[0],
                                 }}
                             />
 
@@ -257,7 +328,7 @@ export default function ProductPage({ params: paramsPromise }: { params: Promise
                             id: product.id,
                             name: product.name,
                             price: product.price,
-                            imageUrl: primaryImage,
+                            imageUrl: imageUrls[0],
                         }}
                     />
                 </div>
