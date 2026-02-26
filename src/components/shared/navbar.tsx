@@ -7,10 +7,12 @@ import { useCartStore } from '@/store/use-cart-store'
 import { motion } from 'framer-motion'
 import { CartDrawer } from '../cart/cart-drawer'
 import { AnimatedNavLink } from '../ui/animated-nav-link'
+import { MobileMenu } from './mobile-menu'
 
 export function Navbar() {
     const itemCount = useCartStore((state) => state.getItemCount())
     const [isCartOpen, setIsCartOpen] = React.useState(false)
+    const [isMenuOpen, setIsMenuOpen] = React.useState(false)
     const [mounted, setMounted] = React.useState(false)
 
     React.useEffect(() => {
@@ -25,7 +27,11 @@ export function Navbar() {
 
                         {/* Logo Section */}
                         <div className="flex items-center gap-4">
-                            <button className="lg:hidden p-2 -ml-2 text-foreground" aria-label="Open Menu">
+                            <button
+                                onClick={() => setIsMenuOpen(true)}
+                                className="lg:hidden p-2 -ml-2 text-foreground"
+                                aria-label="Open Menu"
+                            >
                                 <Menu className="h-6 w-6" />
                             </button>
                             <Link href="/" className="flex items-center">
@@ -78,8 +84,9 @@ export function Navbar() {
                 </div>
             </header>
 
-            {/* Slide-out Cart Drawer safely placed outside stacking bounds */}
+            {/* Drawer Components */}
             <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+            <MobileMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
         </>
     )
 }
