@@ -16,7 +16,8 @@ import {
     RotateCcw,
     ChevronRight,
     Search,
-    ChevronLeft
+    ChevronLeft,
+    X
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -26,6 +27,10 @@ export default function ProductPage({ params: paramsPromise }: { params: Promise
     const [loading, setLoading] = useState(true)
     const [activeTab, setActiveTab] = useState('science')
     const [selectedIndex, setSelectedIndex] = useState(0)
+
+    // Lightbox State
+    const [isLightboxOpen, setIsLightboxOpen] = useState(false)
+    const [lightboxIndex, setLightboxIndex] = useState(0)
 
     // Gallery States
     const [emblaMainRef, emblaMainApi] = useEmblaCarousel({ loop: true, duration: 25 })
@@ -37,7 +42,9 @@ export default function ProductPage({ params: paramsPromise }: { params: Promise
 
     const onSelect = useCallback(() => {
         if (!emblaMainApi) return
-        setSelectedIndex(emblaMainApi.selectedScrollSnap())
+        const index = emblaMainApi.selectedScrollSnap()
+        setSelectedIndex(index)
+        setLightboxIndex(index)
     }, [emblaMainApi])
 
     useEffect(() => {
@@ -60,6 +67,10 @@ export default function ProductPage({ params: paramsPromise }: { params: Promise
         }
         fetchProduct()
     }, [params.id])
+
+    // Lightbox Navigation
+    const nextLightbox = () => setLightboxIndex((prev) => (prev + 1) % imageUrls.length)
+    const prevLightbox = () => setLightboxIndex((prev) => (prev - 1 + imageUrls.length) % imageUrls.length)
 
     if (loading) return (
         <div className="min-h-screen flex items-center justify-center bg-white pt-24">
@@ -120,9 +131,15 @@ export default function ProductPage({ params: paramsPromise }: { params: Promise
                                                 sizes="(max-width: 1024px) 100vw, 50vw"
                                             />
                                             {/* Zoom/Search Indicator Overlay */}
-                                            <div className="absolute top-8 right-8 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <button
+                                                onClick={() => {
+                                                    setLightboxIndex(i)
+                                                    setIsLightboxOpen(true)
+                                                }}
+                                                className="absolute top-8 right-8 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white/20 active:scale-95 z-10"
+                                            >
                                                 <Search className="w-5 h-5 text-white" />
-                                            </div>
+                                            </button>
                                         </div>
                                     ))}
                                 </div>
@@ -246,6 +263,66 @@ export default function ProductPage({ params: paramsPromise }: { params: Promise
                     </div>
                 </div>
             </div>
+
+            {/* Lightbox Modal */}
+            <AnimatePresence>
+                {isLightboxOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-2xl flex items-center justify-center p-4 md:p-12 lg:p-24"
+                    >
+                        {/* Close Button */}
+                        <button
+                            onClick={() => setIsLightboxOpen(false)}
+                            className="absolute top-8 right-8 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center text-white"
+                        >
+                            <X className="w-6 h-6" />
+                        </button>
+
+                        {/* Lightbox Controls */}
+                        <div className="absolute inset-x-8 top-1/2 -translate-y-1/2 flex justify-between z-10 pointer-events-none">
+                            <button
+                                onClick={(e) => { e.stopPropagation(); prevLightbox(); }}
+                                className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-white/10 active:scale-90 transition-all pointer-events-auto"
+                            >
+                                <ChevronLeft className="w-8 h-8" />
+                            </button>
+                            <button
+                                onClick={(e) => { e.stopPropagation(); nextLightbox(); }}
+                                className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-white/10 active:scale-90 transition-all pointer-events-auto"
+                            >
+                                <ChevronRight className="w-8 h-8" />
+                            </button>
+                        </div>
+
+                        {/* Main Image Container */}
+                        <motion.div
+                            key={lightboxIndex}
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            className="relative w-full h-full max-w-5xl"
+                        >
+                            <Image
+                                src={imageUrls[lightboxIndex]}
+                                alt="Product Detail View"
+                                fill
+                                className="object-contain"
+                                priority
+                            />
+                        </motion.div>
+
+                        {/* Lightbox Index Indicator */}
+                        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 px-6 py-2 bg-white/10 rounded-full border border-white/10">
+                            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/60">
+                                {lightboxIndex + 1} / {imageUrls.length}
+                            </span>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* 2. THE EDUCATIONAL DEEP DIVE (Below the Fold) */}
             <section className="bg-[#FAFAFA] border-y border-gray-100 py-32">
