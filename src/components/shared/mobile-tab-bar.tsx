@@ -12,6 +12,11 @@ export function MobileTabBar() {
     const pathname = usePathname()
     const itemCount = useCartStore((state) => state.getItemCount())
     const [isCartOpen, setIsCartOpen] = React.useState(false)
+    const [mounted, setMounted] = React.useState(false)
+
+    React.useEffect(() => {
+        setMounted(true)
+    }, [])
 
     // Hide on admin routes
     if (pathname?.startsWith('/admin')) return null
@@ -34,7 +39,7 @@ export function MobileTabBar() {
                         <div className="relative">
                             <ShoppingBag className="w-5 h-5" strokeWidth={2} />
                             <AnimatePresence>
-                                {itemCount > 0 && (
+                                {mounted && itemCount > 0 && (
                                     <motion.span
                                         initial={{ scale: 0 }}
                                         animate={{ scale: 1 }}

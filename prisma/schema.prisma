@@ -51,6 +51,12 @@ model Product {
   comparePrice Float?
   stock        Int      @default(0)
   imageUrls    String[]
+  
+  // Pivot Fields: Supplement Metadata
+  benefits     String?  @db.Text
+  usage        String?  @db.Text
+  sourcing     String?  @db.Text
+  highlights   String[] @default([])
 
   categoryId String
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
@@ -104,6 +110,16 @@ enum OrderStatus {
   SHIPPED
   DELIVERED
   CANCELLED
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  content   String   @db.Text
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum PaymentMethod {

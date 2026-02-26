@@ -24,7 +24,7 @@ export function ProductCard({ id, name, price, imageUrl, categoryName }: Product
 
     return (
         <div className="group flex flex-col w-full">
-            <Link href={`/product/${id}`} className="block relative aspect-[4/5] rounded-2xl overflow-hidden mb-6 bg-secondary/5">
+            <Link href={`/product/${id}`} className="relative aspect-[4/5] bg-[#FAFAFA] rounded-2xl overflow-hidden mb-6 block">
                 <Image
                     src={imageUrl}
                     alt={name}

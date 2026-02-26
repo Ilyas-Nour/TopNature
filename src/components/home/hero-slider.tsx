@@ -11,7 +11,7 @@ const SLIDES = [
     {
         title: 'The Moroccan Ritual',
         subtitle: 'Ancient Wisdom • Botanical Mastery',
-        image: 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?q=80&w=2000&auto=format&fit=crop',
+        image: 'https://images.unsplash.com/photo-1615397323140-60b6b194fb21?q=80&w=2000&auto=format&fit=crop',
         cta: 'Explore Argan & Rosehip'
     },
     {
