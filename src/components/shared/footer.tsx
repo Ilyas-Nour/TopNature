@@ -1,6 +1,6 @@
-import Link from 'next/link'
-import { Instagram, Facebook, Twitter, Mail, MapPin, Phone } from 'lucide-react'
+import { Instagram, Facebook, Twitter, Link as LinkedInIcon, Mail, MapPin, Phone } from 'lucide-react'
 import { AnimatedNavLink } from '../ui/animated-nav-link'
+import { SocialButton } from '../ui/social-button'
 
 export function Footer() {
     return (
@@ -16,12 +16,22 @@ export function Footer() {
                         <p className="text-muted-foreground font-inter text-lg leading-relaxed max-w-sm">
                             Elevating daily rituals through North African botanical excellence and bio-active science.
                         </p>
-                        <div className="flex gap-6">
-                            {[Instagram, Facebook, Twitter].map((Icon, i) => (
-                                <Link key={i} href="#" className="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center hover:bg-black hover:text-white transition-all text-muted-foreground">
-                                    <Icon className="w-4 h-4" />
-                                </Link>
-                            ))}
+                        <div className="flex gap-4">
+                            <SocialButton
+                                icon={Instagram}
+                                href="#"
+                                color="#E4405F"
+                            />
+                            <SocialButton
+                                icon={Twitter}
+                                href="#"
+                                color="#1DA1F2"
+                            />
+                            <SocialButton
+                                icon={LinkedInIcon}
+                                href="#"
+                                color="#0077B5"
+                            />
                         </div>
                     </div>
 
