@@ -30,6 +30,8 @@ export default async function Home() {
           alt="Ancient Wisdom"
           fill
           priority
+          quality={90}
+          sizes="100vw"
           className="object-cover opacity-60 brightness-75 scale-105"
         />
         <div className="relative z-10 max-w-5xl px-6 text-center space-y-8">
@@ -152,6 +154,7 @@ export default async function Home() {
                     src={product.imageUrls[0]}
                     alt={product.name}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover group-hover:scale-110 transition-transform duration-[2s]"
                   />
                 </Link>
@@ -196,6 +199,7 @@ export default async function Home() {
                 src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=2000&auto=format&fit=crop"
                 alt="Brand Philosophy"
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover group-hover:scale-105 transition-transform duration-[3s] brightness-90"
               />
             </div>

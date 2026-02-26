@@ -20,7 +20,7 @@ export function AnimatedNavLink({ title, href, className = "" }: AnimatedNavLink
             <motion.div
                 initial="initial"
                 whileHover="hover"
-                className={`relative overflow-hidden inline-flex cursor-pointer ${className}`}
+                className={`relative overflow-hidden inline-flex cursor-pointer transform-gpu ${className}`}
             >
                 {/* Top Set of Characters */}
                 <div className="inline-flex">

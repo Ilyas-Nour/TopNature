@@ -5,9 +5,11 @@ import Link from 'next/link'
 import { Search, ShoppingCart, Menu } from 'lucide-react'
 import { useCartStore } from '@/store/use-cart-store'
 import { motion } from 'framer-motion'
+import dynamic from 'next/dynamic'
 import { CartDrawer } from '../cart/cart-drawer'
 import { AnimatedNavLink } from '../ui/animated-nav-link'
-import { MobileMenu } from './mobile-menu'
+const MobileMenu = dynamic(() => import('./mobile-menu').then(mod => mod.MobileMenu), { ssr: false })
+const CartDrawerDynamic = dynamic(() => import('../cart/cart-drawer').then(mod => mod.CartDrawer), { ssr: false })
 
 export function Navbar() {
     const itemCount = useCartStore((state) => state.getItemCount())
@@ -84,8 +86,8 @@ export function Navbar() {
                 </div>
             </header>
 
-            {/* Drawer Components */}
-            <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+            {/* Drawer Components (Deferred via Dynamic Import) */}
+            <CartDrawerDynamic isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
             <MobileMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
         </>
     )

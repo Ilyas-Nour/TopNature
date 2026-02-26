@@ -27,7 +27,7 @@ export function SocialButton({ icon: Icon, href, color }: SocialButtonProps) {
             <motion.div
                 whileHover={{ rotateY: 360 }}
                 transition={{ duration: 0.6, ease: "easeInOut" }}
-                className="relative z-10 text-black group-hover:text-white transition-colors duration-300"
+                className="relative z-10 text-black group-hover:text-white transition-colors duration-300 transform-gpu"
             >
                 <Icon className="w-5 h-5" />
             </motion.div>

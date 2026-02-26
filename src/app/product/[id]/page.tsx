@@ -111,7 +111,14 @@ export default function ProductPage({ params: paramsPromise }: { params: Promise
                                     onClick={() => onThumbClick(i)}
                                     className={`relative aspect-square rounded-xl overflow-hidden border-2 transition-all ${selectedIndex === i ? 'border-black ring-2 ring-black/5' : 'border-transparent opacity-60 hover:opacity-100'}`}
                                 >
-                                    <Image src={url} alt={`Thumbnail ${i + 1}`} fill className="object-cover" />
+                                    <Image
+                                        src={url}
+                                        alt={`Thumbnail ${i + 1}`}
+                                        fill
+                                        sizes="80px"
+                                        priority={i === 0}
+                                        className="object-cover"
+                                    />
                                 </button>
                             ))}
                         </div>
@@ -127,6 +134,7 @@ export default function ProductPage({ params: paramsPromise }: { params: Promise
                                                 alt={`${product.name} - View ${i + 1}`}
                                                 fill
                                                 priority={i === 0}
+                                                quality={90}
                                                 className="object-cover"
                                                 sizes="(max-width: 1024px) 100vw, 50vw"
                                             />
@@ -311,6 +319,8 @@ export default function ProductPage({ params: paramsPromise }: { params: Promise
                                 fill
                                 className="object-contain"
                                 priority
+                                quality={95}
+                                sizes="100vw"
                             />
                         </motion.div>
 
