@@ -32,29 +32,41 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
     }
 
     return (
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-4">
             <motion.button
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={handleAddToCart}
-                className="pill-button w-full bg-primary text-primary-foreground text-sm uppercase tracking-widest"
+                className="group relative w-full h-16 bg-foreground text-background rounded-full overflow-hidden transition-all duration-500"
             >
-                Add to Cart
+                <div className="absolute inset-0 bg-secondary translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+                <div className="relative z-10 flex items-center justify-center gap-3">
+                    <AnimatePresence mode="wait">
+                        {isAdded ? (
+                            <motion.div
+                                key="added"
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                className="flex items-center gap-2"
+                            >
+                                <Check className="w-5 h-5 text-background" />
+                                <span className="text-[11px] font-black uppercase tracking-[0.4em] text-background">Added to Protocol</span>
+                            </motion.div>
+                        ) : (
+                            <motion.div
+                                key="add"
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                className="flex items-center gap-2"
+                            >
+                                <ShoppingCart className="w-4 h-4 text-background" strokeWidth={1.5} />
+                                <span className="text-[11px] font-black uppercase tracking-[0.4em] text-background">Purchase Protocol</span>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
             </motion.button>
-
-            <AnimatePresence>
-                {isAdded && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="flex items-center gap-2 text-sm font-medium text-primary tracking-wide uppercase mt-4"
-                    >
-                        <Check className="h-4 w-4" />
-                        Added to your bag
-                    </motion.div>
-                )}
-            </AnimatePresence>
         </div>
     )
 }

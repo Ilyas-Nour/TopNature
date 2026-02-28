@@ -9,7 +9,7 @@ import { ChevronRight, ChevronLeft } from 'lucide-react'
 
 const SLIDES = [
     {
-        title: 'The Moroccan Ritual',
+        title: 'The Moroccan Protocol',
         subtitle: 'Ancient Wisdom • Botanical Mastery',
         image: 'https://images.unsplash.com/photo-1615397323140-60b6b194fb21?q=80&w=2000&auto=format&fit=crop',
         cta: 'Explore Argan & Rosehip'

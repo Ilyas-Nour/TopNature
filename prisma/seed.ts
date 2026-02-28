@@ -50,7 +50,7 @@ async function main() {
         wellness: await prisma.category.create({ data: { name: 'Wellness', slug: 'wellness' } }),
         recovery: await prisma.category.create({ data: { name: 'Recovery', slug: 'recovery' } }),
         essential: await prisma.category.create({ data: { name: 'Essential', slug: 'essential' } }),
-        ritual: await prisma.category.create({ data: { name: 'Ritual', slug: 'ritual' } }),
+        protocol: await prisma.category.create({ data: { name: 'Protocols', slug: 'protocols' } }),
     }
 
     // 4. Create 20 Flagship Products
@@ -62,8 +62,8 @@ async function main() {
             price: 750.00,
             stock: 50,
             imageUrls: [
-                'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=800&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=800&auto=format&fit=crop'
+                'https://images.unsplash.com/photo-1611005707409-54848d71249b?q=80&w=1200&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=1200&auto=format&fit=crop'
             ],
             categoryId: categories.adaptogens.id,
             benefits: 'Optimizes ATP production at a cellular level, enhancing raw physical energy and stamina. Contains 80+ trace minerals.',
@@ -78,8 +78,8 @@ async function main() {
             price: 420.00,
             stock: 150,
             imageUrls: [
-                'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?q=80&w=800&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1629198688000-71f23e745b6e?q=80&w=800&auto=format&fit=crop'
+                'https://images.unsplash.com/photo-1471193945509-9ad0617afabf?q=80&w=1200&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1550948332-901469d7170a?q=80&w=1200&auto=format&fit=crop'
             ],
             categoryId: categories.adaptogens.id,
             benefits: 'Regulates the endocrine system to manage cortisol levels, effectively reducing perceived stress and anxiety.',
@@ -94,8 +94,8 @@ async function main() {
             price: 680.00,
             stock: 85,
             imageUrls: [
-                'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?q=80&w=800&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1612817288484-6f916006741a?q=80&w=800&auto=format&fit=crop'
+                'https://images.unsplash.com/photo-1545239351-ef056b0d9943?q=80&w=1200&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1584017911766-d451b3d0e843?q=80&w=1200&auto=format&fit=crop'
             ],
             categoryId: categories.performance.id,
             benefits: 'naturally boosts free testosterone levels by releasing it from Sex Hormone Binding Globulin (SHBG).',
@@ -110,8 +110,8 @@ async function main() {
             price: 490.00,
             stock: 120,
             imageUrls: [
-                'https://images.unsplash.com/photo-1610476023249-183660a92d47?q=80&w=800&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1601704289839-84724a30e84b?q=80&w=800&auto=format&fit=crop'
+                'https://images.unsplash.com/photo-1591857177580-dc32913c69a1?q=80&w=1200&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1512429234300-22f3e098939c?q=80&w=1200&auto=format&fit=crop'
             ],
             categoryId: categories.nootropics.id,
             benefits: 'Stimulates Nerve Growth Factor (NGF) production, supporting the growth and repair of neurons.',
@@ -126,8 +126,8 @@ async function main() {
             price: 520.00,
             stock: 90,
             imageUrls: [
-                'https://images.unsplash.com/photo-1599307133748-03fd7a922645?q=80&w=800&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1628551670600-47963d803673?q=80&w=800&auto=format&fit=crop'
+                'https://images.unsplash.com/photo-1444492417251-9c84a5118f88?q=80&w=1200&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1473679408190-0693dd22fe6a?q=80&w=1200&auto=format&fit=crop'
             ],
             categoryId: categories.performance.id,
             benefits: 'Improves oxygen utilization (VO2 Max) and enhances ATP synthesis for natural athletic endurance.',
@@ -142,12 +142,12 @@ async function main() {
             price: 450.00,
             stock: 110,
             imageUrls: [
-                'https://images.unsplash.com/photo-1576678927484-cc907957088c?q=80&w=800&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?q=80&w=800&auto=format&fit=crop'
+                'https://images.unsplash.com/photo-1502472545331-cb1570d68ad4?q=80&w=1200&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1512428813834-c702c7702b78?q=80&w=1200&auto=format&fit=crop'
             ],
             categoryId: categories.recovery.id,
             benefits: 'Acts as a master immunomodulator, balancing the immune system and promoting deep, restorative sleep.',
-            usage: 'Best consumed in the evening. Dissolve in hot water for a calming nightly ritual.',
+            usage: 'Best consumed in the evening. Dissolve in hot water for a calming nightly protocol.',
             sourcing: 'Sourced from the "Duan Wood" Reishi farms in the high-altitude forests of China.',
             highlights: ['Immune Modulator', 'Sleep Support', 'Stress Resilience', 'Spirit Tonic']
         },
@@ -158,8 +158,8 @@ async function main() {
             price: 580.00,
             stock: 180,
             imageUrls: [
-                'https://images.unsplash.com/photo-1620916297397-a4a54201c80c?q=80&w=800&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1550577624-42c71fad637c?q=80&w=800&auto=format&fit=crop'
+                'https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?q=80&w=1200&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1590130095811-136585671bfc?q=80&w=1200&auto=format&fit=crop'
             ],
             categoryId: categories.wellness.id,
             benefits: 'High bioavailability collagen peptides that restore skin elasticity and strengthen the moisture barrier.',
@@ -174,8 +174,8 @@ async function main() {
             price: 290.00,
             stock: 250,
             imageUrls: [
-                'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=800&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1629198688000-71f23e745b6e?q=80&w=800&auto=format&fit=crop'
+                'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=1200&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1512428559083-a40c967c9c27?q=80&w=1200&auto=format&fit=crop'
             ],
             categoryId: categories.recovery.id,
             benefits: 'Supports over 300 enzymatic reactions, promoting muscle recovery and calming the nervous system.',
@@ -190,8 +190,8 @@ async function main() {
             price: 350.00,
             stock: 300,
             imageUrls: [
-                'https://images.unsplash.com/photo-1616671285410-6453f65eabbd?q=80&w=800&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1615485500704-8e990f3900f1?q=80&w=800&auto=format&fit=crop'
+                'https://images.unsplash.com/photo-1616671285410-6453f65eabbd?q=80&w=1200&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1579722820308-d74e57198cfa?q=80&w=1200&auto=format&fit=crop'
             ],
             categoryId: categories.essential.id,
             benefits: 'Ensures calcium is deposited in the bones and teeth rather than soft tissues or arteries.',
@@ -206,8 +206,8 @@ async function main() {
             price: 480.00,
             stock: 140,
             imageUrls: [
-                'https://images.unsplash.com/photo-1621252179027-94459d278660?q=80&w=800&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1512290923902-8a9f81da236c?q=80&w=800&auto=format&fit=crop'
+                'https://images.unsplash.com/photo-1621252179027-94459d278660?q=80&w=1200&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1590130095811-136585671bfc?q=80&w=1200&auto=format&fit=crop'
             ],
             categoryId: categories.essential.id,
             benefits: 'Critical for neurological development, cardiovascular health, and reducing systemic inflammation.',
@@ -222,10 +222,10 @@ async function main() {
             price: 550.00,
             stock: 75,
             imageUrls: [
-                'https://images.unsplash.com/photo-1582733315330-de1964954bd8?q=80&w=800&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?q=80&w=800&auto=format&fit=crop'
+                'https://images.unsplash.com/photo-1582733315330-de1964954bd8?q=80&w=1200&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1579722822165-227092c4cdcf?q=80&w=1200&auto=format&fit=crop'
             ],
-            categoryId: categories.ritual.id,
+            categoryId: categories.protocol.id,
             benefits: 'Contains high concentrations of L-Theanine and EGCG for "Jitter-free" energy and focus.',
             usage: 'Whisk 1.5g into 70°C water until frothy. Perfect for morning cognitive activation.',
             sourcing: 'Grown under shade for 3 weeks prior to harvest in the Uji region of Japan.',
@@ -238,8 +238,8 @@ async function main() {
             price: 420.00,
             stock: 160,
             imageUrls: [
-                'https://images.unsplash.com/photo-1617419131977-628d3bd409e5?q=80&w=800&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1544161515-4af6b1d4640b?q=80&w=800&auto=format&fit=crop'
+                'https://images.unsplash.com/photo-1617419131977-628d3bd409e5?q=80&w=1200&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1512428813834-c702c7702b78?q=80&w=1200&auto=format&fit=crop'
             ],
             categoryId: categories.wellness.id,
             benefits: 'High-density protein and antioxidant profile that supports cellular detoxification.',
@@ -254,8 +254,8 @@ async function main() {
             price: 590.00,
             stock: 60,
             imageUrls: [
-                'https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?q=80&w=800&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1611080626919-7cf5a9cdab5b?q=80&w=800&auto=format&fit=crop'
+                'https://images.unsplash.com/photo-1512429234300-22f3e098939c?q=80&w=1200&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1628268909376-e8c44bb3153f?q=80&w=1200&auto=format&fit=crop'
             ],
             categoryId: categories.performance.id,
             benefits: 'A natural "superfood" containing Phyto-Androgens to support strength and hormonal health.',
@@ -270,8 +270,8 @@ async function main() {
             price: 380.00,
             stock: 130,
             imageUrls: [
-                'https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=800&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1615485245452-1193355d4218?q=80&w=800&auto=format&fit=crop'
+                'https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=1200&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1584017911766-d451b3d0e843?q=80&w=1200&auto=format&fit=crop'
             ],
             categoryId: categories.nootropics.id,
             benefits: 'Increases the rate at which the nervous system can communicate by optimizing synapse repair.',
@@ -286,8 +286,8 @@ async function main() {
             price: 460.00,
             stock: 100,
             imageUrls: [
-                'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?q=80&w=800&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=800&auto=format&fit=crop'
+                'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?q=80&w=1200&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1512428559083-a40c967c9c27?q=80&w=1200&auto=format&fit=crop'
             ],
             categoryId: categories.recovery.id,
             benefits: 'Powerful anti-inflammatory that inhibits the 5-LOX enzyme, supporting joint and gut health.',
@@ -302,8 +302,8 @@ async function main() {
             price: 390.00,
             stock: 140,
             imageUrls: [
-                'https://images.unsplash.com/photo-1618897996318-5a901fa6ca71?q=80&w=800&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=800&auto=format&fit=crop'
+                'https://images.unsplash.com/photo-1471193945509-9ad0617afabf?q=80&w=1200&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1550948332-901469d7170a?q=80&w=1200&auto=format&fit=crop'
             ],
             categoryId: categories.adaptogens.id,
             benefits: 'Fights fatigue and burnout by balancing the central nervous system under extreme stress.',
@@ -318,8 +318,8 @@ async function main() {
             price: 410.00,
             stock: 120,
             imageUrls: [
-                'https://images.unsplash.com/photo-1618897996318-5a901fa6ca71?q=80&w=800&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1471193945509-9ad0617afabf?q=80&w=800&auto=format&fit=crop'
+                'https://images.unsplash.com/photo-1502472545331-cb1570d68ad4?q=80&w=1200&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1473679408190-0693dd22fe6a?q=80&w=1200&auto=format&fit=crop'
             ],
             categoryId: categories.adaptogens.id,
             benefits: 'Supports liver detoxification and enhances mental clarity while calming the mind.',
@@ -334,14 +334,14 @@ async function main() {
             price: 320.00,
             stock: 200,
             imageUrls: [
-                'https://images.unsplash.com/photo-1615485523296-d8c1af93d400?q=80&w=800&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=800&auto=format&fit=crop'
+                'https://images.unsplash.com/photo-1615485523296-d8c1af93d400?q=80&w=1200&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1512428559083-a40c967c9c27?q=80&w=1200&auto=format&fit=crop'
             ],
-            categoryId: categories.ritual.id,
+            categoryId: categories.protocol.id,
             benefits: 'Reduces metabolic stress and supports balanced blood sugar and cortisol levels.',
-            usage: 'Enjoy as a tea or take in capsule form. Ideal for evening wind-down rituals.',
+            usage: 'Enjoy as a tea or take in capsule form. Ideal for evening wind-down protocols.',
             sourcing: 'Grown in dedicated organic Tulsi farms in the Himalayan foothills.',
-            highlights: ['Adrenal Health', 'Cortisol Balance', 'Sacred Ritual', 'Organic Leaf']
+            highlights: ['Adrenal Health', 'Cortisol Balance', 'Master Protocol', 'Organic Leaf']
         },
         {
             name: 'Organic Guggul Extract',
@@ -350,8 +350,8 @@ async function main() {
             price: 440.00,
             stock: 110,
             imageUrls: [
-                'https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?q=80&w=800&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1611080626919-7cf5a9cdab5b?q=80&w=800&auto=format&fit=crop'
+                'https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?q=80&w=1200&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=1200&auto=format&fit=crop'
             ],
             categoryId: categories.wellness.id,
             benefits: 'Supports healthy cholesterol levels and boosts the body\'s natural metabolism.',
@@ -366,8 +366,8 @@ async function main() {
             price: 280.00,
             stock: 220,
             imageUrls: [
-                'https://images.unsplash.com/photo-1618897996318-5a901fa6ca71?q=80&w=800&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=800&auto=format&fit=crop'
+                'https://images.unsplash.com/photo-1471193945509-9ad0617afabf?q=80&w=1200&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1550948332-901469d7170a?q=80&w=1200&auto=format&fit=crop'
             ],
             categoryId: categories.wellness.id,
             benefits: 'A gentle, non-habit-forming internal cleanser that restores digestive rhythm and absorption.',

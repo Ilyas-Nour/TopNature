@@ -16,75 +16,86 @@ export function Navbar() {
     const [isCartOpen, setIsCartOpen] = React.useState(false)
     const [isMenuOpen, setIsMenuOpen] = React.useState(false)
     const [mounted, setMounted] = React.useState(false)
+    const [isScrolled, setIsScrolled] = React.useState(false)
 
     React.useEffect(() => {
         setMounted(true)
+        const handleScroll = () => setIsScrolled(window.scrollY > 20)
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
     return (
         <>
-            <header className="hidden md:flex sticky top-0 z-40 w-full bg-background/80 backdrop-blur-md border-b border-border/40">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex h-16 items-center justify-between">
+            <motion.header
+                initial={{ y: -100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                className={`fixed top-8 left-1/2 -translate-x-1/2 z-[100] transition-all duration-700 w-full max-w-[1400px] px-6 ${isScrolled ? 'md:top-6' : 'md:top-10'
+                    }`}
+            >
+                <div
+                    className={`w-full h-20 md:h-24 px-8 md:px-12 flex items-center justify-between rounded-full transition-all duration-700 ${isScrolled
+                        ? 'bg-white/90 backdrop-blur-3xl shadow-premium border border-black/10'
+                        : 'bg-transparent border border-transparent'
+                        }`}
+                >
+                    {/* Brand Identifier */}
+                    <div className="flex items-center gap-10">
+                        <Link href="/" className="flex items-center gap-3 group relative z-10">
+                            <span className="text-xl md:text-2xl font-serif font-black tracking-[0.1em] text-foreground uppercase text-nowrap">
+                                Top<span className="text-primary italic font-light">Nature.</span>
+                            </span>
+                        </Link>
 
-                        {/* Logo Section */}
-                        <div className="flex items-center gap-4">
-                            <button
-                                onClick={() => setIsMenuOpen(true)}
-                                className="lg:hidden p-2 -ml-2 text-foreground"
-                                aria-label="Open Menu"
-                            >
-                                <Menu className="h-6 w-6" />
-                            </button>
-                            <Link href="/" className="flex items-center">
-                                <span className="text-2xl font-serif text-foreground font-bold tracking-tight">
-                                    TopNature
-                                </span>
-                            </Link>
-                        </div>
+                        <div className="hidden lg:flex h-8 w-[1px] bg-black/5 mx-2" />
 
-                        {/* Predictive Search Placeholder */}
-                        <div className="hidden lg:flex flex-1 max-w-md mx-8 relative">
-                            <div className="relative w-full">
-                                <input
-                                    type="text"
-                                    placeholder="Search products..."
-                                    className="w-full h-10 pl-10 pr-4 rounded-full bg-muted/50 border border-transparent focus:bg-background focus:border-ring focus:ring-1 focus:ring-ring outline-none transition-all duration-200 text-sm"
-                                />
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            </div>
-                        </div>
-
-                        {/* Right Section: Navigation & Cart */}
-                        <div className="flex items-center gap-4">
-                            <div className="hidden md:flex items-center gap-8 text-[11px] uppercase tracking-widest font-bold text-muted-foreground mr-4">
-                                <AnimatedNavLink href="/shop" title="Shop" />
-                                <AnimatedNavLink href="/categories" title="Categories" />
-                                <AnimatedNavLink href="/blog" title="Blog" />
-                                <AnimatedNavLink href="/philosophy" title="Our Story" />
-                            </div>
-
-                            <button
-                                onClick={() => setIsCartOpen(true)}
-                                className="relative p-2 text-foreground hover:opacity-80 transition-opacity"
-                            >
-                                <ShoppingCart className="h-6 w-6" />
-                                {mounted && itemCount > 0 && (
-                                    <motion.span
-                                        initial={{ scale: 0 }}
-                                        animate={{ scale: 1 }}
-                                        key={itemCount}
-                                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                                        className="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full bg-black text-[10px] font-bold text-white shadow-sm ring-2 ring-background"
-                                    >
-                                        {itemCount > 99 ? '99+' : itemCount}
-                                    </motion.span>
-                                )}
-                            </button>
+                        {/* Desktop Links */}
+                        <div className="hidden lg:flex items-center gap-12">
+                            {[
+                                { name: 'Atelier', href: '/shop' },
+                                { name: 'Philosophy', href: '/about' },
+                                { name: 'The Protocol', href: '/protocol' }
+                            ].map((item) => (
+                                <Link
+                                    key={item.name}
+                                    href={item.href}
+                                    className="text-[11px] uppercase tracking-[0.4em] font-bold text-foreground/40 hover:text-primary transition-all relative group"
+                                >
+                                    {item.name}
+                                    <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-primary transition-all duration-500 group-hover:w-full" />
+                                </Link>
+                            ))}
                         </div>
                     </div>
+
+                    {/* Right Utilities */}
+                    <div className="flex items-center gap-6 md:gap-8">
+                        <button
+                            onClick={() => setIsCartOpen(true)}
+                            className="p-3 md:p-4 rounded-full hover:bg-black/5 transition-all text-foreground/40 hover:text-primary relative group"
+                        >
+                            <ShoppingCart className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
+                            {mounted && itemCount > 0 && (
+                                <motion.span
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    className="absolute top-1.5 right-1.5 h-4 w-4 bg-primary text-[8px] font-black text-white flex items-center justify-center rounded-full shadow-premium"
+                                >
+                                    {itemCount}
+                                </motion.span>
+                            )}
+                        </button>
+
+                        <button
+                            onClick={() => setIsMenuOpen(true)}
+                            className="p-3 md:p-4 rounded-full hover:bg-black/5 transition-all text-foreground/40 hover:text-primary"
+                        >
+                            <Menu className="w-6 h-6" strokeWidth={1.5} />
+                        </button>
+                    </div>
                 </div>
-            </header>
+            </motion.header>
 
             {/* Drawer Components (Deferred via Dynamic Import) */}
             <CartDrawerDynamic isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
