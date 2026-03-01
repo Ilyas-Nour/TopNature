@@ -118,7 +118,7 @@ export function KineticHero() {
                         <div className="overflow-hidden">
                             <motion.h1
                                 variants={titleItem}
-                                className="text-[10vw] md:text-[8vw] lg:text-[7.5rem] font-serif font-black text-foreground leading-[0.85] tracking-tighter uppercase"
+                                className="text-[9vw] md:text-[7vw] lg:text-[5.5rem] font-serif font-black text-foreground leading-[0.95] tracking-tighter uppercase"
                             >
                                 Botanical <br />
                                 <span className="text-primary italic font-light lowercase">Intelligence.</span>
@@ -129,7 +129,7 @@ export function KineticHero() {
                             variants={titleItem}
                             className="max-w-2xl mx-auto pt-2"
                         >
-                            <p className="text-xl md:text-3xl text-foreground/40 font-medium leading-relaxed tracking-tight italic">
+                            <p className="text-xl md:text-2xl text-foreground/75 font-medium leading-relaxed tracking-tight italic">
                                 Sythesizing the world's rarest extracts into <span className="text-foreground font-black not-italic border-b border-primary/20 pb-1">refined protocols</span> for the modern spirit.
                             </p>
                         </motion.div>

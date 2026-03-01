@@ -4,8 +4,9 @@ import { KineticHero } from "@/components/home/kinetic-hero";
 import { ProductCard } from "@/components/ui/product-card";
 import Link from "next/link";
 import Image from "next/image";
+import { useRef } from 'react';
 import { ArrowRight, Shield, Sprout, Ship, Leaf, Brain } from 'lucide-react';
-import { motion, Variants } from 'framer-motion';
+import { motion, Variants, useScroll, useTransform } from 'framer-motion';
 
 export default function Home() {
   const featuredProducts = [
@@ -46,6 +47,15 @@ export default function Home() {
     }
   };
 
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+
+  const yParallax = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const rotateParallax = useTransform(scrollYProgress, [0, 1], [0, 5]);
+
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground selection:bg-primary selection:text-black">
       <KineticHero />
@@ -60,10 +70,10 @@ export default function Home() {
       >
         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/pinstripe-dark.png')]" />
         <div className="w-full px-8 md:px-12 lg:px-24 mx-auto relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-12 text-white/50">
-            <div className="max-w-xs transition-opacity hover:opacity-100 opacity-60">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-12 text-white/80">
+            <div className="max-w-xs transition-opacity hover:opacity-100 opacity-80">
               <span className="text-[10px] uppercase tracking-[0.5em] font-black text-primary block mb-4 italic text-nowrap">Sanctuary Protocol</span>
-              <p className="text-sm font-bold leading-relaxed uppercase tracking-widest text-foreground/80">Validated in Casablanca & EU Biotech Centers.</p>
+              <p className="text-sm font-bold leading-relaxed uppercase tracking-widest text-foreground/90">Validated in Casablanca & EU Biotech Centers.</p>
             </div>
 
             <div className="flex flex-wrap gap-12 lg:gap-24">
@@ -93,64 +103,101 @@ export default function Home() {
         </div>
       </motion.div>
 
-      {/* SUN-DRENCHED SCIENCE SECTION */}
+      {/* PANORAMIC EVOLUTION WORKSPACE */}
       <motion.section
+        ref={sectionRef}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
         variants={revealVariants}
-        className="w-full section-padding-large bg-background overflow-hidden relative pt-40 md:pt-56"
+        className="w-full section-padding-large bg-background overflow-hidden relative"
       >
-        <div className="absolute top-1/2 right-0 w-[1000px] h-[1000px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
+        {/* ATMOSPHERIC DEPTH */}
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_30%,rgba(212,175,55,0.05)_0%,transparent_70%)] pointer-events-none" />
 
         <div className="w-full px-6 md:px-12 lg:px-24 mx-auto relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-32 items-center">
-            <div className="lg:col-span-5 space-y-16">
-              <div className="space-y-6 text-center lg:text-left">
-                <span className="text-[11px] uppercase tracking-[0.6em] font-bold text-primary italic">The Organic Evolution</span>
-                <h2 className="font-serif font-black tracking-tight text-foreground">
+          <div className="flex flex-col lg:flex-row gap-20 lg:gap-32 items-center lg:items-start">
+
+            {/* LEFT: EDITORIAL NARRATIVE */}
+            <div className="w-full lg:w-1/2 space-y-16 lg:sticky lg:top-40">
+              <div className="space-y-8">
+                <div className="flex items-center gap-6">
+                  <span className="w-16 h-[1px] bg-primary" />
+                  <span className="text-[11px] uppercase tracking-[0.8em] font-bold text-primary italic">The Organic Evolution</span>
+                </div>
+                <h2 className="text-5xl md:text-7xl lg:text-[6.5rem] font-serif font-black tracking-tighter leading-[0.9] text-foreground">
                   The Art of <br />
                   <span className="italic font-light text-primary">Botanical</span> <br />
                   Harmony.
                 </h2>
-                <div className="h-[1px] w-20 bg-primary/30 mx-auto lg:mx-0 mt-8" />
+                <div className="pt-8">
+                  <p className="text-xl md:text-2xl text-foreground/80 leading-relaxed font-medium italic max-w-xl">
+                    Inspired by the profound intelligence of wild flora, our sanctuary protocols represent the zenith of botanical synthesis.
+                  </p>
+                </div>
               </div>
-              <p className="text-xl text-foreground/50 leading-relaxed font-medium italic text-center lg:text-left">
-                Inspired by the profound intelligence of wild flora, our sanctuary protocols represent the zenith of botanical synthesis.
-              </p>
 
-              <div className="space-y-16 pt-12">
-                <div className="flex items-start gap-12 group">
-                  <div className="text-6xl font-serif font-black text-black/[0.03] group-hover:text-primary/20 h-14 flex items-center transition-all duration-1000 italic">01</div>
-                  <div className="space-y-4">
-                    <h3 className="text-3xl font-black uppercase tracking-tight text-foreground/80 group-hover:text-foreground transition-all">Neuro-Clarity</h3>
-                    <p className="text-base text-foreground/30 max-w-sm group-hover:text-foreground/60 transition-colors italic">Clearing neuro-inflammation to sharpen neural radiance.</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
+                <motion.div
+                  whileHover={{ x: 10 }}
+                  className="space-y-6 group cursor-default"
+                >
+                  <div className="flex items-center gap-6">
+                    <span className="text-4xl font-serif font-black text-primary/20 group-hover:text-primary transition-colors italic">01</span>
+                    <h3 className="text-2xl font-black uppercase tracking-widest">Neuro-Clarity</h3>
                   </div>
-                </div>
-                <div className="flex items-start gap-12 group border-t border-black/5 pt-16">
-                  <div className="text-6xl font-serif font-black text-black/[0.03] group-hover:text-primary/20 h-14 flex items-center transition-all duration-1000 italic">02</div>
-                  <div className="space-y-4">
-                    <h3 className="text-3xl font-black uppercase tracking-tight text-foreground/80 group-hover:text-foreground transition-all">Solar Axis</h3>
-                    <p className="text-base text-foreground/30 max-w-sm group-hover:text-foreground/60 transition-colors italic">Endocrine homeostasis via clinical-grade sanctuary extracts.</p>
+                  <p className="text-sm text-foreground/70 leading-relaxed italic group-hover:text-foreground transition-colors">
+                    Molecular precision at the neural junction. Clearing inflammation to unveil native cognitive radiance.
+                  </p>
+                </motion.div>
+
+                <motion.div
+                  whileHover={{ x: 10 }}
+                  className="space-y-6 group cursor-default"
+                >
+                  <div className="flex items-center gap-6">
+                    <span className="text-4xl font-serif font-black text-primary/20 group-hover:text-primary transition-colors italic">02</span>
+                    <h3 className="text-2xl font-black uppercase tracking-widest">Solar Axis</h3>
                   </div>
-                </div>
+                  <p className="text-sm text-foreground/70 leading-relaxed italic group-hover:text-foreground transition-colors">
+                    Endocrine synchronization via sun-drenched sanctuary extracts. True biological homeostasis.
+                  </p>
+                </motion.div>
               </div>
             </div>
 
-            <div className="lg:col-span-7 relative">
-              <div className="relative aspect-[4/5] md:aspect-video lg:aspect-square max-h-[70vh] rounded-[5rem] overflow-hidden shadow-2xl border border-black/5 group bg-white p-4">
-                <div className="relative w-full h-full rounded-[4rem] overflow-hidden bg-[#0A1410]/5">
+            <div className="w-full lg:w-1/2 relative mt-12 lg:mt-0">
+              <motion.div
+                style={{
+                  y: yParallax,
+                  rotateZ: rotateParallax
+                }}
+                className="relative aspect-[4/5] rounded-[4rem] md:rounded-[6rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] border border-black/5 p-4 bg-white"
+              >
+                <div className="relative w-full h-full rounded-[3rem] md:rounded-[5rem] overflow-hidden">
                   <Image
-                    src="https://images.unsplash.com/photo-1582218771059-7d1ad0766ee2?q=100&w=2600&auto=format&fit=crop"
-                    alt="Sanctuary Process"
+                    src="/images/botanical-harmony.png"
+                    alt="Botanical Harmony Masterpiece"
                     fill
                     priority
-                    className="object-cover scale-105 group-hover:scale-110 transition-all duration-[5s]"
+                    className="object-cover scale-105 group-hover:scale-110 transition-transform duration-[10s]"
                   />
-                  <div className="absolute inset-0 bg-primary/20 mix-blend-overlay" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+
+                  {/* FLOATING TEXTURE OVERLAY */}
+                  <div className="absolute inset-0 opacity-30 mix-blend-soft-light pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/pinstripe-light.png')]" />
                 </div>
+              </motion.div>
+
+              {/* DECORATIVE ELEMENTS */}
+              <div className="absolute -bottom-12 -right-12 w-64 h-64 bg-primary/10 rounded-full blur-[80px] pointer-events-none" />
+              <div className="absolute -top-12 -left-12 w-48 h-48 bg-primary/5 rounded-full blur-[60px] pointer-events-none" />
+
+              <div className="absolute top-1/2 -right-6 lg:-right-12 vertical-text">
+                <span className="text-[10px] uppercase tracking-[1em] font-black text-primary/20 whitespace-nowrap">EXTRACT.22.X // SANCTUARY</span>
               </div>
             </div>
+
           </div>
         </div>
       </motion.section>
@@ -161,9 +208,10 @@ export default function Home() {
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
         variants={revealVariants}
-        className="w-full section-padding bg-[#FCFAF7]"
+        className="w-full section-padding bg-[#F2EDE9] relative"
       >
-        <div className="w-full px-6 md:px-12 lg:px-24 mx-auto">
+        <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/pinstripe-dark.png')] pointer-events-none" />
+        <div className="w-full px-6 md:px-12 lg:px-24 mx-auto relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-center lg:items-end gap-12 mb-24 text-center md:text-left">
             <div className="space-y-4">
               <span className="text-[11px] uppercase tracking-[0.8em] font-black text-primary italic">Botanical Selection</span>
@@ -194,8 +242,8 @@ export default function Home() {
                   <div className="flex items-center gap-6">
                     <span className="px-6 py-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-xl text-[10px] uppercase tracking-[0.4em] font-black text-white">Advanced Protocol</span>
                   </div>
-                  <h3 className="text-4xl md:text-5xl lg:text-6xl font-sans font-black text-white uppercase tracking-tighter leading-none">{sortedFeatured[0].name}</h3>
-                  <p className="text-white/60 text-lg md:text-xl max-w-xl font-medium italic leading-relaxed hidden md:block">{sortedFeatured[0].description}</p>
+                  <h3 className="text-4xl md:text-5xl lg:text-5xl font-sans font-black text-white uppercase tracking-tighter leading-none">{sortedFeatured[0].name}</h3>
+                  <p className="text-white/80 text-lg md:text-xl max-w-xl font-medium italic leading-relaxed hidden md:block">{sortedFeatured[0].description}</p>
                   <Link href={`/shop`} className="inline-flex items-center gap-8 py-5 px-12 bg-primary text-white rounded-full uppercase tracking-[0.4em] font-black text-[12px] hover:bg-white hover:text-black transition-all shadow-solar-glow">
                     View Protocol <ArrowRight className="w-5 h-5" />
                   </Link>
@@ -229,7 +277,7 @@ export default function Home() {
               <div className="text-center space-y-6 relative z-10">
                 <Brain className="w-16 h-16 text-primary mx-auto opacity-40" />
                 <span className="block text-[10px] uppercase tracking-[0.6em] font-black text-primary">Biotech Synthesis</span>
-                <p className="text-xs text-foreground/40 font-mono italic max-w-xs uppercase tracking-widest">Protocol.32.X // Active Monitoring Enabled</p>
+                <p className="text-xs text-foreground/60 font-mono italic max-w-xs uppercase tracking-widest">Protocol.32.X // Active Monitoring Enabled</p>
               </div>
             </div>
           </div>
@@ -270,7 +318,7 @@ export default function Home() {
                 </h2>
                 <div className="h-[1px] w-24 bg-primary/30 mt-8" />
               </div>
-              <p className="text-xl md:text-2xl text-white/50 leading-relaxed font-medium italic">
+              <p className="text-xl md:text-2xl text-white/80 leading-relaxed font-medium italic">
                 We bridge the gap between ancient sanctuary regimens and high-fidelity botanical synthesis. Every extract is a testament to the enduring wisdom of the Earth.
               </p>
               <div className="pt-10">
