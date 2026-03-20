@@ -39,22 +39,24 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                         animate={{ x: 0 }}
                         exit={{ x: '-100%' }}
                         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                        className="fixed inset-y-0 left-0 z-[101] w-[85%] max-w-sm bg-white shadow-2xl md:hidden flex flex-col"
+                        className="fixed inset-y-0 left-0 z-[101] w-[85%] max-w-sm bg-background shadow-2xl md:hidden flex flex-col"
                     >
                         {/* Header */}
-                        <div className="flex items-center justify-between p-6 border-b border-gray-100">
-                            <span className="text-xl font-serif font-bold">TopNature</span>
+                        <div className="flex items-center justify-between p-8 border-b border-black/5">
+                            <span className="text-2xl font-serif font-black tracking-tighter uppercase">
+                                Top<span className="text-primary italic font-light">Nature.</span>
+                            </span>
                             <button
                                 onClick={onClose}
-                                className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center hover:bg-gray-100 active:scale-95 transition-all"
+                                className="w-12 h-12 rounded-full bg-black/5 flex items-center justify-center hover:bg-black/10 active:scale-95 transition-all text-foreground/40"
                             >
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
 
                         {/* Navigation Links */}
-                        <div className="flex-1 overflow-y-auto py-8 px-6">
-                            <nav className="space-y-6">
+                        <div className="flex-1 overflow-y-auto py-10 px-8">
+                            <nav className="space-y-8">
                                 {MENU_ITEMS.map((item, i) => (
                                     <motion.div
                                         key={item.label}
@@ -67,10 +69,10 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                                             onClick={onClose}
                                             className="flex items-center justify-between group"
                                         >
-                                            <span className="text-2xl font-serif font-bold text-black/80 group-active:text-black transition-colors">
+                                            <span className="text-3xl font-serif font-black text-foreground/80 group-active:text-primary transition-colors uppercase tracking-tight">
                                                 {item.label}
                                             </span>
-                                            <ChevronRight className="w-5 h-5 text-black/20" />
+                                            <ChevronRight className="w-5 h-5 text-primary/30 group-hover:text-primary transition-colors" />
                                         </Link>
                                     </motion.div>
                                 ))}
@@ -78,19 +80,19 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                         </div>
 
                         {/* Footer / Socials */}
-                        <div className="p-8 border-t border-gray-100 bg-gray-50/50">
-                            <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-black/40 mb-6">Connect</p>
+                        <div className="p-10 border-t border-black/5 bg-black/[0.02]">
+                            <p className="text-[10px] uppercase tracking-[0.5em] font-black text-foreground/20 mb-8 italic">The Protocol Network</p>
                             <div className="flex gap-6">
                                 {[
-                                    { icon: Instagram, color: '#E4405F' },
-                                    { icon: Facebook, color: '#1877F2' },
-                                    { icon: MessageCircle, color: '#25D366' },
+                                    { icon: Instagram, color: '#B89B5E' },
+                                    { icon: Facebook, color: '#B89B5E' },
+                                    { icon: MessageCircle, color: '#B89B5E' },
                                 ].map((Social, i) => (
                                     <button
                                         key={i}
-                                        className="w-12 h-12 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center active:scale-90 transition-transform"
+                                        className="w-14 h-14 rounded-full bg-white shadow-premium border border-black/5 flex items-center justify-center active:scale-90 transition-all hover:bg-primary hover:text-white group"
                                     >
-                                        <Social.icon className="w-5 h-5" style={{ color: Social.color }} />
+                                        <Social.icon className="w-5 h-5 text-primary group-hover:text-white transition-colors" />
                                     </button>
                                 ))}
                             </div>

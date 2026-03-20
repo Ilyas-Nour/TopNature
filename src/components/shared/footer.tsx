@@ -1,115 +1,113 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import Link from 'next/link'
-import { Instagram, Facebook, MessageCircle, Mail, MapPin, Phone, ChevronDown, Leaf } from 'lucide-react'
-import { AnimatedNavLink } from '../ui/animated-nav-link'
-import { SocialButton } from '../ui/social-button'
-import { motion, AnimatePresence } from 'framer-motion'
+import { Instagram, Facebook, Twitter, Mail, MapPin } from 'lucide-react'
 
 export function Footer() {
-    const NAVIGATION_DATA = [
+    const sections = [
         {
-            title: "Botanical Index",
+            title: "Shop",
             links: [
-                { label: 'All Protocols', href: '/shop' },
-                { label: 'New Synthesis', href: '/shop' },
-                { label: 'Peak Performance', href: '/shop' },
-                { label: 'Baseline Resets', href: '/shop' },
+                { label: 'All Products', href: '/shop' },
+                { label: 'Energy', href: '/shop?category=energy' },
+                { label: 'Sleep', href: '/shop?category=sleep' },
+                { label: 'Health', href: '/shop?category=health' }
             ]
         },
         {
-            title: "Heritage Protocol",
+            title: "About",
             links: [
-                { label: 'The Philosophy', href: '/about' },
-                { label: 'Biotech Glossary', href: '/about' },
-                { label: 'Lab Verification', href: '/about' },
-                { label: 'Sanctuary Journal', href: '/about' },
+                { label: 'Our Story', href: '/about' },
+                { label: 'Quality Standards', href: '/about' },
+                { label: 'Sustainability', href: '/about' },
+                { label: 'Contact', href: '/contact' }
             ]
         },
         {
-            title: "Sanctuary Network",
+            title: "Support",
             links: [
-                { label: 'System Origin', href: '/about' },
-                { label: 'Direct Telemetry', href: '/contact' },
-                { label: 'Logistics Policy', href: '/about' },
-                { label: 'Integrity Shield', href: '/about' },
+                { label: 'Shipping', href: '/shipping' },
+                { label: 'Returns', href: '/returns' },
+                { label: 'FAQ', href: '/faq' },
+                { label: 'Privacy', href: '/privacy' }
             ]
         }
     ]
 
     return (
-        <footer className="bg-[#FBF9F6] border-t border-black/5 pt-12 md:pt-16 pb-12 relative overflow-hidden">
-            {/* BOTANICAL MIST */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1200px] h-[500px] bg-primary/5 rounded-full blur-[150px] pointer-events-none" />
-
-            <div className="w-full px-6 md:px-12 lg:px-24 mx-auto relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 md:gap-16 lg:gap-12 mb-16">
-
-                    {/* Brand Identity */}
-                    <div className="lg:col-span-4 space-y-8 md:space-y-10">
-                        <Link href="/" className="text-3xl font-serif font-black tracking-tight hover:text-primary transition-all group flex items-baseline gap-2">
-                            <span className="text-foreground">Top</span>
-                            <span className="text-primary italic font-light group-hover:tracking-widest transition-all">Nature.</span>
+        <footer className="bg-background-offset border-t border-border pt-20 pb-12">
+            <div className="container-wide px-6 lg:px-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 mb-20">
+                    
+                    {/* Brand Info */}
+                    <div className="lg:col-span-4 space-y-8">
+                        <Link href="/" className="text-2xl font-bold tracking-tight text-foreground uppercase">
+                            Top Nature
                         </Link>
-                        <p className="text-foreground/40 font-medium text-lg leading-relaxed max-w-sm tracking-tight italic">
-                            Synthesizing the <span className="text-foreground">botanical intelligence</span> of rare wild flora for sophisticated human vitalization.
+                        <p className="text-foreground-muted max-w-sm">
+                            Premium wellness solutions designed for your daily life. Simple, natural, and effective products for energy, sleep, and longevity.
                         </p>
                         <div className="flex gap-6">
-                            <SocialButton icon={Instagram} href="#" color="#D4AF37" />
-                            <SocialButton icon={Facebook} href="#" color="#D4AF37" />
-                            <SocialButton icon={MessageCircle} href="#" color="#D4AF37" />
+                            <Link href="#" className="p-3 bg-white rounded-full border border-border hover:bg-background transition-colors">
+                                <Instagram className="w-5 h-5 text-foreground/60" />
+                            </Link>
+                            <Link href="#" className="p-3 bg-white rounded-full border border-border hover:bg-background transition-colors">
+                                <Facebook className="w-5 h-5 text-foreground/60" />
+                            </Link>
+                            <Link href="#" className="p-3 bg-white rounded-full border border-border hover:bg-background transition-colors">
+                                <Twitter className="w-5 h-5 text-foreground/60" />
+                            </Link>
                         </div>
                     </div>
 
-                    {/* Navigation Columns */}
-                    {NAVIGATION_DATA.map((col) => (
-                        <div key={col.title} className="lg:col-span-2 space-y-8 group">
-                            <div className="flex items-center gap-3">
-                                <div className="w-6 h-[1px] bg-primary/20 group-hover:w-10 transition-all" />
-                                <h4 className="text-[10px] uppercase tracking-[0.4em] font-black text-foreground/20 italic">{col.title}</h4>
-                            </div>
-                            <ul className="space-y-3">
-                                {col.links.map((link) => (
+                    {/* Links */}
+                    {sections.map((section) => (
+                        <div key={section.title} className="lg:col-span-2 space-y-8">
+                            <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold text-foreground">
+                                {section.title}
+                            </h4>
+                            <ul className="space-y-4">
+                                {section.links.map((link) => (
                                     <li key={link.label}>
-                                        <AnimatedNavLink
+                                        <Link 
                                             href={link.href}
-                                            title={link.label}
-                                            className="text-foreground/40 hover:text-foreground transition-colors text-[13px] font-bold tracking-tight"
-                                        />
+                                            className="text-sm text-foreground-muted hover:text-primary transition-colors"
+                                        >
+                                            {link.label}
+                                        </Link>
                                     </li>
                                 ))}
                             </ul>
                         </div>
                     ))}
 
-                    {/* Contact Info (Desktop) */}
+                    {/* Contact */}
                     <div className="lg:col-span-2 space-y-8">
-                        <h4 className="text-[10px] uppercase tracking-[0.4em] font-black text-foreground/20 italic">Contact</h4>
-                        <ul className="space-y-3">
-                            <li className="flex items-start gap-4 group cursor-default">
-                                <Mail className="w-4 h-4 text-foreground/20 group-hover:text-primary transition-colors mt-0.5" strokeWidth={1.5} />
-                                <span className="text-foreground/40 group-hover:text-foreground transition-colors text-[13px] font-bold tracking-tight">atelier@topnature.com</span>
+                        <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold text-foreground">
+                            Contact
+                        </h4>
+                        <ul className="space-y-4">
+                            <li className="flex items-center gap-3 text-sm text-foreground-muted">
+                                <Mail className="w-4 h-4" strokeWidth={1.5} />
+                                <span>hello@essentials.com</span>
                             </li>
-                            <li className="flex items-start gap-4 group cursor-default">
-                                <MapPin className="w-4 h-4 text-foreground/20 group-hover:text-primary transition-colors mt-0.5" strokeWidth={1.5} />
-                                <span className="text-foreground/40 group-hover:text-foreground transition-colors text-[13px] font-bold tracking-tight leading-relaxed">Botanical HQ, MA</span>
+                            <li className="flex items-center gap-3 text-sm text-foreground-muted">
+                                <MapPin className="w-4 h-4" strokeWidth={1.5} />
+                                <span>Casablanca, MA</span>
                             </li>
                         </ul>
                     </div>
                 </div>
 
-                {/* Bottom Bar */}
-                <div className="pt-8 border-t border-black/5 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-4">
-                    <p className="text-[10px] text-foreground/20 uppercase tracking-[0.4em] font-black text-center md:text-left hover:text-foreground/40 transition-colors">
-                        © {new Date().getFullYear()} TOPNATURE SANCTUARY. Botanical Integrity Reserved.
+                {/* Bottom */}
+                <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-6">
+                    <p className="text-[10px] uppercase tracking-widest text-foreground-muted font-medium">
+                        © {new Date().getFullYear()} Top Nature Premium Wellness. All rights reserved.
                     </p>
-                    <div className="flex flex-wrap justify-center gap-10">
-                        <div className="flex items-center gap-2">
-                            <Leaf className="w-3 h-3 text-primary/20" />
-                            <span className="text-[9px] text-primary/30 uppercase tracking-[0.2em] font-bold">Botanical Synthesis Engine</span>
-                        </div>
-                        <span className="text-[9px] text-primary/30 uppercase tracking-[0.2em] font-bold">Zen Vellum Framework</span>
+                    <div className="flex gap-8">
+                        <Link href="/terms" className="text-[10px] uppercase tracking-widest text-foreground-muted hover:text-primary transition-colors font-medium">Terms</Link>
+                        <Link href="/privacy" className="text-[10px] uppercase tracking-widest text-foreground-muted hover:text-primary transition-colors font-medium">Privacy</Link>
                     </div>
                 </div>
             </div>

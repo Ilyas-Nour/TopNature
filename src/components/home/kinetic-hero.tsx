@@ -1,13 +1,29 @@
 'use client'
 
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion, useScroll, useTransform, useSpring, useMotionValue, Variants } from 'framer-motion'
+import { motion, useScroll, useTransform, useSpring, useMotionValue, AnimatePresence } from 'framer-motion'
 import { ArrowRight, Leaf, Sparkles } from 'lucide-react'
 
 export function KineticHero() {
     const containerRef = useRef<HTMLDivElement>(null)
+    const [index, setIndex] = useState(0)
+    
+    const IMAGES = [
+        "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2600&auto=format&fit=crop", // Yoga Sunrise
+        "https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=2600&auto=format&fit=crop", // Meditating
+        "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2600&auto=format&fit=crop", // Workout
+        "https://images.unsplash.com/photo-1483728642387-6c3bdd6c934c?q=80&w=2600&auto=format&fit=crop"  // Running Couple
+    ]
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setIndex((prev) => (prev + 1) % IMAGES.length)
+        }, 6000)
+        return () => clearInterval(timer)
+    }, [])
+
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end start"]
@@ -28,138 +44,118 @@ export function KineticHero() {
     const springX = useSpring(mouseX, { stiffness: 40, damping: 25 })
     const springY = useSpring(mouseY, { stiffness: 40, damping: 25 })
 
-    // Animation Variants
-    const titleContainer: Variants = {
-        hidden: { opacity: 0 },
-        show: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.15,
-                delayChildren: 0.5
-            }
-        }
-    }
-
-    const titleItem: Variants = {
-        hidden: { opacity: 0, y: 60, rotateX: 45 },
-        show: {
-            opacity: 1,
-            y: 0,
-            rotateX: 0,
-            transition: { duration: 1.2, ease: "easeOut" }
-        }
-    }
-
     const yImg = useTransform(scrollYProgress, [0, 1], ["0%", "20%"])
     const opacityHero = useTransform(scrollYProgress, [0, 0.6], [1, 0])
-    const scaleHero = useTransform(scrollYProgress, [0, 1], [1.05, 1.15])
+    const scaleHero = useTransform(scrollYProgress, [0, 1], [1, 1.1])
+    const yText = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
+
+    const xLeaf = useTransform(springX, [0, 1920], [-20, 20])
+    const yLeaf = useTransform(springY, [0, 1080], [-20, 20])
 
     return (
         <section
             ref={containerRef}
-            className="relative min-h-screen md:h-[90vh] lg:h-screen w-full bg-[#FCFAF7] overflow-hidden flex items-center justify-center pt-20"
+            className="relative min-h-screen w-full bg-background overflow-hidden flex items-center justify-center pt-20"
         >
-            {/* ATMOSPHERIC BACKGROUND */}
+            {/* ATMOSPHERIC BACKGROUND GALLERY */}
             <motion.div
                 style={{ y: yImg, scale: scaleHero, opacity: opacityHero }}
                 className="absolute inset-0 z-0"
             >
-                <Image
-                    src="https://images.unsplash.com/photo-1525498128493-380d1990a112?auto=format&fit=crop&q=100&w=2600"
-                    alt="Botanical Pinnacle"
-                    fill
-                    className="object-cover opacity-[0.15] saturate-[0.8] scale-110"
-                    priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#FCFAF7]/40 to-[#FCFAF7]" />
-            </motion.div>
-
-            {/* DYNAMIC DEPTH ELEMENTS (Leaves following mouse) */}
-            <motion.div
-                style={{ x: useTransform(springX, [0, 1920], [-20, 20]), y: useTransform(springY, [0, 1080], [-20, 20]) }}
-                className="absolute top-1/4 -left-20 pointer-events-none z-10 opacity-10 rotate-[-15deg] hidden lg:block"
-            >
-                <Leaf className="w-64 h-64 text-primary" strokeWidth={0.5} />
-            </motion.div>
-            <motion.div
-                style={{ x: useTransform(springX, [0, 1920], [30, -30]), y: useTransform(springY, [0, 1080], [30, -30]) }}
-                className="absolute bottom-1/4 -right-20 pointer-events-none z-10 opacity-10 rotate-[25deg] hidden lg:block"
-            >
-                <Leaf className="w-80 h-80 text-primary" strokeWidth={0.5} />
-            </motion.div>
-
-            <div className="w-full max-w-[1400px] px-8 md:px-12 relative z-20">
-                <div className="flex flex-col items-center text-center space-y-12 md:space-y-16">
-                    {/* TOP BADGE */}
+                <AnimatePresence mode="wait">
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                        className="flex items-center gap-6 px-10 py-4 rounded-full border border-primary/20 bg-white/40 backdrop-blur-xl shadow-premium group cursor-default"
+                        key={index}
+                        initial={{ opacity: 0, scale: 1.1 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
+                        className="absolute inset-0"
                     >
-                        <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                        >
-                            <Sparkles className="w-5 h-5 text-primary" />
-                        </motion.div>
-                        <span className="text-[11px] uppercase tracking-[0.6em] font-black text-primary italic">
-                            The Pinnacle of Wellness
-                        </span>
+                        <Image
+                            src={IMAGES[index]}
+                            alt="Sovereign Wellness"
+                            fill
+                            className="object-cover brightness-[0.85] contrast-[1.05]"
+                            priority
+                        />
                     </motion.div>
+                </AnimatePresence>
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background" />
+            </motion.div>
 
-                    {/* HERO TITLE - STAGGERED REVEAL */}
-                    <motion.div
-                        variants={titleContainer}
-                        initial="hidden"
-                        animate="show"
-                        className="space-y-6 md:space-y-8"
+            {/* DYNAMIC DEPTH ELEMENTS */}
+            <motion.div
+                style={{ x: xLeaf, y: yLeaf, rotate: -15 }}
+                className="absolute top-1/4 left-10 z-10 opacity-20 hidden lg:block"
+            >
+                <Leaf className="w-32 h-32 text-primary" strokeWidth={0.5} />
+            </motion.div>
+            <motion.div
+                style={{ x: useTransform(springX, [0, 1920], [30, -30]), y: useTransform(springY, [0, 1080], [30, -30]), rotate: 25 }}
+                className="absolute bottom-1/4 right-10 z-10 opacity-20 hidden lg:block"
+            >
+                <Leaf className="w-40 h-40 text-primary" strokeWidth={0.5} />
+            </motion.div>
+
+            <div className="w-full px-4 md:px-12 relative z-20 flex flex-col items-center text-center">
+                <motion.div
+                    style={{ y: yText, opacity: opacityHero }}
+                    className="max-w-7xl space-y-12 md:space-y-16"
+                >
+                    <div className="space-y-6 md:space-y-8">
+                        <motion.div
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                            className="flex items-center gap-6 px-8 py-3 rounded-full border border-primary/20 bg-white/40 backdrop-blur-xl shadow-premium mx-auto w-fit"
+                        >
+                            <Sparkles className="w-4 h-4 text-primary animate-pulse" />
+                            <span className="text-[10px] uppercase tracking-[0.6em] font-black text-primary italic">
+                                The Sovereign Solution
+                            </span>
+                        </motion.div>
+                        
+                        <motion.h1 
+                            initial={{ opacity: 0, y: 40 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
+                            className="text-[14vw] md:text-[9vw] lg:text-[8vw] font-serif font-black tracking-tighter leading-[0.85] text-foreground uppercase italic"
+                        >
+                            Radiant <br />
+                            <span className="not-italic font-light text-primary lowercase tracking-tight">Vitality.</span>
+                        </motion.h1>
+                    </div>
+
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.8, duration: 1 }}
+                        className="text-lg md:text-2xl lg:text-3xl text-foreground/60 font-medium italic max-w-4xl mx-auto leading-relaxed px-4 md:px-0"
                     >
-                        <div className="overflow-hidden">
-                            <motion.h1
-                                variants={titleItem}
-                                className="text-[9vw] md:text-[7vw] lg:text-[5.5rem] font-serif font-black text-foreground leading-[0.95] tracking-tighter uppercase"
-                            >
-                                Botanical <br />
-                                <span className="text-primary italic font-light lowercase">Intelligence.</span>
-                            </motion.h1>
-                        </div>
+                        The definitive solution for modern high-performance seekers. <br className="hidden md:block" />
+                        Restore your biological baseline with extracts engineered for absolute energy.
+                    </motion.p>
 
-                        <motion.div
-                            variants={titleItem}
-                            className="max-w-2xl mx-auto pt-2"
-                        >
-                            <p className="text-xl md:text-2xl text-foreground/75 font-medium leading-relaxed tracking-tight italic">
-                                Sythesizing the world's rarest extracts into <span className="text-foreground font-black not-italic border-b border-primary/20 pb-1">refined protocols</span> for the modern spirit.
-                            </p>
-                        </motion.div>
-                    </motion.div>
-
-                    {/* CTAs */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1.2, delay: 1.4 }}
-                        className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 pt-2"
+                        transition={{ delay: 1, duration: 0.8 }}
+                        className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 pt-8"
                     >
                         <Link
                             href="/shop"
-                            className="group relative px-14 py-5 md:px-16 md:py-6 bg-foreground text-background rounded-full overflow-hidden transition-all active:scale-95 shadow-premium"
+                            className="btn-incredible"
                         >
-                            <span className="relative z-10 text-[12px] uppercase tracking-[0.5em] font-black text-white">
-                                Explore Atelier
-                            </span>
-                            <motion.div
-                                className="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-[0.16, 1, 0.3, 1]"
-                            />
+                            <span>Begin Transformation</span>
                         </Link>
-
-                        <Link href="/about" className="group flex items-center gap-8 md:gap-10 text-foreground/30 hover:text-primary transition-all">
-                            <span className="text-[11px] md:text-[12px] uppercase tracking-[0.5em] font-black border-b border-transparent group-hover:border-primary pb-1">Philosophy</span>
-                            <ArrowRight className="w-5 h-5 opacity-0 -translate-x-6 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500" />
+                        <Link
+                            href="/protocol"
+                            className="w-full md:w-auto text-[11px] uppercase tracking-[0.5em] font-black text-foreground/40 hover:text-primary transition-all py-4"
+                        >
+                            The Science <span className="mx-4 opacity-20">/</span> Protocol
                         </Link>
                     </motion.div>
-                </div>
+                </motion.div>
             </div>
 
             {/* SCROLL INDICATOR */}
@@ -167,7 +163,7 @@ export function KineticHero() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 2.5, duration: 1.5 }}
-                className="absolute bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-6"
+                className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-6"
             >
                 <span className="text-[9px] uppercase tracking-[0.6em] font-black text-foreground/20 italic">Descent into Nature</span>
                 <motion.div

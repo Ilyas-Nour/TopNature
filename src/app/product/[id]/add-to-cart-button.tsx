@@ -36,9 +36,8 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
             <motion.button
                 whileTap={{ scale: 0.98 }}
                 onClick={handleAddToCart}
-                className="group relative w-full h-16 bg-foreground text-background rounded-full overflow-hidden transition-all duration-500"
+                className="group relative w-full h-16 bg-primary text-white rounded-full overflow-hidden transition-all duration-500 shadow-premium"
             >
-                <div className="absolute inset-0 bg-secondary translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
                 <div className="relative z-10 flex items-center justify-center gap-3">
                     <AnimatePresence mode="wait">
                         {isAdded ? (
@@ -49,8 +48,8 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
                                 exit={{ opacity: 0, y: -10 }}
                                 className="flex items-center gap-2"
                             >
-                                <Check className="w-5 h-5 text-background" />
-                                <span className="text-[11px] font-black uppercase tracking-[0.4em] text-background">Added to Protocol</span>
+                                <Check className="w-5 h-5" />
+                                <span className="text-[11px] font-bold uppercase tracking-[0.3em]">Added to Cart</span>
                             </motion.div>
                         ) : (
                             <motion.div
@@ -60,8 +59,8 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
                                 exit={{ opacity: 0, y: -10 }}
                                 className="flex items-center gap-2"
                             >
-                                <ShoppingCart className="w-4 h-4 text-background" strokeWidth={1.5} />
-                                <span className="text-[11px] font-black uppercase tracking-[0.4em] text-background">Purchase Protocol</span>
+                                <ShoppingCart className="w-4 h-4" strokeWidth={2} />
+                                <span className="text-[11px] font-bold uppercase tracking-[0.4em]">Add to Cart</span>
                             </motion.div>
                         )}
                     </AnimatePresence>

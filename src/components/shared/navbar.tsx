@@ -2,104 +2,127 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { Search, ShoppingCart, Menu } from 'lucide-react'
+import { Search, ShoppingCart, Menu, X } from 'lucide-react'
 import { useCartStore } from '@/store/use-cart-store'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
-import { CartDrawer } from '../cart/cart-drawer'
-import { AnimatedNavLink } from '../ui/animated-nav-link'
-const MobileMenu = dynamic(() => import('./mobile-menu').then(mod => mod.MobileMenu), { ssr: false })
+
 const CartDrawerDynamic = dynamic(() => import('../cart/cart-drawer').then(mod => mod.CartDrawer), { ssr: false })
 
 export function Navbar() {
     const itemCount = useCartStore((state) => state.getItemCount())
     const [isCartOpen, setIsCartOpen] = React.useState(false)
     const [isMenuOpen, setIsMenuOpen] = React.useState(false)
-    const [mounted, setMounted] = React.useState(false)
     const [isScrolled, setIsScrolled] = React.useState(false)
 
     React.useEffect(() => {
-        setMounted(true)
-        const handleScroll = () => setIsScrolled(window.scrollY > 20)
+        const handleScroll = () => setIsScrolled(window.scrollY > 50)
         window.addEventListener('scroll', handleScroll)
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
     return (
         <>
-            <motion.header
-                initial={{ y: -100, opacity: 0 }}
+            <motion.nav
+                initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ type: "spring", stiffness: 100, damping: 20 }}
-                className={`fixed top-8 left-1/2 -translate-x-1/2 z-[100] transition-all duration-700 w-full max-w-[1400px] px-6 ${isScrolled ? 'md:top-6' : 'md:top-10'
-                    }`}
+                className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
+                    isScrolled ? 'bg-white/80 backdrop-blur-md border-b border-border py-4' : 'bg-transparent py-8'
+                }`}
             >
-                <div
-                    className={`w-full h-20 md:h-24 px-8 md:px-12 flex items-center justify-between rounded-full transition-all duration-700 ${isScrolled
-                        ? 'bg-white/90 backdrop-blur-3xl shadow-premium border border-black/10'
-                        : 'bg-transparent border border-transparent'
-                        }`}
-                >
-                    {/* Brand Identifier */}
-                    <div className="flex items-center gap-10">
-                        <Link href="/" className="flex items-center gap-3 group relative z-10">
-                            <span className="text-xl md:text-2xl font-serif font-black tracking-[0.1em] text-foreground uppercase text-nowrap">
-                                Top<span className="text-primary italic font-light">Nature.</span>
-                            </span>
-                        </Link>
-
-                        <div className="hidden lg:flex h-8 w-[1px] bg-black/5 mx-2" />
-
-                        {/* Desktop Links */}
-                        <div className="hidden lg:flex items-center gap-12">
-                            {[
-                                { name: 'Atelier', href: '/shop' },
-                                { name: 'Philosophy', href: '/about' },
-                                { name: 'The Protocol', href: '/protocol' }
-                            ].map((item) => (
-                                <Link
-                                    key={item.name}
-                                    href={item.href}
-                                    className="text-[11px] uppercase tracking-[0.4em] font-bold text-foreground/40 hover:text-primary transition-all relative group"
-                                >
-                                    {item.name}
-                                    <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-primary transition-all duration-500 group-hover:w-full" />
-                                </Link>
-                            ))}
+                <div className="container-wide flex items-center justify-between px-6 lg:px-12">
+                    {/* Brand */}
+                    <Link href="/" className="group flex items-center gap-2">
+                        <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white scale-0 group-hover:scale-100 transition-transform duration-500 hidden md:flex">
                         </div>
+                        <span className="text-xl font-bold tracking-tight text-foreground uppercase">
+                            Top Nature
+                        </span>
+                    </Link>
+
+                    {/* Nav Links */}
+                    <div className="hidden md:flex items-center gap-12">
+                        {[
+                            { name: 'Shop', href: '/shop' },
+                            { name: 'About', href: '/about' },
+                            { name: 'Contact', href: '/contact' }
+                        ].map((link) => (
+                            <Link
+                                key={link.name}
+                                href={link.href}
+                                className="text-[10px] uppercase tracking-[0.3em] font-bold text-foreground/60 hover:text-primary transition-colors"
+                            >
+                                {link.name}
+                            </Link>
+                        ))}
                     </div>
 
-                    {/* Right Utilities */}
-                    <div className="flex items-center gap-6 md:gap-8">
+                    {/* Icons */}
+                    <div className="flex items-center gap-4 md:gap-8">
+                        <button className="p-2 text-foreground/60 hover:text-primary transition-colors hidden md:block">
+                            <Search className="w-5 h-5" strokeWidth={1.5} />
+                        </button>
                         <button
                             onClick={() => setIsCartOpen(true)}
-                            className="p-3 md:p-4 rounded-full hover:bg-black/5 transition-all text-foreground/40 hover:text-primary relative group"
+                            className="flex items-center gap-3 group px-4 py-2 hover:bg-background-offset rounded-full transition-all"
                         >
-                            <ShoppingCart className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
-                            {mounted && itemCount > 0 && (
-                                <motion.span
-                                    initial={{ scale: 0 }}
-                                    animate={{ scale: 1 }}
-                                    className="absolute top-1.5 right-1.5 h-4 w-4 bg-primary text-[8px] font-black text-white flex items-center justify-center rounded-full shadow-premium"
-                                >
-                                    {itemCount}
-                                </motion.span>
-                            )}
+                            <div className="relative">
+                                <ShoppingCart className="w-5 h-5 text-foreground/60 group-hover:text-primary transition-colors" strokeWidth={1.5} />
+                                {itemCount > 0 && (
+                                    <span className="absolute -top-2 -right-2 w-4 h-4 bg-primary text-white text-[8px] flex items-center justify-center rounded-full font-bold">
+                                        {itemCount}
+                                    </span>
+                                )}
+                            </div>
+                            <span className="text-[10px] uppercase tracking-widest font-bold text-foreground/40 hidden md:block group-hover:text-primary transition-colors">Cart</span>
                         </button>
-
-                        <button
-                            onClick={() => setIsMenuOpen(true)}
-                            className="p-3 md:p-4 rounded-full hover:bg-black/5 transition-all text-foreground/40 hover:text-primary"
+                        <button 
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            className="md:hidden p-2 text-foreground"
                         >
-                            <Menu className="w-6 h-6" strokeWidth={1.5} />
+                            <Menu className="w-6 h-6" />
                         </button>
                     </div>
                 </div>
-            </motion.header>
+            </motion.nav>
 
-            {/* Drawer Components (Deferred via Dynamic Import) */}
+            {/* Simple Mobile Menu Overlay */}
+            <AnimatePresence>
+                {isMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 bg-white z-[200] flex flex-col items-center justify-center p-12 text-center"
+                    >
+                        <button 
+                            onClick={() => setIsMenuOpen(false)}
+                            className="absolute top-8 right-8 p-4"
+                        >
+                            <X className="w-8 h-8" />
+                        </button>
+                        <div className="flex flex-col gap-12">
+                            {[
+                                { name: 'Home', href: '/' },
+                                { name: 'Shop', href: '/shop' },
+                                { name: 'About', href: '/about' },
+                                { name: 'Contact', href: '/contact' }
+                            ].map((link) => (
+                                <Link
+                                    key={link.name}
+                                    href={link.href}
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className="text-4xl font-bold tracking-tighter text-foreground"
+                                >
+                                    {link.name}
+                                </Link>
+                            ))}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             <CartDrawerDynamic isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
-            <MobileMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
         </>
     )
 }
