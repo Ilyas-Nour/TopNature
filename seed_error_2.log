@@ -1,0 +1,16 @@
+Environment variables loaded from .env
+Running seed command `tsx prisma/seed.ts` ...
+TypeError: Cannot read properties of undefined (reading 'deleteMany')
+    at main (C:\Users\pc\ECOM\prisma\seed.ts:15:27)
+    at <anonymous> (C:\Users\pc\ECOM\prisma\seed.ts:324:1)
+    at Object.<anonymous> (C:\Users\pc\ECOM\prisma\seed.ts:327:2)
+    at Module._compile (node:internal/modules/cjs/loader:1706:14)
+    at Object.transformer (C:\Users\pc\ECOM\node_modules\tsx\dist\register-D46fvsV_.cjs:3:1104)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at cjsLoader (node:internal/modules/esm/translators:268:5)
+
+An error occurred while running the seed command:
+Error: Command failed with exit code 1: tsx prisma/seed.ts

@@ -1,80 +1,84 @@
 @import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
 @theme {
-  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
-  
-  --color-background: #FFFFFF;
-  --color-background-offset: #F8F9FA;
-  --color-foreground: #111111;
-  --color-foreground-muted: #666666;
-  
-  --color-primary: #2D4F3C; /* Forest Green */
-  --color-primary-foreground: #FFFFFF;
-  
-  --color-accent: #E3EBD0; /* Soft Sage */
-  --color-accent-foreground: #2D4F3C;
-  
-  --color-border: #EEEEEE;
-  --color-input: #F1F1F1;
-  
-  --radius-sm: 0.5rem;
-  --radius-md: 1rem;
-  --radius-lg: 1.5rem;
-  --radius-xl: 2rem;
-  --radius-2xl: 3rem;
-  
-  --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
-  --shadow-card: 0 4px 20px -5px rgba(0, 0, 0, 0.03);
+  /* Premium Colors */
+  --color-primary: #2D4F3C;      /* Deep Forest */
+  --color-secondary: #E3EBD0;    /* Sage Accent */
+  --color-accent: #C5A47E;       /* Gold/Sand Accent */
+  --color-background: #FCFAF7;   /* Warm Paper White */
+  --color-background-offset: #F5F2ED;
+  --color-foreground: #1A1A1A;
+  --color-border: rgba(0, 0, 0, 0.08);
+
+  /* Premium Motion */
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Font Families */
+  --font-serif: var(--font-serif), serif;
+  --font-sans: var(--font-sans), sans-serif;
 }
 
 @layer base {
+  * {
+    @apply border-border;
+  }
   body {
-    @apply bg-background text-foreground antialiased selection:bg-primary selection:text-white;
-    font-family: var(--font-outfit), sans-serif;
-    scroll-behavior: smooth;
+    @apply bg-background text-foreground selection:bg-primary/10 selection:text-primary;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-sans font-bold tracking-tight text-foreground;
-    line-height: 1.1;
-  }
-
-  p {
-    @apply text-foreground-muted leading-relaxed;
+    @apply font-serif tracking-tight leading-none;
   }
 }
 
 @layer components {
-  .btn-primary {
-    @apply inline-flex items-center justify-center px-10 py-5 bg-primary text-white rounded-full font-bold uppercase tracking-[0.2em] text-[10px] transition-all hover:scale-105 active:scale-95 shadow-premium;
-  }
-
-  .btn-secondary {
-    @apply inline-flex items-center justify-center px-10 py-5 bg-background border border-border text-foreground rounded-full font-bold uppercase tracking-[0.2em] text-[10px] transition-all hover:bg-background-offset;
+  .container-wide {
+    @apply max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20;
   }
 
   .section-padding {
-    @apply py-20 md:py-32 px-6 md:px-12 lg:px-24;
+    @apply py-24 md:py-32 lg:py-48;
   }
 
-  .container-wide {
-    @apply max-w-[1400px] mx-auto w-full;
+  .btn-primary {
+    @apply px-10 py-5 bg-primary text-white rounded-full font-sans text-[11px] uppercase tracking-[0.3em] font-bold 
+           transition-all duration-500 hover:bg-black hover:scale-105 active:scale-95 shadow-lg hover:shadow-primary/20;
+  }
+
+  .btn-secondary {
+    @apply px-10 py-5 bg-transparent border border-border text-foreground rounded-full font-sans text-[11px] uppercase tracking-[0.3em] font-bold 
+           transition-all duration-500 hover:bg-background-offset hover:border-foreground active:scale-95;
+  }
+
+  /* Sleek Text Reveal Animation Utility */
+  .mask-reveal {
+    mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+    mask-size: 100% 200%;
+    mask-position: 0 100%;
+    transition: mask-position 1s var(--ease-premium);
+  }
+  .mask-reveal:hover {
+    mask-position: 0 0;
+  }
+
+  /* Sophisticated Shadow */
+  .shadow-premium {
+    box-shadow: 0 20px 80px -15px rgba(0, 0, 0, 0.08);
+  }
+  
+  .shadow-card {
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.03);
   }
 }
 
-@layer utilities {
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
+/* Custom Smooth Transitions */
+.page-transition {
+  @apply transition-all duration-1000 ease-premium;
+}
 
-  .hide-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .text-balance {
-    text-wrap: balance;
-  }
+/* Glassmorphism */
+.glass {
+  @apply bg-white/70 backdrop-blur-xl border border-white/20;
 }

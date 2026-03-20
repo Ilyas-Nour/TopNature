@@ -1,92 +1,134 @@
-import { redirect } from 'next/navigation';
-import Link from 'next/link';
+import React from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { ArrowUpRight, Clock, BookOpen } from 'lucide-react'
 
-export default async function BlogPage() {
-    // Admin Guard: Protect the beta route
-    const isAdmin = process.env.ADMIN_BETA_ACCESS === 'true';
+export const metadata = {
+    title: 'Archive | The Top Nature Journal',
+    description: 'Insights into human biology, heritage botany, and the intersection of nature and performance.',
+}
 
-    if (!isAdmin) {
-        redirect('/');
-    }
-
-    const placeholderPosts = [
+export default function BlogIndex() {
+    const posts = [
         {
-            title: "The Science of Fulvic Acid in Shilajit",
-            excerpt: "Explore the biological mechanism behind nature's most powerful mineral complex synthesized for modern solar performance.",
-            date: "Feb 26, 2026",
-            tag: "Biology",
-            image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1000"
+            slug: 'mitochondrial-resilience',
+            title: "Mitochondrial Resilience: Beyond ATP Production",
+            excerpt: "Exploring the role of Fulvic Acid in the electronic transport chain and its impact on cellular longevity.",
+            category: "Science",
+            date: "Mar 12, 2026",
+            image: "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?q=80&w=2600&auto=format&fit=crop"
         },
         {
-            title: "Mastering Cortisol with KSM-66",
-            excerpt: "How clinical-grade Ashwagandha modulates your endocrine system for peak sanctuary resilience and solar stability.",
-            date: "Feb 24, 2026",
-            tag: "Endocrine",
-            image: "https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?q=80&w=1000"
+            slug: 'ancient-biomes',
+            title: "Heritage Biomes: Why Sourcing Elevation Matters",
+            excerpt: "The biological pressure of high-altitude harvesting and its effect on metabolite concentration.",
+            category: "Heritage",
+            date: "Feb 28, 2026",
+            image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2600&auto=format&fit=crop"
         },
         {
-            title: "Traditional Bio-Hacking: The Moroccan Way",
-            excerpt: "Bridging ancient North African ethno-botanical wisdom with modern Alabaster standards for specialized results.",
-            date: "Feb 20, 2026",
-            tag: "Culture",
-            image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=1000"
+            slug: 'neural-flow-states',
+            title: "Architecting Neural Flow: The Dopamine-GABA Balance",
+            excerpt: "How adaptogenic protocols stabilize the neurochemical landscape for prolonged cognitive performance.",
+            category: "Performance",
+            date: "Feb 15, 2026",
+            image: "https://images.unsplash.com/photo-1484480974627-6ac1f51540ae?q=80&w=2600&auto=format&fit=crop"
         }
-    ];
+    ]
 
     return (
-        <div className="min-h-screen bg-background pt-48 pb-40 relative overflow-hidden">
-            {/* SOLAR DEPTH */}
-            <div className="absolute top-0 left-0 w-[1200px] h-[1200px] bg-primary/5 rounded-full blur-[250px] pointer-events-none" />
-
-            <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
-                {/* Header Section */}
-                <div className="mb-48 space-y-12 max-w-4xl">
-                    <div className="flex items-center gap-8">
-                        <span className="w-20 h-[3px] bg-primary shadow-solar-glow" />
-                        <span className="text-[12px] uppercase tracking-[0.8em] font-black text-primary italic">Experimental Journal</span>
-                    </div>
-                    <h1 className="text-8xl md:text-[12rem] font-serif font-black tracking-tight uppercase leading-[0.7] text-foreground">
-                        The <br /> <span className="italic font-light text-primary">Telemetry.</span>
+        <div className="min-h-screen bg-background pt-48 pb-48">
+            <div className="container-wide space-y-32">
+                
+                {/* Journal Header */}
+                <div className="max-w-5xl space-y-12">
+                    <span className="text-[10px] uppercase tracking-[0.6em] font-bold text-primary block">Journal</span>
+                    <h1 className="text-7xl md:text-[10vw] font-serif font-light leading-[0.85] tracking-tighter">
+                        The <br /> <span className="italic pl-20 md:pl-40">Insights.</span>
                     </h1>
-                    <p className="text-2xl md:text-3xl text-foreground/40 max-w-2xl font-medium tracking-tight leading-relaxed italic">
-                        A repository of botanical clinical research, solar pharmacological insights, and optimized alabaster protocols.
+                    <p className="text-2xl md:text-3xl text-foreground-muted leading-relaxed max-w-2xl italic">
+                        Observations on the architecture of performance and the biology of resilience.
                     </p>
                 </div>
 
-                {/* Journal Feed */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-24 gap-y-48">
-                    {placeholderPosts.map((post, i) => (
-                        <div key={i} className="group cursor-pointer">
-                            <div className="relative aspect-[16/10] bg-white rounded-[5rem] overflow-hidden mb-16 shadow-2xl border border-black/5">
-                                <img
-                                    src={post.image || "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1000"}
+                {/* Featured Post */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+                    <div className="lg:col-span-7 relative aspect-video rounded-[4rem] overflow-hidden group shadow-premium">
+                        <Image 
+                            src={posts[0].image} 
+                            alt={posts[0].title}
+                            fill
+                            className="object-cover transition-transform duration-2000 group-hover:scale-110"
+                        />
+                         <div className="absolute inset-0 bg-primary/10 mix-blend-multiply opacity-50" />
+                    </div>
+                    <div className="lg:col-span-5 space-y-10">
+                        <div className="flex items-center gap-6 text-[10px] uppercase tracking-widest font-bold text-primary">
+                            <span>{posts[0].category}</span>
+                            <span className="w-12 h-[1px] bg-border" />
+                            <span className="text-foreground/30">{posts[0].date}</span>
+                        </div>
+                        <h2 className="text-5xl font-serif leading-tight italic tracking-tighter">
+                            {posts[0].title}
+                        </h2>
+                        <p className="text-xl text-foreground-muted font-medium italic leading-relaxed">
+                            {posts[0].excerpt}
+                        </p>
+                        <div className="pt-6">
+                            <Link href={`/blog/${posts[0].slug}`} className="group btn-primary">
+                                Read Insight <ArrowUpRight className="inline ml-3 w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Post Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-24 pt-24 border-t border-border">
+                    {posts.slice(1).map((post, i) => (
+                        <Link key={i} href={`/blog/${post.slug}`} className="group space-y-10 block">
+                            <div className="relative aspect-video rounded-[3rem] overflow-hidden shadow-card group-hover:shadow-premium transition-all duration-700">
+                                <Image 
+                                    src={post.image} 
                                     alt={post.title}
-                                    className="object-cover w-full h-full scale-105 group-hover:scale-110 transition-transform duration-[5s]"
+                                    fill
+                                    className="object-cover transition-transform duration-2000 group-hover:scale-110"
                                 />
-                                <div className="absolute inset-x-12 bottom-12 flex items-center justify-between z-10">
-                                    <span className="text-[12px] uppercase tracking-[0.4em] font-black text-white bg-black/20 backdrop-blur-xl px-8 py-3 rounded-full border border-white/10">{post.tag}</span>
-                                    <span className="text-[12px] uppercase tracking-[0.4em] font-black text-white bg-black/20 backdrop-blur-xl px-8 py-3 rounded-full border border-white/10">{post.date}</span>
-                                </div>
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-1000 ease-[0.16, 1, 0.3, 1]" />
+                                <div className="absolute inset-0 bg-primary/5 mix-blend-multiply opacity-50" />
                             </div>
-                            <div className="space-y-10 max-w-3xl px-6">
-                                <h3 className="text-6xl md:text-7xl font-serif font-black tracking-tight uppercase leading-[0.85] group-hover:italic group-hover:text-primary transition-all duration-1000">
+                            <div className="space-y-6">
+                                <div className="flex items-center gap-4 text-[9px] uppercase tracking-widest font-bold text-foreground/30">
+                                    <span>{post.category}</span>
+                                    <span>—</span>
+                                    <span>{post.date}</span>
+                                </div>
+                                <h3 className="text-3xl font-serif italic tracking-tighter leading-tight group-hover:text-primary transition-colors">
                                     {post.title}
                                 </h3>
-                                <p className="text-foreground/40 text-xl md:text-2xl font-medium tracking-tight leading-relaxed italic">
+                                <p className="text-lg text-foreground-muted font-medium italic leading-relaxed line-clamp-2">
                                     {post.excerpt}
                                 </p>
-                                <div className="pt-10 flex items-center gap-10">
-                                    <Link href="#" className="text-[13px] uppercase tracking-[0.6em] font-black border-b-2 border-primary/20 pb-3 hover:border-primary transition-all italic text-primary">
-                                        Access Research
-                                    </Link>
-                                    <div className="flex-1 h-[2px] bg-black/5 group-hover:bg-primary/20 transition-colors" />
-                                </div>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
+
+                {/* Newsletter Plug */}
+                <div className="bg-background-offset p-20 rounded-[5rem] text-center space-y-12">
+                     <h2 className="text-4xl md:text-6xl font-serif font-light italic tracking-tighter">The Weekly Protocol.</h2>
+                     <p className="text-xl text-foreground-muted max-w-xl mx-auto italic">Join 50,000+ others for deep dives into human optimization.</p>
+                     <div className="max-w-md mx-auto relative group">
+                        <input 
+                            type="email" 
+                            placeholder="your@email.com" 
+                            className="w-full bg-white rounded-full px-12 py-8 border border-border focus:border-primary outline-none transition-all placeholder:text-foreground/20 text-xs font-bold uppercase tracking-widest shadow-sm"
+                        />
+                        <button className="absolute right-4 top-1/2 -translate-y-1/2 btn-primary px-8 h-12 flex items-center justify-center">
+                            Join
+                        </button>
+                     </div>
+                </div>
+
             </div>
         </div>
-    );
+    )
 }

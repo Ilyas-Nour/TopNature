@@ -85,7 +85,7 @@ export default function ProductPage({ params: paramsPromise }: { params: Promise
                                     src={product.imageUrls[0]}
                                     alt={product.name}
                                     fill
-                                    className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                                    className="object-cover transition-transform duration-2xl group-hover:scale-110"
                                     priority
                                 />
                                 <div className="absolute inset-0 bg-primary/5 mix-blend-multiply" />
@@ -104,7 +104,7 @@ export default function ProductPage({ params: paramsPromise }: { params: Promise
                             <div className="space-y-8">
                                 <div className="space-y-4">
                                     <span className="text-[10px] uppercase tracking-[0.6em] font-bold text-primary block">
-                                        {product.category?.name || "Protocol"}
+                                        {product.category.name} Protocol
                                     </span>
                                     <h1 className="text-6xl md:text-7xl lg:text-8xl font-serif font-light leading-[0.85] tracking-tighter">
                                         {product.name}
@@ -127,7 +127,7 @@ export default function ProductPage({ params: paramsPromise }: { params: Promise
                                         className="px-6 py-3 bg-white border border-border rounded-full flex items-center gap-3 shadow-card"
                                     >
                                         <Sparkles className="w-3 h-3 text-primary" />
-                                        <span className="text-[11px] font-bold uppercase tracking-widest text-foreground/60">{h}</span>
+                                        <span className="text-[10px] font-bold uppercase tracking-widest text-foreground/60">{h}</span>
                                     </motion.div>
                                 ))}
                             </div>
@@ -151,7 +151,7 @@ export default function ProductPage({ params: paramsPromise }: { params: Promise
                                             imageUrl: product.imageUrls[0],
                                         }}
                                     />
-                                    <div className="grid grid-cols-2 gap-8 text-[11px] uppercase tracking-[0.2em] font-bold text-foreground/30">
+                                    <div className="grid grid-cols-2 gap-8 text-[10px] uppercase tracking-[0.2em] font-bold text-foreground/30">
                                         <div className="flex items-center gap-3">
                                             <Truck className="w-4 h-4 text-primary" />
                                             <span>Free National Shipping</span>
@@ -173,22 +173,22 @@ export default function ProductPage({ params: paramsPromise }: { params: Promise
                 <div className="container-wide grid grid-cols-1 lg:grid-cols-3 gap-24">
                     <div className="space-y-6">
                         <Zap className="w-8 h-8 text-primary opacity-40" />
-                        <h3 className="text-4xl font-serif tracking-tighter">The Transformation</h3>
-                        <p className="text-xl text-foreground-muted leading-relaxed">
+                        <h3 className="text-3xl font-serif">The Transformation</h3>
+                        <p className="text-lg text-foreground-muted leading-relaxed">
                             {product.benefits || "Experience the cumulative power of high-altitude minerals and scientifically-backed extraction methods."}
                         </p>
                     </div>
                     <div className="space-y-6">
                         <Scale className="w-8 h-8 text-primary opacity-40" />
-                        <h3 className="text-4xl font-serif tracking-tighter">Sourcing & Purity</h3>
-                        <p className="text-xl text-foreground-muted leading-relaxed">
+                        <h3 className="text-3xl font-serif">Sourcing & Purity</h3>
+                        <p className="text-lg text-foreground-muted leading-relaxed">
                             {product.sourcing || "Derived from heritage ecosystems where the plant's biological stress produces the highest concentration of active compounds."}
                         </p>
                     </div>
                     <div className="space-y-6">
                         <CheckCircle2 className="w-8 h-8 text-primary opacity-40" />
-                        <h3 className="text-4xl font-serif tracking-tighter">The Protocol</h3>
-                        <p className="text-xl text-foreground-muted leading-relaxed">
+                        <h3 className="text-3xl font-serif">The Protocol</h3>
+                        <p className="text-lg text-foreground-muted leading-relaxed">
                             {product.usage || "Designed for seamless integration into your morning or evening baseline ritual."}
                         </p>
                     </div>
@@ -197,10 +197,10 @@ export default function ProductPage({ params: paramsPromise }: { params: Promise
 
             {/* Related Collection */}
             {relatedProducts.length > 0 && (
-                <section className="section-padding bg-white">
+                <section className="section-padding">
                     <div className="container-wide">
                         <div className="flex justify-between items-end mb-24">
-                            <h2 className="text-6xl font-serif font-light tracking-tighter">You may <br /><span className="italic pl-16">also need.</span></h2>
+                            <h2 className="text-5xl font-serif font-light tracking-tighter">You may <br /><span className="italic">also need.</span></h2>
                             <Link href="/shop" className="text-[10px] uppercase tracking-widest font-bold pb-2 border-b border-border opacity-40 hover:opacity-100 transition-opacity">View All</Link>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -211,6 +211,8 @@ export default function ProductPage({ params: paramsPromise }: { params: Promise
                     </div>
                 </section>
             )}
+
+            {/* Sticky Mobile Bar would go here for CRO */}
         </div>
     )
 }

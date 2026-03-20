@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
 import { LenisProvider } from "@/providers/lenis-provider";
 import { FloatingWhatsAppButton } from "@/components/ui/floating-whatsapp";
@@ -9,9 +9,17 @@ import { Footer } from "@/components/shared/footer";
 import { ScrollToTop } from "@/components/shared/scroll-to-top";
 import { PageTransition } from "@/components/shared/page-transition";
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const serif = Cormorant_Garamond({
+  variable: "--font-serif",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: 'swap',
+});
+
+const sans = Inter({
+  variable: "--font-sans",
+  subsets: ["latin"],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -27,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body
-        className={`${outfit.variable} antialiased`}
+        className={`${serif.variable} ${sans.variable} font-sans antialiased bg-background text-foreground`}
         suppressHydrationWarning
       >
         <Navbar />

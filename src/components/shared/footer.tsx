@@ -2,112 +2,114 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { Instagram, Facebook, Twitter, Mail, MapPin } from 'lucide-react'
+import { Instagram, Facebook, Twitter, Mail, MapPin, ArrowRight } from 'lucide-react'
 
 export function Footer() {
     const sections = [
         {
-            title: "Shop",
+            title: "Collections",
             links: [
-                { label: 'All Products', href: '/shop' },
-                { label: 'Energy', href: '/shop?category=energy' },
-                { label: 'Sleep', href: '/shop?category=sleep' },
-                { label: 'Health', href: '/shop?category=health' }
+                { label: 'The Full Vault', href: '/shop' },
+                { label: 'Energy Protocols', href: '/shop?category=energy' },
+                { label: 'Sleep Recovery', href: '/shop?category=sleep' },
+                { label: 'Cognitive Mind', href: '/shop?category=mind' }
             ]
         },
         {
-            title: "About",
+            title: "Heritage",
             links: [
                 { label: 'Our Story', href: '/about' },
-                { label: 'Quality Standards', href: '/about' },
-                { label: 'Sustainability', href: '/about' },
-                { label: 'Contact', href: '/contact' }
+                { label: 'The Protocol', href: '/protocol' },
+                { label: 'Insights', href: '/blog' },
+                { label: 'Collaborations', href: '/contact' }
             ]
         },
         {
-            title: "Support",
+            title: "Concierge",
             links: [
-                { label: 'Shipping', href: '/shipping' },
-                { label: 'Returns', href: '/returns' },
-                { label: 'FAQ', href: '/faq' },
-                { label: 'Privacy', href: '/privacy' }
+                { label: 'Shipping Policy', href: '/shipping' },
+                { label: 'Returns & Claims', href: '/returns' },
+                { label: 'Scientific FAQ', href: '/faq' },
+                { label: 'Privacy Protocol', href: '/privacy' }
             ]
         }
     ]
 
     return (
-        <footer className="bg-background-offset border-t border-border pt-20 pb-12">
-            <div className="container-wide px-6 lg:px-12">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 mb-20">
+        <footer className="bg-white border-t border-border pt-32 pb-16">
+            <div className="container-wide">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-24 mb-32">
                     
-                    {/* Brand Info */}
-                    <div className="lg:col-span-4 space-y-8">
-                        <Link href="/" className="text-2xl font-bold tracking-tight text-foreground uppercase">
-                            Top Nature
-                        </Link>
-                        <p className="text-foreground-muted max-w-sm">
-                            Premium wellness solutions designed for your daily life. Simple, natural, and effective products for energy, sleep, and longevity.
-                        </p>
-                        <div className="flex gap-6">
-                            <Link href="#" className="p-3 bg-white rounded-full border border-border hover:bg-background transition-colors">
-                                <Instagram className="w-5 h-5 text-foreground/60" />
+                    {/* Brand / Newsletter */}
+                    <div className="lg:col-span-5 space-y-12">
+                        <div className="space-y-6">
+                            <Link href="/" className="text-4xl font-serif font-light tracking-tighter text-foreground italic">
+                                Top Nature
                             </Link>
-                            <Link href="#" className="p-3 bg-white rounded-full border border-border hover:bg-background transition-colors">
-                                <Facebook className="w-5 h-5 text-foreground/60" />
-                            </Link>
-                            <Link href="#" className="p-3 bg-white rounded-full border border-border hover:bg-background transition-colors">
-                                <Twitter className="w-5 h-5 text-foreground/60" />
-                            </Link>
+                            <p className="text-xl text-foreground-muted max-w-sm leading-relaxed font-serif italic">
+                                "The architecture of human performance, sourced from the earth's most resilient biomes."
+                            </p>
+                        </div>
+                        
+                        <div className="space-y-6 max-w-md bg-background-offset p-10 rounded-[2.5rem] border border-border">
+                            <h4 className="text-[10px] uppercase tracking-[0.4em] font-bold text-primary">The Insider Protocol</h4>
+                            <p className="text-[11px] uppercase tracking-widest text-foreground/40 leading-relaxed font-bold">Join 50,000+ high-performers for weekly research on natural optimization.</p>
+                            <div className="relative pt-4">
+                                <input 
+                                    type="email" 
+                                    placeholder="your@email.com" 
+                                    className="w-full bg-transparent border-b border-border py-4 focus:border-primary outline-none transition-all placeholder:text-foreground/20 text-xs font-bold uppercase tracking-widest"
+                                />
+                                <button className="absolute right-0 bottom-4 text-primary">
+                                    <ArrowRight className="w-5 h-5" />
+                                </button>
+                            </div>
                         </div>
                     </div>
 
                     {/* Links */}
-                    {sections.map((section) => (
-                        <div key={section.title} className="lg:col-span-2 space-y-8">
-                            <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold text-foreground">
-                                {section.title}
-                            </h4>
-                            <ul className="space-y-4">
-                                {section.links.map((link) => (
-                                    <li key={link.label}>
-                                        <Link 
-                                            href={link.href}
-                                            className="text-sm text-foreground-muted hover:text-primary transition-colors"
-                                        >
-                                            {link.label}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    ))}
-
-                    {/* Contact */}
-                    <div className="lg:col-span-2 space-y-8">
-                        <h4 className="text-[10px] uppercase tracking-[0.3em] font-bold text-foreground">
-                            Contact
-                        </h4>
-                        <ul className="space-y-4">
-                            <li className="flex items-center gap-3 text-sm text-foreground-muted">
-                                <Mail className="w-4 h-4" strokeWidth={1.5} />
-                                <span>hello@essentials.com</span>
-                            </li>
-                            <li className="flex items-center gap-3 text-sm text-foreground-muted">
-                                <MapPin className="w-4 h-4" strokeWidth={1.5} />
-                                <span>Casablanca, MA</span>
-                            </li>
-                        </ul>
+                    <div className="lg:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-16">
+                        {sections.map((section) => (
+                            <div key={section.title} className="space-y-10">
+                                <h4 className="text-[10px] uppercase tracking-[0.5em] font-bold text-foreground">
+                                    {section.title}
+                                </h4>
+                                <ul className="space-y-6">
+                                    {section.links.map((link) => (
+                                        <li key={link.label}>
+                                            <Link 
+                                                href={link.href}
+                                                className="text-[11px] uppercase tracking-[0.2em] font-bold text-foreground/40 hover:text-primary transition-all duration-500"
+                                            >
+                                                {link.label}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        ))}
                     </div>
                 </div>
 
-                {/* Bottom */}
-                <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-6">
-                    <p className="text-[10px] uppercase tracking-widest text-foreground-muted font-medium">
-                        © {new Date().getFullYear()} Top Nature Premium Wellness. All rights reserved.
-                    </p>
-                    <div className="flex gap-8">
-                        <Link href="/terms" className="text-[10px] uppercase tracking-widest text-foreground-muted hover:text-primary transition-colors font-medium">Terms</Link>
-                        <Link href="/privacy" className="text-[10px] uppercase tracking-widest text-foreground-muted hover:text-primary transition-colors font-medium">Privacy</Link>
+                {/* Bottom Bar */}
+                <div className="pt-12 border-t border-border flex flex-col md:flex-row items-center justify-between gap-12">
+                    <div className="flex gap-10">
+                        <Link href="#" className="p-3 glass rounded-full hover:bg-primary hover:text-white transition-all duration-500 shadow-sm">
+                            <Instagram className="w-4 h-4" strokeWidth={1.5} />
+                        </Link>
+                        <Link href="#" className="p-3 glass rounded-full hover:bg-primary hover:text-white transition-all duration-500 shadow-sm">
+                            <Twitter className="w-4 h-4" strokeWidth={1.5} />
+                        </Link>
+                    </div>
+
+                    <div className="text-center md:text-right space-y-2">
+                        <p className="text-[9px] uppercase tracking-[0.5em] text-foreground/20 font-bold">
+                            © {new Date().getFullYear()} Top Nature (Intl) Protocol. All standards reserved.
+                        </p>
+                        <div className="flex justify-center md:justify-end gap-10 text-[9px] uppercase tracking-[0.3em] font-bold text-foreground/10 hover:text-foreground/40 transition-colors cursor-pointer">
+                            <span>Sourcing Ethics</span>
+                            <span>Privacy Vault</span>
+                        </div>
                     </div>
                 </div>
             </div>
